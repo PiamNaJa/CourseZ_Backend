@@ -1,0 +1,14 @@
+info:
+  contact: {}
+paths:
+  /api/user:
+    get:
+      description: This is a sample swagger for Fiber
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: "Hello, World \U0001F44B!"
+          schema:
+            type: string
+swagger: "2.0"
