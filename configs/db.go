@@ -4,8 +4,8 @@ import (
 	"os"
 
 	"github.com/PiamNaJa/CourseZ_Backend/models"
-	"gorm.io/gorm"
 	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 var DB *gorm.DB
@@ -15,6 +15,6 @@ func ConnectDB() {
 	if err != nil {
 		panic(err)
 	}
-	db.AutoMigrate(&models.User{})
+	db.AutoMigrate(&models.User{}, &models.Comment{}, &models.Course{}, &models.Experience{}, &models.History{}, &models.Post{}, &models.Review_Course{}, &models.Review_Tutor{}, &models.Reward_Info{}, &models.Reward_Item{}, &models.Subject{}, &models.UserTeacher{})
 	DB = db
 }
