@@ -3,8 +3,8 @@ package repository
 import (
 	"time"
 
-	"github.com/PiamNaJa/CourseZ_Backend/configs"
 	"github.com/PiamNaJa/CourseZ_Backend/models"
+	"gorm.io/gorm"
 )
 
 type userRepository interface {
@@ -17,10 +17,11 @@ type userRepository interface {
 
 type userRopo struct {
 	userRepository
+	db *gorm.DB
 }
 
-func NewUserRepository() userRepository {
-	return &userRopo{}
+func NewUserRepository(db *gorm.DB) userRepository {
+	return &userRopo{db: db}
 }
 
 func (u *userRopo) CreateUser(email *string, password *string, fullname *string, nickname *string, phone *string, birthday *time.Time, Role *string, picture *string, point *int32, money *int32, teacher *models.UserTeacher) (*models.User, error) {
@@ -37,7 +38,7 @@ func (u *userRopo) CreateUser(email *string, password *string, fullname *string,
 		Money:    *money,
 		Teacher:  teacher,
 	}
-	err := configs.DB.Model(&models.User{}).Create(&user).Error
+	err := u.db.Model(&models.User{}).Create(&user).Error
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +47,7 @@ func (u *userRopo) CreateUser(email *string, password *string, fullname *string,
 
 func (u *userRopo) GetAllUser() (*[]models.User, error) {
 	var users []models.User
-	err := configs.DB.Find(&users).Error
+	err := u.db.Find(&users).Error
 	if err != nil {
 		return nil, err
 	}
