@@ -1,5 +1,6 @@
 package handlers
 
+//CompileDaemon -command="./CourseZ_Backend"
 import (
 	"github.com/PiamNaJa/CourseZ_Backend/models"
 	"github.com/gofiber/fiber/v2"
@@ -16,30 +17,89 @@ func CreateCourse(db *gorm.DB) fiber.Handler {
 			})
 		}
 
-		if err := db.Model(models.User{}).Create(&course).Error; err != nil {
+		if err := db.Model(models.Course{}).Create(&course).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
 
-		// db.Model(models.Course{}).Create(&course)
 		return c.Status(fiber.StatusOK).JSON(&course)
 	}
 }
 
-func GetAll(db *gorm.DB) fiber.Handler {
+func GetAllCourse(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var course *[]models.Course
-		db.Model(models.Course{}).Find(&course)
+
+		if err := db.Model(&models.Course{}).Preload("Subject").Find(&course).Error; err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
 		return c.Status(fiber.StatusOK).JSON(&course)
 	}
 }
 
-func GetById(db *gorm.DB) fiber.Handler {
+func GetCourseById(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var course *models.Course
 		id := c.Params("id")
-		db.Model(models.Course{}).First(&course, id)
+
+		if err := db.Model(models.Course{}).Preload("Subject").First(&course, id).Error; err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
+		return c.Status(fiber.StatusOK).JSON(&course)
+	}
+}
+
+func DeleteCourseByID(db *gorm.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		var course *models.Course
+		id := c.Params("id")
+
+		if err := db.Model(models.Course{}).Delete(&course, id).Error; err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
+		return c.Status(fiber.StatusOK).JSON(&course)
+	}
+}
+
+func UpdateCourse(db *gorm.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		type updateCourse struct {
+			SubjectID   int32  `json:"subject_id" gorm:"index;type:int"`
+			Course_name string `json:"course_name" gorm:"not null;type:varchar(100)"`
+			Picture     string `json:"picture" gorm:"not null;type:varchar(255)"`
+			Description string `json:"description" gorm:"not null;type:text"`
+		}
+		var course *models.Course
+		id := c.Params("id")
+
+		if err := db.Model(models.Course{}).Preload("Subject").First(&course, id).Error; err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
+
+		var updateCourseData updateCourse
+
+		if err := c.BodyParser(&updateCourseData); err != nil {
+			return c.Status(fiber.StatusNotAcceptable).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
+
+		course.SubjectID = updateCourseData.SubjectID
+		course.Course_name = updateCourseData.Course_name
+		course.Picture = updateCourseData.Picture
+		course.Description = updateCourseData.Description
+
+		db.Save(&course)
+
 		return c.Status(fiber.StatusOK).JSON(&course)
 	}
 }

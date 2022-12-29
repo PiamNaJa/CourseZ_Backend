@@ -10,17 +10,16 @@ func CreateSubject(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var subject *models.Subject
 		if err := c.BodyParser(&subject); err != nil {
-			return c.Status(fiber.StatusNotAcceptable).JSON(fiber.Map{
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
-		if err := db.Model(models.User{}).Create(&subject).Error; err != nil {
+		if err := db.Model(&models.Subject{}).Create(&subject).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
 
-		db.Model(models.Subject{}).Create(&subject)
 		return c.Status(fiber.StatusOK).JSON(&subject)
 	}
 }
@@ -28,7 +27,12 @@ func CreateSubject(db *gorm.DB) fiber.Handler {
 func GetAllSubject(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var subject *[]models.Subject
-		db.Model(models.Course{}).Find(&subject)
+
+		if err := db.Model(&models.Subject{}).Find(&subject).Error; err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
 		return c.Status(fiber.StatusOK).JSON(&subject)
 	}
 }
