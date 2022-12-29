@@ -15,7 +15,6 @@ type User struct {
 	Role     string       `json:"role" gorm:"not null;type:varchar(20)"`
 	Picture  string       `json:"picture" gorm:"not null;type:varchar(255)"`
 	Point    int32        `json:"point" gorm:"type:money;default:0"`
-	Money    int32        `json:"money" gorm:"type:money;default:0"`
 	History  *[]History   `json:"history" gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	Teacher  *UserTeacher `json:"teacher" gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
@@ -27,6 +26,7 @@ type UserTeacher struct {
 	Transcript         string        `json:"transcript" gorm:"not null;type:varchar(255)"`
 	Id_card            string        `json:"id_card" gorm:"not null;type:varchar(255)"`
 	Psychological_test string        `json:"psychological_test" gorm:"not null;type:varchar(255)"`
+	Money              int32         `json:"money" gorm:"type:money;default:0"`
 	Experience         *[]Experience `json:"experience" gorm:"foreignKey:TeacherID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
 

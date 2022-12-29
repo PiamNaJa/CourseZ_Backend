@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/PiamNaJa/CourseZ_Backend/models"
@@ -34,7 +33,11 @@ func RegisterStudent(db *gorm.DB) fiber.Handler {
 			})
 		}
 		user.Password = string(encryptPassword)
-		db.Model(models.User{}).Create(&user)
+		if err := db.Model(models.User{}).Create(&user).Error; err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
 		token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 			"user_id": user.User_id,
 			"role":    user.Role,
@@ -55,7 +58,6 @@ func RegisterTeacher(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var user *models.User
 		var userTeacher *models.UserTeacher
-		var experience *[]models.Experience
 		if err := c.BodyParser(&user); err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
@@ -66,41 +68,70 @@ func RegisterTeacher(db *gorm.DB) fiber.Handler {
 				"error": err.Error(),
 			})
 		}
-
-		if err := c.BodyParser(&experience); err != nil {
+		encryptPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 10)
+		user.Password = string(encryptPassword)
+		if err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
-		fmt.Println(experience)
-		//encryptPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 10)
-		// if err != nil {
-		// 	return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-		// 		"error": err.Error(),
-		// 	})
-		// }
+		tx := db.Begin()
+		if err := tx.Model(models.User{}).Create(&user).Error; err != nil {
+			tx.Rollback()
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
 
-		// user.Password = string(encryptPassword)
+		userTeacher.UserID = user.User_id
 
-		// if err := db.Model(models.Experience{}).Create(&experience).Error; err != nil {
-		// 	return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-		// 		"error": err.Error(),
-		// 	})
-		// }
+		if err := tx.Model(models.UserTeacher{}).Create(&userTeacher).Error; err != nil {
+			tx.Rollback()
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
+		tx.Commit()
+		token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+			"user_id": user.User_id,
+			"role":    user.Role,
+		})
+		tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
+		return c.Status(fiber.StatusOK).JSON(fiber.Map{
+			"token": tokenString,
+		})
+	}
+}
 
-		// if err := db.Model(models.UserTeacher{}).Create(&userTeacher).Error; err != nil {
-		// 	return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-		// 		"error": err.Error(),
-		// 	})
-		// }
+func UpdateStudent(db *gorm.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		var user *models.User
+		if err := c.BodyParser(&user); err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
 
-		// //user.TeacherID = constants.Int32ToSQLNullInt32(userTeacher.Teacher_id)
-		// user.Teacher = userTeacher
-		// if err := db.Model(models.User{}).Create(&user).Error; err != nil {
-		// 	return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-		// 		"error": err.Error(),
-		// 	})
-		// }
-		return c.Status(fiber.StatusOK).JSON(user)
+
+		encryptPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 10)
+		user.Password = string(encryptPassword)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
+		if err := db.Model(models.User{}).Where("user_id = ?", c.Params("id")).Updates(&user).Error; err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
+		return c.Status(fiber.StatusOK).JSON(fiber.Map{
+			"message": "Update Success",
+		})
 	}
 }
