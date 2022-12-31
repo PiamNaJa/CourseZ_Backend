@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"github.com/PiamNaJa/CourseZ_Backend/repository"
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
 )
 
 // @Sammary Test
@@ -11,13 +11,9 @@ import (
 // @Success 200 {string} string "Hello, World 👋!"
 // @Tags: Test
 // @Produce json
-func UserList(c *fiber.Ctx) error {
-	userHandler := repository.NewUserRepository()
-	result, err := userHandler.GetAllUser()
-	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"message": err.Error(),
-		})
-	}
-	return c.Status(fiber.StatusOK).JSON(result)
+
+func Register(c *fiber.Ctx, db *gorm.DB) error {
+	//test := repository.NewUserRepository(db)
+	//test.CreateUser()
+	return c.SendString("Hello, World 👋!")
 }
