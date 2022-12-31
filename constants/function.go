@@ -1,13 +1,40 @@
 package constants
 
-import "database/sql"
+import (
+	"os"
+	"time"
 
-func Int32ToSQLNullInt32(s int32) sql.NullInt32 {
-	if s != 0 {
-		return sql.NullInt32{
-			Int32: s,
-			Valid: true,
-		}
+	"github.com/golang-jwt/jwt/v4"
+)
+
+func GenerateToken(user_id int32, role string) (string, error) {
+	nowTime := time.Now()
+	expireTime := nowTime.Add(24 * time.Hour)
+
+	claims := jwt.MapClaims{
+		"user_id": user_id,
+		"role":    role,
+		"exp":     expireTime.Unix(),
 	}
-	return sql.NullInt32{}
+
+	tokenClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	token, err := tokenClaims.SignedString([]byte(os.Getenv("JWT_SECRET")))
+
+	return token, err
+}
+
+func GenerateRefreshToken(user_id int32, role string) (string, error) {
+	nowTime := time.Now()
+	expireTime := nowTime.Add(72 * time.Hour)
+
+	claims := jwt.MapClaims{
+		"user_id": user_id,
+		"role":    role,
+		"exp":     expireTime.Unix(),
+	}
+
+	tokenClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	refeshToken, err := tokenClaims.SignedString([]byte(os.Getenv("JWT_REFRESH_Secret")))
+
+	return refeshToken, err
 }

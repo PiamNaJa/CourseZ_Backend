@@ -1,11 +1,9 @@
 package handlers
 
 import (
-	"os"
-
+	"github.com/PiamNaJa/CourseZ_Backend/constants"
 	"github.com/PiamNaJa/CourseZ_Backend/models"
 	"github.com/gofiber/fiber/v2"
-	"github.com/golang-jwt/jwt/v4"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
@@ -38,18 +36,21 @@ func RegisterStudent(db *gorm.DB) fiber.Handler {
 				"error": err.Error(),
 			})
 		}
-		token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-			"user_id": user.User_id,
-			"role":    user.Role,
-		})
-		tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
+		tokenString, err := constants.GenerateToken(user.User_id, user.Role)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
+		refeshTokenString, err := constants.GenerateRefreshToken(user.User_id, user.Role)
 		if err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
 		return c.Status(fiber.StatusOK).JSON(fiber.Map{
-			"token": tokenString,
+			"token":        tokenString,
+			"refreshToken": refeshTokenString,
 		})
 	}
 }
@@ -92,18 +93,21 @@ func RegisterTeacher(db *gorm.DB) fiber.Handler {
 			})
 		}
 		tx.Commit()
-		token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-			"user_id": user.User_id,
-			"role":    user.Role,
-		})
-		tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
+		tokenString, err := constants.GenerateToken(user.User_id, user.Role)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
+		refeshTokenString, err := constants.GenerateRefreshToken(user.User_id, user.Role)
 		if err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
 		return c.Status(fiber.StatusOK).JSON(fiber.Map{
-			"token": tokenString,
+			"token":        tokenString,
+			"refreshToken": refeshTokenString,
 		})
 	}
 }
@@ -120,7 +124,7 @@ func LoginUser(db *gorm.DB) fiber.Handler {
 
 		password := user.Password
 
-		if err := db.Model(models.User{}).First(&user, user.Email).Error; err != nil {
+		if err := db.Model(&models.User{}).Where("email = ?", user.Email).First(&user).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
@@ -133,18 +137,21 @@ func LoginUser(db *gorm.DB) fiber.Handler {
 			})
 		}
 
-		token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-			"user_id": user.User_id,
-			"role":    user.Role,
-		})
-		tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
+		tokenString, err := constants.GenerateToken(user.User_id, user.Role)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
+		refeshTokenString, err := constants.GenerateRefreshToken(user.User_id, user.Role)
 		if err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
 		return c.Status(fiber.StatusOK).JSON(fiber.Map{
-			"token": tokenString,
+			"token":        tokenString,
+			"refreshToken": refeshTokenString,
 		})
 	}
 }
