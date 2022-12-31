@@ -7,5 +7,8 @@ import (
 )
 
 func UserRoutes(app fiber.Router, db *gorm.DB) {
-	//app.Get("/", handlers.UserList)
+	app.Post("/registerstudent", handlers.RegisterStudent(db))
+	app.Post("/registerteacher", handlers.RegisterTeacher(db))
+	app.Post("/login", handlers.LoginUser(db))
+	app.Put("/:id", handlers.UpdateStudent(db))
 }
