@@ -10,9 +10,8 @@ type User struct {
 	Password string       `json:"password" gorm:"not null;type:varchar(255)"`
 	Fullname string       `json:"fullname" gorm:"not null;type:varchar(100)"`
 	Nickname string       `json:"nickname" gorm:"not null;type:varchar(100)"`
-	Phone    string       `json:"phone" gorm:"unique;not null;type:varchar(10);"`
 	Birthday time.Time    `json:"birthday"  gorm:"not null;type:date"`
-	Role     string       `json:"role" gorm:"not null;type:varchar(20)"`
+	Role     string       `json:"role" gorm:"not null;type:varchar(20);default:Student"`
 	Picture  string       `json:"picture" gorm:"not null;type:varchar(255)"`
 	Point    int32        `json:"point" gorm:"type:int;default:0"`
 	History  *[]History   `json:"history" gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
