@@ -35,6 +35,7 @@ func main() {
 	routes.UserRoutes(router.Group("/user"), configs.DB)
 	routes.CourseRoutes(router.Group("/course"), configs.DB)
 	routes.SubjectRoutes(router.Group("/subject"), configs.DB)
+	routes.VideoRoutes(router.Group("/video"), configs.DB)
 
 	app.Listen(":5000")
 }
