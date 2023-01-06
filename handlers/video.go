@@ -59,7 +59,7 @@ func GetVideoById(db *gorm.DB) fiber.Handler {
 		var video *models.Video
 		id := c.Params("id")
 
-		if err := db.Model(models.Video{}).Preload("Reviews").Preload("Exercises").First(&video, id).Error; err != nil {
+		if err := db.Model(&models.Video{}).Preload("Reviews").Preload("Exercises").First(&video, id).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
@@ -84,15 +84,8 @@ func DeleteVideoByID(db *gorm.DB) fiber.Handler {
 
 func UpdateVideo(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		type updateVideo struct {
-			CourseID    int32  `json:"course_id" gorm:"index;type:int"`
-			Video_name  string `json:"video_name" gorm:"not null;type:varchar(100)"`
-			Price       int32  `json:"price" gorm:"not null;type:int"`
-			Picture     string `json:"picture" gorm:"not null;type:varchar(255)"`
-			Description string `json:"description" gorm:"not null;type:text"`
-			Url         string `json:"url" gorm:"not null;type:varchar(255)"`
-		}
 		var video *models.Video
+		var updateVideoData *models.Video
 		id := c.Params("id")
 
 		if err := db.Model(models.Video{}).Preload("Reviews").Preload("Exercises").First(&video, id).Error; err != nil {
@@ -100,8 +93,6 @@ func UpdateVideo(db *gorm.DB) fiber.Handler {
 				"error": err.Error(),
 			})
 		}
-
-		var updateVideoData updateVideo
 
 		if err := c.BodyParser(&updateVideoData); err != nil {
 			return c.Status(fiber.StatusNotAcceptable).JSON(fiber.Map{
@@ -116,7 +107,11 @@ func UpdateVideo(db *gorm.DB) fiber.Handler {
 		video.Description = updateVideoData.Description
 		video.Url = updateVideoData.Url
 
-		db.Save(&video)
+		if err := db.Save(&video).Error; err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
 
 		return c.Status(fiber.StatusOK).JSON(&video)
 	}
