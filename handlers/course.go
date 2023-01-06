@@ -31,7 +31,7 @@ func GetAllCourse(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var course *[]models.Course
 
-		if err := db.Model(&models.Course{}).Preload("Subject").Find(&course).Error; err != nil {
+		if err := db.Model(&models.Course{}).Preload("Subject").Preload("Videos").Find(&course).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
