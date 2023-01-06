@@ -45,7 +45,7 @@ func GetCourseById(db *gorm.DB) fiber.Handler {
 		var course *models.Course
 		id := c.Params("id")
 
-		if err := db.Model(&models.Course{}).Preload("Subject").First(&course, id).Error; err != nil {
+		if err := db.Model(&models.Course{}).Preload("Subject").Preload("Videos").First(&course, id).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
@@ -70,13 +70,8 @@ func DeleteCourseByID(db *gorm.DB) fiber.Handler {
 
 func UpdateCourse(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		type updateCourse struct {
-			SubjectID   int32  `json:"subject_id" gorm:"index;type:int"`
-			Course_name string `json:"course_name" gorm:"not null;type:varchar(100)"`
-			Picture     string `json:"picture" gorm:"not null;type:varchar(255)"`
-			Description string `json:"description" gorm:"not null;type:text"`
-		}
 		var course *models.Course
+		var updateCourseData *models.Course
 		id := c.Params("id")
 
 		if err := db.Model(&models.Course{}).Preload("Subject").First(&course, id).Error; err != nil {
@@ -85,7 +80,6 @@ func UpdateCourse(db *gorm.DB) fiber.Handler {
 			})
 		}
 
-		var updateCourseData updateCourse
 
 		if err := c.BodyParser(&updateCourseData); err != nil {
 			return c.Status(fiber.StatusNotAcceptable).JSON(fiber.Map{
@@ -98,8 +92,12 @@ func UpdateCourse(db *gorm.DB) fiber.Handler {
 		course.Picture = updateCourseData.Picture
 		course.Description = updateCourseData.Description
 
-		db.Save(&course)
+		if err := db.Save(&course).Error; err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
 
-		return c.Status(fiber.StatusOK).JSON(&course)
+		return c.Status(fiber.StatusOK).JSON("Update Success")
 	}
 }
