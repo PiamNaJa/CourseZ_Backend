@@ -2,6 +2,7 @@ package handlers
 
 //CompileDaemon -command="./CourseZ_Backend"
 import (
+	"github.com/PiamNaJa/CourseZ_Backend/constants"
 	"github.com/PiamNaJa/CourseZ_Backend/models"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
@@ -12,9 +13,13 @@ func CreateCourse(db *gorm.DB) fiber.Handler {
 		var course *models.Course
 
 		if err := c.BodyParser(&course); err != nil {
-			return c.Status(fiber.StatusNotAcceptable).JSON(fiber.Map{
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
+		}
+
+		if err := constants.Validate.Struct(course); err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(err)
 		}
 
 		if err := db.Model(&models.Course{}).Create(&course).Error; err != nil {
@@ -79,7 +84,6 @@ func UpdateCourse(db *gorm.DB) fiber.Handler {
 				"error": err.Error(),
 			})
 		}
-
 
 		if err := c.BodyParser(&updateCourseData); err != nil {
 			return c.Status(fiber.StatusNotAcceptable).JSON(fiber.Map{

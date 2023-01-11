@@ -22,9 +22,9 @@ type UserTeacher struct {
 	Teacher_id         int32           `json:"teacher_id" gorm:"primaryKey;type:int"`                                                // Teacher_id is the id of the teacher
 	UserID             int32           `json:"user_id" gorm:"index;type:int"`                                                        // UserID is the id of the user
 	Teacher_license    string          `json:"teacher_license" gorm:"not null;type:varchar(255)" validate:"required,max=255"`        // link file
-	Transcript         string          `json:"transcript" gorm:"not null;type:varchar(255)" validate:"required,max=255"`             // link file
+	Transcript         string          `json:"transcript" gorm:"not null;type:varchar(255)" validate:"max=255"`                      // link file
 	Id_card            string          `json:"id_card" gorm:"not null;type:varchar(255)" validate:"required,max=255"`                // link file
-	Psychological_test string          `json:"psychological_test" gorm:"not null;type:varchar(255)" validate:"required,max=255"`     // link file
+	Psychological_test string          `json:"psychological_test" gorm:"not null;type:varchar(255)" validate:"max=255"`              // link file
 	Money              int32           `json:"money" gorm:"type:int;default:0"`                                                      // Money is the money of the teacher
 	Reviews            *[]Review_Tutor `json:"reviews" gorm:"foreignKey:TeacherID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`    // Reviews is the reviews of the teacher
 	Experience         *[]Experience   `json:"experience" gorm:"foreignKey:TeacherID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"` // Experience is the experience of the teacher

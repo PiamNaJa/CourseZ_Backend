@@ -2,6 +2,7 @@ package handlers
 
 //CompileDaemon -command="./CourseZ_Backend"
 import (
+	"github.com/PiamNaJa/CourseZ_Backend/constants"
 	"github.com/PiamNaJa/CourseZ_Backend/models"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
@@ -15,6 +16,10 @@ func CreateVideo(db *gorm.DB) fiber.Handler {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
+		}
+
+		if err:= constants.Validate.Struct(video); err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
 
 		if err := db.Model(&models.Video{}).Create(&video).Error; err != nil {
