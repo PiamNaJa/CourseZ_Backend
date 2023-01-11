@@ -20,7 +20,7 @@ func CreateSubject(db *gorm.DB) fiber.Handler {
 			})
 		}
 
-		return c.Status(fiber.StatusOK).JSON(&subject)
+		return c.Status(fiber.StatusCreated).JSON(&subject)
 	}
 }
 

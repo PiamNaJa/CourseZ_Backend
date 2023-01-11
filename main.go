@@ -34,8 +34,8 @@ func main() {
 	router.Get("/swagger/*", swagger.HandlerDefault)
 	routes.UserRoutes(router.Group("/user"), configs.DB)
 	routes.CourseRoutes(router.Group("/course"), configs.DB)
+	routes.VideoRoutes(router.Group("/course/:course_id/video"), configs.DB)
 	routes.SubjectRoutes(router.Group("/subject"), configs.DB)
-	routes.VideoRoutes(router.Group("/video"), configs.DB)
 
 	app.Listen(":5000")
 }
