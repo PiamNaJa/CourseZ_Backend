@@ -3,10 +3,10 @@ package handlers
 //CompileDaemon -command="./CourseZ_Backend"
 import (
 	"github.com/PiamNaJa/CourseZ_Backend/constants"
-	"strconv"
 	"github.com/PiamNaJa/CourseZ_Backend/models"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
+	"strconv"
 )
 
 func CreateVideo(db *gorm.DB) fiber.Handler {
@@ -18,15 +18,20 @@ func CreateVideo(db *gorm.DB) fiber.Handler {
 			})
 		}
 
-		if err:= constants.Validate.Struct(video); err != nil {
+		course_id, err := strconv.ParseInt(c.Params("course_id"), 10, 64)
+		video.CourseID = int32(course_id)
+		
+		if err := constants.Validate.Struct(video); err != nil {
 			return c.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
-    
-    course_id, err := strconv.ParseInt(c.Params("course_id"), 10, 64)
-    video.CourseID = int32(course_id)
-    
-		if err := db.Model(&models.Video{}).Create(&video).Error; err != nil {
+
 		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
+
+		if err := db.Model(&models.Video{}).Create(&video).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})

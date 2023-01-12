@@ -14,9 +14,16 @@ require (
 )
 
 require (
+	github.com/fatih/color v1.9.0 // indirect
+	github.com/fsnotify/fsnotify v1.4.9 // indirect
+	github.com/githubnemo/CompileDaemon v1.4.0 // indirect
+	github.com/radovskyb/watcher v1.0.7 // indirect
+)
+
+require (
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
-	github.com/go-playground/validator/v10 v10.11.1 // indirect
+	github.com/go-playground/validator/v10 v10.11.1 // direct
 	github.com/leodido/go-urn v1.2.1 // indirect
 )
 
