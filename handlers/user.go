@@ -17,6 +17,10 @@ func RegisterStudent(db *gorm.DB) fiber.Handler {
 			})
 		}
 
+		if err := constants.Validate.Struct(user); err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(err.Error())
+		}
+
 		encryptPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 10)
 		if err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -66,10 +70,20 @@ func RegisterTeacher(db *gorm.DB) fiber.Handler {
 			})
 		}
 
+
+		if err := constants.Validate.Struct(user); err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(err.Error())
+		}
+
+
 		if err := c.BodyParser(&userTeacher); err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
+		}
+
+		if err := constants.Validate.Struct(userTeacher); err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
 
 		encryptPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 10)

@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"github.com/PiamNaJa/CourseZ_Backend/constants"
 	"github.com/PiamNaJa/CourseZ_Backend/models"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
@@ -14,6 +15,11 @@ func CreateSubject(db *gorm.DB) fiber.Handler {
 				"error": err.Error(),
 			})
 		}
+
+		if err:= constants.Validate.Struct(subject); err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(err.Error())
+		}
+
 		if err := db.Model(&models.Subject{}).Create(&subject).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
