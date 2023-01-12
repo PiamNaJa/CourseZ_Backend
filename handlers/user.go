@@ -238,6 +238,7 @@ func GetUserByID(db *gorm.DB) fiber.Handler {
 		}
 
 		var logindata = &models.LoginData{
+			Fullname: user.Fullname,
 			Nickname: user.Nickname,
 			Birthday: user.Birthday,
 			Role:     user.Role,

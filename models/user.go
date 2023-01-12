@@ -39,6 +39,7 @@ type Experience struct {
 }
 
 type LoginData struct {
+	Fullname string       `json:"fullname"` // Fullname is the fullname of the user
 	Nickname string       `json:"nickname"` // Nickname is the nickname of the user
 	Birthday time.Time    `json:"birthday"` // Birthday is the birthday of the user
 	Role     string       `json:"role"`     // Role is the role of the user
