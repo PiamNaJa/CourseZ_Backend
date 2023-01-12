@@ -70,11 +70,9 @@ func RegisterTeacher(db *gorm.DB) fiber.Handler {
 			})
 		}
 
-
 		if err := constants.Validate.Struct(user); err != nil {
 			return c.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
-
 
 		if err := c.BodyParser(&userTeacher); err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -227,5 +225,31 @@ func Update(db *gorm.DB) fiber.Handler {
 		return c.Status(fiber.StatusOK).JSON(fiber.Map{
 			"message": "Update Success",
 		})
+	}
+}
+
+func GetUserByID(db *gorm.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		var user *models.User
+		if err := db.Model(&models.User{}).Preload("Teacher").Preload("History").Where("user_id = ?", c.Params("id")).First(&user).Error; err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
+
+		var logindata = &models.LoginData{
+			Nickname: user.Nickname,
+			Birthday: user.Birthday,
+			Role:     user.Role,
+			Picture:  user.Picture,
+			Point:    user.Point,
+			History:  user.History,
+			Teacher:  user.Teacher,
+		}
+		if len(*logindata.History) == 0 {
+			logindata.History = nil
+		}
+
+		return c.Status(fiber.StatusOK).JSON(&logindata)
 	}
 }
