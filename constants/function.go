@@ -7,14 +7,14 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
-func GenerateToken(user_id int32, role string, teacher_id int32) (string, error) {
+func GenerateToken(user_id *int32, role *string, teacher_id *int32) (string, error) {
 	nowTime := time.Now()
 	expireTime := nowTime.Add(24 * time.Hour)
 
 	claims := jwt.MapClaims{
-		"user_id":    user_id,
-		"role":       role,
-		"teacher_id": teacher_id,
+		"user_id":    &user_id,
+		"role":       &role,
+		"teacher_id": &teacher_id,
 		"exp":        expireTime.Unix(),
 	}
 
@@ -24,14 +24,14 @@ func GenerateToken(user_id int32, role string, teacher_id int32) (string, error)
 	return token, err
 }
 
-func GenerateRefreshToken(user_id int32, role string, teacher_id int32) (string, error) {
+func GenerateRefreshToken(user_id *int32, role *string, teacher_id *int32) (string, error) {
 	nowTime := time.Now()
 	expireTime := nowTime.Add(72 * time.Hour)
 
 	claims := jwt.MapClaims{
-		"user_id":    user_id,
-		"role":       role,
-		"teacher_id": teacher_id,
+		"user_id":    &user_id,
+		"role":       &role,
+		"teacher_id": &teacher_id,
 		"exp":        expireTime.Unix(),
 	}
 
