@@ -12,7 +12,7 @@ type User struct {
 	Nickname string       `json:"nickname" gorm:"not null;type:varchar(100)" validate:"required,max=100"`         // Nickname is the nickname of the user
 	Birthday time.Time    `json:"birthday"  gorm:"not null;type:date"`                                            // Birthday is the birthday of the user
 	Role     string       `json:"role" gorm:"not null;type:varchar(20);default:Student"`                          // Role is the role of the user
-	Picture  string       `json:"picture" gorm:"not null;type:varchar(255)"`                                      // Picture is a link to the picture
+	Picture  string       `json:"picture" gorm:"not null;type:varchar(5000)" validate:"required,max=5000"`                                      // Picture is a link to the picture
 	Point    int32        `json:"point" gorm:"type:int;default:0"`                                                // Point is the point of the user
 	History  *[]History   `json:"history" gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"` // History is the history of the user
 	Teacher  *UserTeacher `json:"teacher" gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"` // Teacher is the teacher of the user
@@ -21,9 +21,9 @@ type User struct {
 type UserTeacher struct {
 	Teacher_id         int32           `json:"teacher_id" gorm:"primaryKey;type:int"`                                                // Teacher_id is the id of the teacher
 	UserID             int32           `json:"user_id" gorm:"index;type:int"`                                                        // UserID is the id of the user
-	Teacher_license    string          `json:"teacher_license" gorm:"not null;type:varchar(255)" validate:"required,max=255"`        // link file
-	Transcript         string          `json:"transcript" gorm:"not null;type:varchar(255)" validate:"max=255"`                      // link file
-	Id_card            string          `json:"id_card" gorm:"not null;type:varchar(255)" validate:"required,max=255"`                // link file
+	Teacher_license    string          `json:"teacher_license" gorm:"not null;type:varchar(5000)" validate:"required,max=5000"`        // link file
+	Transcript         string          `json:"transcript" gorm:"not null;type:varchar(5000)" validate:"max=5000"`                      // link file
+	Id_card            string          `json:"id_card" gorm:"not null;type:varchar(5000)" validate:"required,max=5000"`                // link file
 	Psychological_test string          `json:"psychological_test" gorm:"not null;type:varchar(255)" validate:"max=255"`              // link file
 	Money              int32           `json:"money" gorm:"type:int;default:0"`                                                      // Money is the money of the teacher
 	Reviews            *[]Review_Tutor `json:"reviews" gorm:"foreignKey:TeacherID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`    // Reviews is the reviews of the teacher
@@ -35,5 +35,5 @@ type Experience struct {
 	Experience_id int32  `json:"experience_id" gorm:"primaryKey;type:int"`                               // Experience_id is the id of the experience
 	TeacherID     int32  `json:"teacher_id" gorm:"index;type:int"`                                       // TeacherID is the id of the teacher
 	Title         string `json:"title" gorm:"not null;type:varchar(100)" validate:"required,max=100"`    // Title is the title of the experience
-	Evidence      string `json:"evidence" gorm:"not null;type:varchar(255)" validate:"required,max=255"` // link file
+	Evidence      string `json:"evidence" gorm:"not null;type:varchar(5000)" validate:"required,max=5000"` // link file
 }

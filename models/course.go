@@ -6,7 +6,7 @@ type Course struct {
 	Subject     *Subject `json:"subject" gorm:"not null;foreignKey:SubjectID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"` // Subject is the subject of the course
 	Videos      *[]Video `json:"videos" gorm:"not null;foreignKey:CourseID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`  // Videos is the videos of the course
 	TeacherID   int32    `json:"teacher_id" gorm:"index;type:int;not null" validate:"required,number"`                      // TeacherID is the id of the teacher
-	Course_name string   `json:"course_name" gorm:"not null;type:varchar(100)" validate:"required,max=100"`                 // Course_name is the name of the course
-	Picture     string   `json:"picture" gorm:"not null;type:varchar(255)" validate:"required,max=255"`                     // Picture is a link to the picture
+	Course_name string   `json:"course_name" gorm:"not null;type:varchar(1000)" validate:"required,max=1000"`                 // Course_name is the name of the course
+	Picture     string   `json:"picture" gorm:"not null;type:varchar(5000)" validate:"required,max=5000"`                     // Picture is a link to the picture
 	Description string   `json:"description" gorm:"not null;type:text" validate:"required"`                                 // Description is the description of the course
 }

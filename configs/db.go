@@ -503,7 +503,7 @@ func SeedDB() {
 			},
 		},
 	}
-	if err := DB.Model(&models.UserTeacher{}).Create(&teacher).Error; err != nil {
+	if err := DB.Model(&models.User{}).Create(&teacher).Error; err != nil {
 		panic(err)
 	}
 
