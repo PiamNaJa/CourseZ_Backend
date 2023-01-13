@@ -54,8 +54,8 @@ func RegisterStudent(db *gorm.DB) fiber.Handler {
 
 		c.Set("authorization", tokenString)
 		return c.Status(fiber.StatusCreated).JSON(fiber.Map{
-			"token":        tokenString,
-			"refreshToken": refeshTokenString,
+			"token":        &tokenString,
+			"refreshToken": &refeshTokenString,
 		})
 	}
 }
@@ -70,11 +70,9 @@ func RegisterTeacher(db *gorm.DB) fiber.Handler {
 			})
 		}
 
-
 		if err := constants.Validate.Struct(user); err != nil {
 			return c.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
-
 
 		if err := c.BodyParser(&userTeacher); err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -130,8 +128,8 @@ func RegisterTeacher(db *gorm.DB) fiber.Handler {
 		tx.Commit()
 		c.Set("authorization", tokenString)
 		return c.Status(fiber.StatusCreated).JSON(fiber.Map{
-			"token":        tokenString,
-			"refreshToken": refeshTokenString,
+			"token":        &tokenString,
+			"refreshToken": &refeshTokenString,
 		})
 	}
 }
@@ -193,8 +191,8 @@ func LoginUser(db *gorm.DB) fiber.Handler {
 
 		c.Set("authorization", tokenString)
 		return c.Status(fiber.StatusOK).JSON(fiber.Map{
-			"token":        tokenString,
-			"refreshToken": refeshTokenString,
+			"token":        &tokenString,
+			"refreshToken": &refeshTokenString,
 		})
 	}
 }
@@ -219,7 +217,7 @@ func Update(db *gorm.DB) fiber.Handler {
 		}
 
 		if err := db.Model(&models.User{}).Where("user_id = ?", c.Params("id")).Updates(&user).Error; err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
@@ -227,5 +225,38 @@ func Update(db *gorm.DB) fiber.Handler {
 		return c.Status(fiber.StatusOK).JSON(fiber.Map{
 			"message": "Update Success",
 		})
+	}
+}
+
+func GetProfile(db *gorm.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		var user *models.User
+		var history *[]models.History
+		if err := db.Model(&models.User{}).Preload("Teacher").Where("user_id = ?", c.Params("id")).First(&user).Error; err != nil {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
+		if err := db.Model(&models.History{}).Preload("Video").Where("user_id = ?", c.Params("id")).Find(&history).Error; err != nil {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
+
+		var logindata = &models.LoginData{
+			Fullname: user.Fullname,
+			Nickname: user.Nickname,
+			Birthday: user.Birthday,
+			Role:     user.Role,
+			Picture:  user.Picture,
+			Point:    user.Point,
+			History:  history, //waiting history api
+			Teacher:  user.Teacher,
+		}
+		if len(*logindata.History) == 0 {
+			logindata.History = nil
+		}
+
+		return c.Status(fiber.StatusOK).JSON(&logindata)
 	}
 }

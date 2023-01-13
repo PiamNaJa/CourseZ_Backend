@@ -37,3 +37,14 @@ type Experience struct {
 	Title         string `json:"title" gorm:"not null;type:varchar(100)" validate:"required,max=100"`    // Title is the title of the experience
 	Evidence      string `json:"evidence" gorm:"not null;type:varchar(5000)" validate:"required,max=5000"` // link file
 }
+
+type LoginData struct {
+	Fullname string       `json:"fullname"` // Fullname is the fullname of the user
+	Nickname string       `json:"nickname"` // Nickname is the nickname of the user
+	Birthday time.Time    `json:"birthday"` // Birthday is the birthday of the user
+	Role     string       `json:"role"`     // Role is the role of the user
+	Picture  string       `json:"picture"`  // Picture is a link to the picture
+	Point    int32        `json:"point"`    // Point is the point of the user
+	History  *[]History   `json:"history"`  // History is the history of the user
+	Teacher  *UserTeacher `json:"teacher"`  // Teacher is the teacher of the user
+}

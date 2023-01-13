@@ -25,9 +25,9 @@ func main() {
 
 	configs.Init()
 	configs.ConnectDB()
-	configs.WipeData()
+	// configs.WipeData()
 	configs.MigrateData()
-	configs.SeedDB()
+	// configs.SeedDB()
 
 	sql, _ := configs.DB.DB()
 	defer sql.Close()
