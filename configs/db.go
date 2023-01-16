@@ -331,8 +331,7 @@ func SeedDB() {
 			Role:     "Tutor",
 			Picture:  "https://shorturl.asia/PoI4T",
 			Teacher: &models.UserTeacher{
-				Teacher_license: "https://www.kruachieve.com/wp-content/uploads/2019/12/562000004488703.jpg",
-				Transcript:      "https://shorturl.asia/SecRv",
+				Psychological_test: "https://testyourself.psychtests.com/testid/4176",
 				Id_card:         "http://www.bikes4deal.com/picture_upload/market/full/2021-09/B2ceH51632344286.jpeg",
 				Experience: &[]models.Experience{
 					{
