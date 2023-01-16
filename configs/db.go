@@ -423,7 +423,7 @@ func SeedDB() {
 			},
 		},
 		{
-			Email:    "teacher7@mail.com",
+			Email:    "teacher7@mail.com", //ครูภาษาไทย
 			Password: "1234",
 			Fullname: "สมเกียรติ มั่งมี",
 			Nickname: "ครูเฟียส",
@@ -2591,6 +2591,973 @@ func SeedDB() {
 			Course_name: "ภาษาอังกฤษ ชั้น ม.4 เรื่อง Tense พื้นฐาน",
 			Picture:     "https://shorturl.asia/ZFCWJ",
 			Description: "คอร์สนี้จะพาน้อง ๆ ได้รู้จักกับ ภาษาอังกฤษพื้นฐานในเรื่อง tense เเละได้สนุกกับการเรียนรู้เเละเเบบฝึกหัดในคอร์ส มาเริ่มกันเลย!!",
+		},
+		{
+			//Course_11
+			SubjectID: 24,
+			Videos: &[]models.Video{
+				{
+					Video_name:  "การใช้ Present perfect",
+					Picture:     "https://i.ytimg.com/vi/5a8m3FLHoDY/maxresdefault.jpg",
+					Description: "ภาษาอังกฤษ ชั้น ม.5 เรื่อง การใช้ Present perfect | แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนภาษาอังกฤษ ",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_11%2FVideo_1%2F%E0%B8%A7%E0%B8%B4%E0%B8%8A%E0%B8%B2%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B8%AD%E0%B8%B1%E0%B8%87%E0%B8%81%E0%B8%A4%E0%B8%A9%20%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99%20%E0%B8%A1.5%20%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%20Present%20perfect.mp4?alt=media&token=e80cbb5f-51eb-4f5a-91e3-1290892f186a",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_11%2FVideo_1%2F%E0%B8%8A%E0%B8%B5%E0%B8%97%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%99%20%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%20present%20perfect.pdf?alt=media&token=1a828bbe-9ba3-4cfd-a6c1-6e1d1eaaf929",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "1.Choose the correct answer. She has ..... in london since 2018.",
+							Choices: &[]models.Choice{
+								{
+									Title:   "lived",
+									Correct: true,
+								},
+								{
+									Title:   "live",
+									Correct: false,
+								},
+								{
+									Title:   "lives",
+									Correct: false,
+								},
+								{
+									Title:   "ผิดทุกข้อ",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "2.Choose the correct answer. I haven't ....... George in ages.",
+							Choices: &[]models.Choice{
+								{
+									Title:   "look",
+									Correct: false,
+								},
+								{
+									Title:   "seed",
+									Correct: false,
+								},
+								{
+									Title:   "see",
+									Correct: false,
+								},
+								{
+									Title:   "seen",
+									Correct: true,
+								},
+							},
+						},
+						{
+							Question: "3.Choose the correct answer. He's already ..... (drink) coffee.",
+							Choices: &[]models.Choice{
+								{
+									Title:   "drink",
+									Correct: false,
+								},
+								{
+									Title:   "drank",
+									Correct: false,
+								},
+								{
+									Title:   "drunk",
+									Correct: true,
+								},
+								{
+									Title:   "drinks",
+									Correct: false,
+								},
+							},
+						},
+					},
+				},
+				{
+					Video_name:  "การใช้ Present Perfect Progressive",
+					Picture:     "https://i.ytimg.com/vi/XDNt3cMc8Ls/maxresdefault.jpg",
+					Description: "ภาษาอังกฤษ ชั้น ม.5 เรื่อง การใช้ Tenses : Present Perfect Progressive |  แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนภาษาอังกฤษ ",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_11%2FVideo_2%2F%E0%B8%A7%E0%B8%B4%E0%B8%8A%E0%B8%B2%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B8%AD%E0%B8%B1%E0%B8%87%E0%B8%81%E0%B8%A4%E0%B8%A9%20%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99%20%E0%B8%A1.5%20%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%20Present%20Perfect%20Progressive.mp4?alt=media&token=9e592919-eed2-43ff-be2f-b35ea861735a",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_11%2FVideo_2%2F%E0%B8%8A%E0%B8%B5%E0%B8%97%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%99%20%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%20Present%20perfect%20progressive..pdf?alt=media&token=e6b48d77-7db8-46cb-af3c-d1cf90aa9cbc",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "1. Choose the correct answer. I have ..... ..... games since last night.",
+							Choices: &[]models.Choice{
+								{
+									Title:   "be play",
+									Correct: false,
+								},
+								{
+									Title:   "be playing",
+									Correct: false,
+								},
+								{
+									Title:   "been play",
+									Correct: false,
+								},
+								{
+									Title:   "been playing",
+									Correct: true,
+								},
+							},
+						},
+						{
+							Question: "2.Choose the correct answer. How long has she ..... ..... ?",
+							Choices: &[]models.Choice{
+								{
+									Title:   "been wait",
+									Correct: false,
+								},
+								{
+									Title:   "been waiting",
+									Correct: true,
+								},
+								{
+									Title:   "be waiting",
+									Correct: false,
+								},
+								{
+									Title:   "be wait",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "3.Choose the correct answer. It's ..... ..... cats and dogs all night. ",
+							Choices: &[]models.Choice{
+								{
+									Title:   "been rain",
+									Correct: false,
+								},
+								{
+									Title:   "been raining",
+									Correct: true,
+								},
+								{
+									Title:   "be raining",
+									Correct: false,
+								},
+								{
+									Title:   "be rain",
+									Correct: false,
+								},
+							},
+						},
+					},
+				},
+				{
+					Video_name:  "การใช้ Passive voice",
+					Price:       25,
+					Picture:     "https://i.ytimg.com/vi/g3o6IY6Yrsw/mqdefault.jpg",
+					Description: "สำหรับคลิปนี้ เป็นคลิปสอน การใช้ Passive voice แบบละเอียด เข้าใจง่าย",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_11%2FVideo_3%2F%E0%B8%A7%E0%B8%B4%E0%B8%8A%E0%B8%B2%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B8%AD%E0%B8%B1%E0%B8%87%E0%B8%81%E0%B8%A4%E0%B8%A9%20%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99%20%E0%B8%A1.5%20%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%20Passive%20voice.mp4?alt=media&token=b47c3897-ae4b-4ddc-b357-92bdeb4751d4",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_11%2FVideo_3%2F%E0%B8%8A%E0%B8%B5%E0%B8%97%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%99%20%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%20Passive%20voice.pdf?alt=media&token=6b244ceb-e242-4779-a75b-c43fd17b5355",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "1.ข้อใดไม่ใช่ Passive voice ",
+							Choices: &[]models.Choice{
+								{
+									Title:   "Ice-cream is eaten everyday by me.",
+									Correct: false,
+								},
+								{
+									Title:   "I eat ice-cream everyday.",
+									Correct: true,
+								},
+								{
+									Title:   "Dinner was cooked by Jane yesterday",
+									Correct: false,
+								},
+								{
+									Title:   "That car was bought by my mother.",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "2.ข้อใดเป็น Passive voice",
+							Choices: &[]models.Choice{
+								{
+									Title:   "I eat ice-cream everyday.",
+									Correct: false,
+								},
+								{
+									Title:   "Jane feeds the dog",
+									Correct: false,
+								},
+								{
+									Title:   "Ice-cream is eaten everyday by me.",
+									Correct: true,
+								},
+								{
+									Title:   "Joy will have been feeding the cat",
+									Correct: false,
+								},
+							},
+						},
+					},
+				},
+			},
+			TeacherID:   10,
+			Course_name: "ภาษาอังกฤษ ชั้น ม.5 เรื่อง Tense ",
+			Picture:     "http://www.learnersplanet.com/sites/default/files/images/Tenses%20chart-1.png",
+			Description: "คอร์สนี้จะพาน้อง ๆ ได้รู้จักกับ ภาษาอังกฤษพื้นฐานในเรื่อง tense เเละได้สนุกกับการเรียนรู้เเละเเบบฝึกหัดในคอร์ส มาเริ่มกันเลย!!",
+		},
+		{
+			//Course_12
+			SubjectID: 25,
+			Videos: &[]models.Video{
+				{
+					Video_name:  "การใช้ Present perfect",
+					Picture:     "https://i.ytimg.com/vi/Yi5Z19yolPs/maxresdefault.jpg",
+					Description: "ภาษาอังกฤษ ชั้น ม.6 เรื่อง การใช้ Present perfect | แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนภาษาอังกฤษ ",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_12%2FVideo_1%2F%E0%B8%A7%E0%B8%B4%E0%B8%8A%E0%B8%B2%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B8%AD%E0%B8%B1%E0%B8%87%E0%B8%81%E0%B8%A4%E0%B8%A9%20%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99%20%E0%B8%A1.6%20%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%20Present%20perfect.mp4?alt=media&token=a87fb784-a035-483c-be44-0ec29a02cf82",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_12%2FVideo_1%2F%E0%B8%8A%E0%B8%B5%E0%B8%97%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%99%20%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%20present%20perfect.pdf?alt=media&token=f09e01cf-687a-4838-afa9-16781186e978",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "1.Conjugate the Verbs. Sheila _____ (not live) in this country for a very long time. ",
+							Choices: &[]models.Choice{
+								{
+									Title:   "hasn't lived",
+									Correct: true,
+								},
+								{
+									Title:   "has lived",
+									Correct: false,
+								},
+								{
+									Title:   "hasn't live",
+									Correct: false,
+								},
+								{
+									Title:   "has live",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "2.Conjugate the Verbs. My father _____ (wear) that jacket for more than twenty years.",
+							Choices: &[]models.Choice{
+								{
+									Title:   "worn",
+									Correct: false,
+								},
+								{
+									Title:   "wear",
+									Correct: false,
+								},
+								{
+									Title:   "hasn't worn",
+									Correct: false,
+								},
+								{
+									Title:   "has worn",
+									Correct: true,
+								},
+							},
+						},
+					},
+				},
+				{
+					Video_name:  "การใช้ Present perfect progressive",
+					Picture:     "https://i.ytimg.com/vi/ZK8tWKHpj1k/maxresdefault.jpg",
+					Description: "ภาษาอังกฤษ ชั้น ม.5 เรื่อง การใช้ Tenses : Present perfect progressive |  แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนภาษาอังกฤษ ",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_12%2FVideo_2%2F%E0%B8%A7%E0%B8%B4%E0%B8%8A%E0%B8%B2%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B8%AD%E0%B8%B1%E0%B8%87%E0%B8%81%E0%B8%A4%E0%B8%A9%20%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99%20%E0%B8%A1.6%20%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%20Present%20perfect%20progressive.mp4?alt=media&token=5f7fa8fb-ff98-45f4-b282-616d37fc5fae",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_12%2FVideo_2%2F%E0%B8%8A%E0%B8%B5%E0%B8%97%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%99%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99%20%E0%B8%A1.6%20%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%20Present%20perfect%20progressive..pdf?alt=media&token=ec19c2ea-3f05-428b-aa66-94e007407ac2",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "1. Choose the correct answer. Teddy  ____ ____ ____ this song for months.",
+							Choices: &[]models.Choice{
+								{
+									Title:   "has be write",
+									Correct: false,
+								},
+								{
+									Title:   "has be writing",
+									Correct: false,
+								},
+								{
+									Title:   "has been write",
+									Correct: false,
+								},
+								{
+									Title:   "has been writing",
+									Correct: true,
+								},
+							},
+						},
+						{
+							Question: "2.Choose the correct answer. Who has she _____ _____ with these days?",
+							Choices: &[]models.Choice{
+								{
+									Title:   "been travel",
+									Correct: false,
+								},
+								{
+									Title:   "been travelling",
+									Correct: true,
+								},
+								{
+									Title:   "be travelling",
+									Correct: false,
+								},
+								{
+									Title:   "be travel",
+									Correct: false,
+								},
+							},
+						},
+					},
+				},
+				{
+					Video_name:  "การใช้ Wish + Past perfect",
+					Price:       25,
+					Picture:     "https://i.ytimg.com/vi/O2B_3GzucHI/maxresdefault.jpg",
+					Description: "สำหรับคลิปนี้ เป็นคลิปสอน การใช้ Wish + Past perfect แบบละเอียด เข้าใจง่าย",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_12%2FVideo_3%2F%E0%B8%A7%E0%B8%B4%E0%B8%8A%E0%B8%B2%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B8%AD%E0%B8%B1%E0%B8%87%E0%B8%81%E0%B8%A4%E0%B8%A9%20%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99%20%E0%B8%A1.6%20%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%20Wish%20%20%20Past%20perfect.mp4?alt=media&token=76219cef-5f0d-450a-ae35-3cfd373ba652",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_12%2FVideo_3%2F%E0%B8%8A%E0%B8%B5%E0%B8%97%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%99%20%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%20Wish%20%20%20Past%20perfect.pdf?alt=media&token=edcb18c8-3cb0-4385-963a-27066944db14",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "1.Choose the correct answer. I wish they _____ the dinner.",
+							Choices: &[]models.Choice{
+								{
+									Title:   "had seen",
+									Correct: false,
+								},
+								{
+									Title:   "had made",
+									Correct: true,
+								},
+								{
+									Title:   "had had",
+									Correct: false,
+								},
+								{
+									Title:   "hadn't broke.",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "2.Choose the correct answer. I wish he _____ there for you.",
+							Choices: &[]models.Choice{
+								{
+									Title:   "had cleaned",
+									Correct: false,
+								},
+								{
+									Title:   "hadn't broke",
+									Correct: false,
+								},
+								{
+									Title:   "had been",
+									Correct: true,
+								},
+								{
+									Title:   "hadn't said",
+									Correct: false,
+								},
+							},
+						},
+					},
+				},
+			},
+			TeacherID:   10,
+			Course_name: "ภาษาอังกฤษ ชั้น ม.6 เรื่อง Tense ",
+			Picture:     "https://d1bnvx5vhcnf8w.cloudfront.net/Business%20English%20-%20Coaches/tense.png",
+			Description: "คอร์สนี้จะพาน้อง ๆ ได้รู้จักกับ ภาษาอังกฤษพื้นฐานในเรื่อง tense เเละได้สนุกกับการเรียนรู้เเละเเบบฝึกหัดในคอร์ส มาเริ่มกันเลย!!",
+		},
+		{
+			//Course_13
+			SubjectID: 14,
+			Videos: &[]models.Video{
+				{
+					Video_name:  "เสียงพยัญชนะในภาษาไทย",
+					Picture:     "https://i.ytimg.com/vi/yXhtEPiJAkY/maxresdefault.jpg",
+					Description: "ภาษาไทย ชั้น ม.1 เรื่อง การใช้ เสียงพยัญชนะในภาษาไทย| แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนภาษาไทย	 ",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_13%2FVideo_1%2F%E0%B8%A7%E0%B8%B4%E0%B8%8A%E0%B8%B2%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2%20%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99%20%E0%B8%A1.1%20%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%20%E0%B9%80%E0%B8%AA%E0%B8%B5%E0%B8%A2%E0%B8%87%E0%B8%9E%E0%B8%A2%E0%B8%B1%E0%B8%8D%E0%B8%8A%E0%B8%99%E0%B8%B0.mp4?alt=media&token=18488714-5a59-4879-8b65-c5d799528e95",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_13%2FVideo_1%2F%E0%B8%8A%E0%B8%B5%E0%B8%97%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%99%20%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%20%E0%B9%80%E0%B8%AA%E0%B8%B5%E0%B8%A2%E0%B8%87%E0%B8%9E%E0%B8%A2%E0%B8%B1%E0%B8%8D%E0%B8%8A%E0%B8%99%E0%B8%B0.pdf?alt=media&token=2f1b204c-258f-41b7-8aaf-91d276b9eaae",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "1.พยัญชนะที่มีเสียงเดียวกันท้้งหมดคือข้อใด ",
+							Choices: &[]models.Choice{
+								{
+									Title:   "ฑ ฒ ฐ ธ",
+									Correct: true,
+								},
+								{
+									Title:   "ช ซ ฌ ฉ",
+									Correct: false,
+								},
+								{
+									Title:   "ก ข ฃ ค",
+									Correct: false,
+								},
+								{
+									Title:   "ฉ ส ษ ส",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "2.เสียงพยัญชนะต้นในคำใด เเตกต่างจากคำอื่น",
+							Choices: &[]models.Choice{
+								{
+									Title:   "หู",
+									Correct: false,
+								},
+								{
+									Title:   "เฮ",
+									Correct: false,
+								},
+								{
+									Title:   "ฮา",
+									Correct: false,
+								},
+								{
+									Title:   "หลาย",
+									Correct: true,
+								},
+							},
+						},
+						{
+							Question: "3.เสียงพยัญชนะต้นในคำใดเเตกต่างจากคำอื่น",
+							Choices: &[]models.Choice{
+								{
+									Title:   "อยู่",
+									Correct: false,
+								},
+								{
+									Title:   "หญิง",
+									Correct: false,
+								},
+								{
+									Title:   "ญาณ",
+									Correct: false,
+								},
+								{
+									Title:   "ฌาน",
+									Correct: true,
+								},
+							},
+						},
+					},
+				},
+				{
+					Video_name:  "เสียงสระในภาษาไทย",
+					Picture:     "https://i.ytimg.com/vi/JxUVunUVZYI/maxresdefault.jpg",
+					Description: "ภาษาไทย ชั้น ม.1 เรื่อง เสียงสระในภาษาไทย | แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนภาษาไทย",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_13%2FVideo_2%2F%E0%B8%A7%E0%B8%B4%E0%B8%8A%E0%B8%B2%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2%20%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99%20%E0%B8%A1.1%20%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%20%E0%B9%80%E0%B8%AA%E0%B8%B5%E0%B8%A2%E0%B8%87%E0%B8%AA%E0%B8%A3%E0%B8%B0.mp4?alt=media&token=a46757d8-18c4-4da0-91f2-693daf028dbc",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_13%2FVideo_2%2F%E0%B8%8A%E0%B8%B5%E0%B8%97%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%99%20%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%20%E0%B9%80%E0%B8%AA%E0%B8%B5%E0%B8%A2%E0%B8%87%E0%B8%AA%E0%B8%A3%E0%B8%B0.pdf?alt=media&token=383e7c02-28c0-41a8-9a19-92a36b1af962",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "1.ข้อใดเป็นสระเสียงยาวทั้งหมด ",
+							Choices: &[]models.Choice{
+								{
+									Title:   "จุ๊บ จั๊บ จ๋า จ๊ะ",
+									Correct: false,
+								},
+								{
+									Title:   "ครู ขา หนู ร้อน",
+									Correct: true,
+								},
+								{
+									Title:   "คิด หนัก จัก เศร้า",
+									Correct: false,
+								},
+								{
+									Title:   "พาก เพียร เรียน เถอะ",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "2.ข้อใดต่อไปนี้ประกอบด้วยสระเสียงสั้นทั้งหมด",
+							Choices: &[]models.Choice{
+								{
+									Title:   "เเพทย์ ครู",
+									Correct: false,
+								},
+								{
+									Title:   "ถัง กระติก",
+									Correct: true,
+								},
+								{
+									Title:   "สมุด ดินสอ",
+									Correct: false,
+								},
+								{
+									Title:   "ปากกา ยางลบ",
+									Correct: false,
+								},
+							},
+						},
+					},
+				},
+				{
+					Video_name:  "เสียงวรรณยุกต์ และทบทวนเรื่องการผันวรรณยุกต์",
+					Price:       25,
+					Picture:     "https://i.ytimg.com/vi/4qoDxnZAru8/maxresdefault.jpg",
+					Description: "สำหรับคลิปนี้ เป็นคลิปสอน เสียงวรรณยุกต์ และทบทวนเรื่องการผันวรรณยุกต์ แบบละเอียด เข้าใจง่าย",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_13%2FVideo_3%2F%E0%B8%A7%E0%B8%B4%E0%B8%8A%E0%B8%B2%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2%20%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99%20%E0%B8%A1.1%20%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%20%E0%B9%80%E0%B8%AA%E0%B8%B5%E0%B8%A2%E0%B8%87%E0%B8%A7%E0%B8%A3%E0%B8%A3%E0%B8%93%E0%B8%A2%E0%B8%B8%E0%B8%81%E0%B8%95%E0%B9%8C%20%E0%B9%81%E0%B8%A5%E0%B8%B0%E0%B8%97%E0%B8%9A%E0%B8%97%E0%B8%A7%E0%B8%99%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9C%E0%B8%B1%E0%B8%99%E0%B8%A7%E0%B8%A3%E0%B8%A3%E0%B8%93%E0%B8%A2%E0%B8%B8%E0%B8%81%E0%B8%95%E0%B9%8C.mp4?alt=media&token=6e3044be-3a21-4a1e-b8f3-f9b8ae136082",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_13%2FVideo_3%2F%E0%B8%8A%E0%B8%B5%E0%B8%97%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%99%20%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%20%E0%B9%80%E0%B8%AA%E0%B8%B5%E0%B8%A2%E0%B8%87%E0%B8%A7%E0%B8%A3%E0%B8%A3%E0%B8%93%E0%B8%A2%E0%B8%B8%E0%B8%81%E0%B8%95%E0%B9%8C%20%E0%B9%81%E0%B8%A5%E0%B8%B0%E0%B8%97%E0%B8%9A%E0%B8%97%E0%B8%A7%E0%B8%99%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9C%E0%B8%B1%E0%B8%99%E0%B8%A7%E0%B8%A3%E0%B8%A3%E0%B8%93%E0%B8%A2%E0%B8%B8%E0%B8%81%E0%B8%95%E0%B9%8C.pdf?alt=media&token=a1cfa19f-a64d-407b-af5e-4ab2cb36a1f1",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "1.ข้อใดมีเสียงวรรณยุกต์สามัญทั้งหมด",
+							Choices: &[]models.Choice{
+								{
+									Title:   "ใครไปลำปาง",
+									Correct: true,
+								},
+								{
+									Title:   "นกเกาะปลายไม้",
+									Correct: false,
+								},
+								{
+									Title:   "ยายกิ่งไม่ร้องหรือ",
+									Correct: false,
+								},
+								{
+									Title:   "เสือเดินมาโน่นเเล้ว",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "2.ข้อใดมีเสียงวรรณยุกต์ครบห้าเสียง",
+							Choices: &[]models.Choice{
+								{
+									Title:   "ไปเที่ยวกันนะจ๊ะ",
+									Correct: false,
+								},
+								{
+									Title:   "คุณเเม่อยู่ไหมคะ",
+									Correct: true,
+								},
+								{
+									Title:   "ดูหนังฟังเพลงกัน",
+									Correct: false,
+								},
+								{
+									Title:   "ปรานีชวนพรไปนา",
+									Correct: false,
+								},
+							},
+						},
+					},
+				},
+			},
+			TeacherID:   7,
+			Course_name: "ภาษาไทยง๊ายง่าย ",
+			Picture:     "https://sites.google.com/a/samakkhi.ac.th/keiyw-kab-phasa-thiy/_/rsrc/1488422650332/home/20161121160657.png",
+			Description: "คอร์สนี้จะพาน้อง ๆ ได้รู้จักกับ ภาษาไทยพื้นฐานในเรื่องต่าง ๆ เเละได้สนุกกับการเรียนรู้เเละเเบบฝึกหัดในคอร์ส มาเริ่มกันเลย!!",
+		},
+		{
+			//Course_14
+			SubjectID: 15,
+			Videos: &[]models.Video{
+				{
+					Video_name:  "คำราชาศัพท์",
+					Picture:     "https://i.ytimg.com/vi/oBDM3hrasv0/maxresdefault.jpg",
+					Description: "ภาษาไทย ชั้น ม.2 เรื่อง การใช้คำราชาศัพท์| แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนภาษาไทย	 ",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_14%2FVideo_1%2F%E0%B8%A7%E0%B8%B4%E0%B8%8A%E0%B8%B2%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2%20%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99%20%E0%B8%A1.2%20%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%20%E0%B8%84%E0%B8%B3%E0%B8%A3%E0%B8%B2%E0%B8%8A%E0%B8%B2%E0%B8%A8%E0%B8%B1%E0%B8%9E%E0%B8%97%E0%B9%8C.mp4?alt=media&token=7c4db40f-d100-47ab-9a8c-e1a34f80e35e",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_14%2FVideo_1%2F%E0%B8%8A%E0%B8%B5%E0%B8%97%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%99%20%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%20%E0%B8%84%E0%B8%B3%E0%B8%A3%E0%B8%B2%E0%B8%8A%E0%B8%B2%E0%B8%A8%E0%B8%B1%E0%B8%9E%E0%B8%97%E0%B9%8C.pdf?alt=media&token=e48d4df6-5904-4878-b289-703379e6ed18",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "1.คำใดไม่มีคำราชาศัพท์",
+							Choices: &[]models.Choice{
+								{
+									Title:   "ทรงประทับ",
+									Correct: true,
+								},
+								{
+									Title:   "ทรงพระสรวล",
+									Correct: false,
+								},
+								{
+									Title:   "ทรงบำเพ็ญพระราชกุศล",
+									Correct: false,
+								},
+								{
+									Title:   "ทรงพระประชวร",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "2.ข้อใดผิด",
+							Choices: &[]models.Choice{
+								{
+									Title:   "ลิ้น - พระชิวหา",
+									Correct: false,
+								},
+								{
+									Title:   "ฟัน - พระทนต์",
+									Correct: false,
+								},
+								{
+									Title:   "จมูก - พระชานุ",
+									Correct: true,
+								},
+								{
+									Title:   "คอ - พระศอ",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "3.ข้อใดใช้คำราชาศัพท์ถูกต้อง",
+							Choices: &[]models.Choice{
+								{
+									Title:   "ดู - ทรงพระเนตร",
+									Correct: false,
+								},
+								{
+									Title:   "ชอบ - ทรงพระโปรด",
+									Correct: false,
+								},
+								{
+									Title:   "เขียน - ทรงพระอักษร",
+									Correct: true,
+								},
+								{
+									Title:   "พูด - ทรงตรัส",
+									Correct: false,
+								},
+							},
+						},
+					},
+				},
+				{
+					Video_name:  "คำสมาสแบบสมาส และสมาสแบบสนธิ",
+					Picture:     "https://i.ytimg.com/vi/iZ6mAvHImNA/maxresdefault.jpg",
+					Description: "ภาษาไทย ชั้น ม.2 เรื่อง คำสมาสแบบสมาส และสมาสแบบสนธิ | แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนภาษาไทย",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_14%2FVideo_2%2F%E0%B8%A7%E0%B8%B4%E0%B8%8A%E0%B8%B2%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2%20%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99%20%E0%B8%A1.2%20%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%20%E0%B8%84%E0%B8%B3%E0%B8%AA%E0%B8%A1%E0%B8%B2%E0%B8%AA%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%AA%E0%B8%A1%E0%B8%B2%E0%B8%AA%20%E0%B9%81%E0%B8%A5%E0%B8%B0%E0%B8%AA%E0%B8%A1%E0%B8%B2%E0%B8%AA%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%AA%E0%B8%99%E0%B8%98%E0%B8%B4.mp4?alt=media&token=d0b3a811-dc5b-41ee-b548-77fc14007fa7",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_14%2FVideo_2%2F%E0%B8%8A%E0%B8%B5%E0%B8%97%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%99%20%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%20%E0%B8%84%E0%B8%B3%E0%B8%AA%E0%B8%A1%E0%B8%B2%E0%B8%AA%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%AA%E0%B8%A1%E0%B8%B2%E0%B8%AA%20%E0%B9%81%E0%B8%A5%E0%B8%B0%E0%B8%AA%E0%B8%A1%E0%B8%B2%E0%B8%AA%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%AA%E0%B8%99%E0%B8%98%E0%B8%B4.pdf?alt=media&token=334633df-cd78-452b-b153-c2d5d748dd7f",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "1.คำต่อไปนี้คำใดเป็นคำสมาส ",
+							Choices: &[]models.Choice{
+								{
+									Title:   "สงสาร",
+									Correct: false,
+								},
+								{
+									Title:   "จันทร์เพ็ญ",
+									Correct: false,
+								},
+								{
+									Title:   "ถิ่นฐาน",
+									Correct: false,
+								},
+								{
+									Title:   "วิทยฐานะ",
+									Correct: true,
+								},
+							},
+						},
+						{
+							Question: "2.ข้อใดเป็นคำสมาสทั้งหมด",
+							Choices: &[]models.Choice{
+								{
+									Title:   "อธิการ อัศวมุข มหาบุรุษ",
+									Correct: true,
+								},
+								{
+									Title:   "ธนบัตร โภชนาหาร ภัตตาคาร",
+									Correct: false,
+								},
+								{
+									Title:   "พฤษภาคม อิสรภาพ สารคดี",
+									Correct: false,
+								},
+								{
+									Title:   "จินตกวี กิตติศัพท์ จักขวาพาธ",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "3.คำว่า 'อนามัย' แยกสนธิได้อย่างไร",
+							Choices: &[]models.Choice{
+								{
+									Title:   "อ+นามัย",
+									Correct: true,
+								},
+								{
+									Title:   "อนา+มัย",
+									Correct: false,
+								},
+								{
+									Title:   "อนา+อมัย",
+									Correct: false,
+								},
+								{
+									Title:   "อน+อามัย",
+									Correct: false,
+								},
+							},
+						},
+					},
+				},
+				{
+					Video_name:  "คำภาษาต่างๆที่เข้ามาในภาษาไทย ",
+					Price:       25,
+					Picture:     "https://i.ytimg.com/vi/e_AWrgJY4xU/maxresdefault.jpg",
+					Description: "สำหรับคลิปนี้ เป็นคลิปสอน คำภาษาต่างๆที่เข้ามาในภาษาไทย แบบละเอียด เข้าใจง่าย",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_14%2FVideo_3%2F%E0%B8%A7%E0%B8%B4%E0%B8%8A%E0%B8%B2%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2%20%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99%20%E0%B8%A1.2%20%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%20%E0%B8%84%E0%B8%B3%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B8%95%E0%B9%88%E0%B8%B2%E0%B8%87%E0%B9%86%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B9%80%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A1%E0%B8%B2%E0%B9%83%E0%B8%99%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2.mp4?alt=media&token=0457825f-d02d-43e2-aaa5-ec5537c3792d",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_14%2FVideo_3%2F%E0%B8%8A%E0%B8%B5%E0%B8%97%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%99%20%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%20%E0%B8%84%E0%B8%B3%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B8%95%E0%B9%88%E0%B8%B2%E0%B8%87%E0%B9%86%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B9%80%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A1%E0%B8%B2%E0%B9%83%E0%B8%99%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2.PDF?alt=media&token=6f673d55-26a2-46a9-9a76-fdd3e532c120",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "1.ข้อใดไม่ใช่คำภาษาต่างประเทศที่มาจากภาษาญี่ปุ่น",
+							Choices: &[]models.Choice{
+								{
+									Title:   "บะหมี่",
+									Correct: true,
+								},
+								{
+									Title:   "ซูชิ",
+									Correct: false,
+								},
+								{
+									Title:   "วาซาบิ",
+									Correct: false,
+								},
+								{
+									Title:   "ราเม็ง",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "2.ข้อใดไม่ใช่คำภาษาต่างประเทศที่มาจากภาษาจีน",
+							Choices: &[]models.Choice{
+								{
+									Title:   "เฉาก๋วย",
+									Correct: false,
+								},
+								{
+									Title:   "ซูชิ",
+									Correct: true,
+								},
+								{
+									Title:   "เต้าหู้",
+									Correct: false,
+								},
+								{
+									Title:   "บ๊ะจ่าง",
+									Correct: false,
+								},
+							},
+						},
+					},
+				},
+			},
+			TeacherID:   7,
+			Course_name: "ภาษาไทยน่ารู้ ",
+			Picture:     "http://www.kabinburischool.ac.th/wp-content/uploads/2020/05/ปกภาษาไทย-1.jpg",
+			Description: "คอร์สนี้จะพาน้อง ๆ ได้รู้จักกับ ภาษาไทยพื้นฐานในเรื่องต่าง ๆ เเละได้สนุกกับการเรียนรู้เเละเเบบฝึกหัดในคอร์ส มาเริ่มกันเลย!!",
+		},
+		{
+			//Course_15
+			SubjectID: 16,
+			Videos: &[]models.Video{
+				{
+					Video_name:  "ประโยคความเดียวแบบซับซ้อน",
+					Picture:     "https://i.ytimg.com/vi/V_VExzR4bdg/maxresdefault.jpg",
+					Description: "ภาษาไทย ชั้น ม.3 เรื่อง ประโยคความเดียวแบบซับซ้อน| แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนภาษาไทย	 ",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_15%2FVideo_1%2F%E0%B8%A7%E0%B8%B4%E0%B8%8A%E0%B8%B2%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2%20%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99%20%E0%B8%A1.3%20%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%20%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%82%E0%B8%A2%E0%B8%84%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B9%80%E0%B8%94%E0%B8%B5%E0%B8%A2%E0%B8%A7%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%8B%E0%B8%B1%E0%B8%9A%E0%B8%8B%E0%B9%89%E0%B8%AD%E0%B8%99.mp4?alt=media&token=1109f420-d596-43eb-b8c5-b46d792101cc",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_15%2FVideo_1%2F%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2%20%E0%B8%A1.3%20%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%82%E0%B8%A2%E0%B8%84%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B9%80%E0%B8%94%E0%B8%B5%E0%B8%A2%E0%B8%A7%20%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%A3%E0%B8%A7%E0%B8%A1%20%E0%B9%80%E0%B9%80%E0%B8%A5%E0%B8%B0%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%8B%E0%B9%89%E0%B8%AD%E0%B8%99.pdf?alt=media&token=ba6ca43f-1bf8-4d0f-8f21-5ef8e537752c",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "1.ประโยคความเดียวหมายถึงอะไร",
+							Choices: &[]models.Choice{
+								{
+									Title:   "ประโยคที่มีใจความสำคัญเพียงเรื่องเดียว มีภาคประธานภาคเดียว ภาคแสดงเดียว มีกริยาสำคัญเพียงตัวเดียว",
+									Correct: true,
+								},
+								{
+									Title:   "ประโยคความเดียวตั้งแต่ ๒ ประโยคขึ้นไปมารวมกัน โดยมีเนื้อความขัดแย้งกัน กริยาในแต่ละประโยคตรงกันข้ามกัน ส่วนใหญ่จะมีสันธาน",
+									Correct: false,
+								},
+								{
+									Title:   "ประโยคที่ประกอบด้วยประโยคความเดียว ๒ ประโยคขึ้นไปซ้อนกันอยู่ โดยมีประโยคหนึ่งเป็นประโยคหลัก",
+									Correct: false,
+								},
+								{
+									Title:   "ผิดทุกข้อ",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "2.ข้อใดไม่ใช่ประโยคความเดียว",
+							Choices: &[]models.Choice{
+								{
+									Title:   "นกสวยบินเร็ว",
+									Correct: false,
+								},
+								{
+									Title:   "น้องอ่านหนังสือ",
+									Correct: false,
+								},
+								{
+									Title:   "แดงซื้อขนมและดำซื้อขนม",
+									Correct: true,
+								},
+								{
+									Title:   "วิชัยเป็นนายอำเภอ",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "3.ข้อใดเป็นประโยคความเดียว",
+							Choices: &[]models.Choice{
+								{
+									Title:   "ฝนตกน้ำจึงท่วม",
+									Correct: false,
+								},
+								{
+									Title:   "พ่อชอบดูบอลเเละเเม่ชอบดูละคร",
+									Correct: false,
+								},
+								{
+									Title:   "ฉันกินมะม่วง",
+									Correct: true,
+								},
+								{
+									Title:   "แดงซื้อขนมและดำซื้อขนม",
+									Correct: false,
+								},
+							},
+						},
+					},
+				},
+				{
+					Video_name:  "ประโยคความรวมแบบซับซ้อน",
+					Picture:     "https://i.ytimg.com/vi/6wEluUfEqHk/maxresdefault.jpg",
+					Description: "ภาษาไทย ชั้น ม.3 เรื่อง ประโยคความรวมแบบซับซ้อน | แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนภาษาไทย",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_15%2FVideo_2%2F%E0%B8%A7%E0%B8%B4%E0%B8%8A%E0%B8%B2%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2%20%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99%20%E0%B8%A1.3%20%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%20%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%82%E0%B8%A2%E0%B8%84%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%A3%E0%B8%A7%E0%B8%A1%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%8B%E0%B8%B1%E0%B8%9A%E0%B8%8B%E0%B9%89%E0%B8%AD%E0%B8%99.mp4?alt=media&token=0685de0b-0cf9-40c1-94e4-8d83a4355775",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_15%2FVideo_2%2F%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2%20%E0%B8%A1.3%20%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%82%E0%B8%A2%E0%B8%84%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B9%80%E0%B8%94%E0%B8%B5%E0%B8%A2%E0%B8%A7%20%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%A3%E0%B8%A7%E0%B8%A1%20%E0%B9%80%E0%B9%80%E0%B8%A5%E0%B8%B0%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%8B%E0%B9%89%E0%B8%AD%E0%B8%99.pdf?alt=media&token=4b9de4c1-ee6d-4638-884b-8bd5573d56ef",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "1.ประโยคความรวมหมายถึงอะไร ",
+							Choices: &[]models.Choice{
+								{
+									Title:   "ประโยคที่บอกเล่าถึงเหตุการณ์ของคนสองคน ณ ช่วงเวลาหนึ่ง",
+									Correct: false,
+								},
+								{
+									Title:   "ประโยคที่ประกอบด้วยประโยคความเดียว ๒ ประโยคขึ้นไปซ้อนกันอยู่ โดยมีประโยคหนึ่งเป็นประโยคหลัก",
+									Correct: false,
+								},
+								{
+									Title:   "ประโยคที่มีใจความสำคัญเพียงเรื่องเดียว มีภาคประธานภาคเดียว ภาคแสดงเดียว มีกริยาสำคัญเพียงตัวเดียว",
+									Correct: false,
+								},
+								{
+									Title:   "ประโยคความเดียวตั้งแต่ ๒ ประโยคขึ้นไปมารวมกัน โดยมีเนื้อความขัดแย้งกัน กริยาในแต่ละประโยคตรงกันข้ามกัน ส่วนใหญ่จะมีสันธาน",
+									Correct: true,
+								},
+							},
+						},
+						{
+							Question: "2.ข้อใดไม่ใช่ประโยคความรวม",
+							Choices: &[]models.Choice{
+								{
+									Title:   "ฉันกินมะม่วง",
+									Correct: true,
+								},
+								{
+									Title:   "พงศธรจะเป็นวิศวกรหรือสถาปนิก",
+									Correct: false,
+								},
+								{
+									Title:   "เธอต้องเขียนเรียงความนะมิฉะนั้นจะไม่ได้คะแนนเพิ่ม",
+									Correct: false,
+								},
+								{
+									Title:   "เขาอ่านหนังสือทุกวันดังนั้นเขาจึงประสบผลสำเร็จ",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "3.ข้อใดเป็นประโยคความรวม",
+							Choices: &[]models.Choice{
+								{
+									Title:   "แดงซื้อขนมและดำซื้อขนม",
+									Correct: true,
+								},
+								{
+									Title:   "นกสวยบินเร็ว",
+									Correct: false,
+								},
+								{
+									Title:   "น้องอ่านหนังสือ",
+									Correct: false,
+								},
+								{
+									Title:   "ฉันกินมะม่วง",
+									Correct: false,
+								},
+							},
+						},
+					},
+				},
+				{
+					Video_name:  "ประโยคความซ้อนแบบซับซ้อน",
+					Price:       25,
+					Picture:     "https://i.ytimg.com/vi/u1UgOYCDOsM/maxresdefault.jpg",
+					Description: "สำหรับคลิปนี้ เป็นคลิปสอน ประโยคความซ้อนแบบซับซ้อน แบบละเอียด เข้าใจง่าย",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_15%2FVideo_3%2F%E0%B8%A7%E0%B8%B4%E0%B8%8A%E0%B8%B2%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2%20%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99%20%E0%B8%A1.3%20%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%20%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%82%E0%B8%A2%E0%B8%84%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%8B%E0%B9%89%E0%B8%AD%E0%B8%99%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%8B%E0%B8%B1%E0%B8%9A%E0%B8%8B%E0%B9%89%E0%B8%AD%E0%B8%99.mp4?alt=media&token=93dea44d-08a7-430b-b8a9-96ad493bfc1a",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_15%2FVideo_3%2F%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2%20%E0%B8%A1.3%20%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%82%E0%B8%A2%E0%B8%84%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B9%80%E0%B8%94%E0%B8%B5%E0%B8%A2%E0%B8%A7%20%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%A3%E0%B8%A7%E0%B8%A1%20%E0%B9%80%E0%B9%80%E0%B8%A5%E0%B8%B0%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%8B%E0%B9%89%E0%B8%AD%E0%B8%99.pdf?alt=media&token=84e0aaf5-91c8-4dd8-baa9-01cbb4068bcc",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "1.ประโยคความซ้อนหมายถึงอะไร",
+							Choices: &[]models.Choice{
+								{
+									Title:   "ประโยคที่ประกอบด้วยประโยคความเดียว ๒ ประโยคขึ้นไปซ้อนกันอยู่ โดยมีประโยคหนึ่งเป็นประโยคหลัก",
+									Correct: true,
+								},
+								{
+									Title:   "ประโยคที่มีใจความสำคัญเพียงเรื่องเดียว มีภาคประธานภาคเดียว ภาคแสดงเดียว มีกริยาสำคัญเพียงตัวเดียว",
+									Correct: false,
+								},
+								{
+									Title:   "ประโยคความเดียวตั้งแต่ ๒ ประโยคขึ้นไปมารวมกัน โดยมีเนื้อความขัดแย้งกัน กริยาในแต่ละประโยคตรงกันข้ามกัน ส่วนใหญ่จะมีสันธาน",
+									Correct: false,
+								},
+								{
+									Title:   "ผิดทุกข้อ",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "2.ข้อใดเป็นประโยคความซ้อน",
+							Choices: &[]models.Choice{
+								{
+									Title:   "น้องอ่านหนังสือ",
+									Correct: false,
+								},
+								{
+									Title:   "ฝนตกจนน้ำท่วม ",
+									Correct: true,
+								},
+								{
+									Title:   "แดงซื้อขนมและดำซื้อขนม",
+									Correct: false,
+								},
+								{
+									Title:   "พ่อชอบดูบอลเเละเเม่ชอบดูละคร",
+									Correct: false,
+								},
+							},
+						},
+					},
+				},
+			},
+			TeacherID:   7,
+			Course_name: "หรรษาภาษาไทย",
+			Picture:     "http://www.kabinburischool.ac.th/wp-content/uploads/2020/05/หรรษาภาษาไทย.jpg",
+			Description: "คอร์สนี้จะพาน้อง ๆ ได้รู้จักกับ ภาษาไทยพื้นฐานในเรื่องต่าง ๆ เเละได้สนุกกับการเรียนรู้เเละเเบบฝึกหัดในคอร์ส มาเริ่มกันเลย!!",
 		},
 	}
 	if err := DB.Model(&models.Course{}).Create(&course).Error; err != nil {
