@@ -39,7 +39,7 @@ func CreateExercise(db *gorm.DB) fiber.Handler {
 			})
 		}
 
-		return c.Status(fiber.StatusCreated).JSON("Exercise Created")
+		return c.Status(fiber.StatusCreated).JSON(&exercise)
 	}
 }
 
@@ -60,7 +60,7 @@ func GetExerciseById(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var exercise *models.Exercise
 
-		if err := db.Model(&models.Exercise{}).Where("exercise_id = ?", c.Params("id")).Preload("Choices").First(&exercise).Error; err != nil {
+		if err := db.Model(&models.Exercise{}).Where("video_id = ?", c.Params("video_id")).Preload("Choices").First(&exercise,c.Params("id")).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
@@ -73,7 +73,7 @@ func DeleteExerciseID(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var exercise *models.Exercise
 
-		if err := db.Model(&models.Exercise{}).Where("video_id = ?", c.Params("video_id")).Delete(&exercise, c.Params("id")).Error; err != nil {
+		if err := db.Model(&models.Exercise{}).Delete(&exercise, c.Params("id")).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
@@ -85,22 +85,32 @@ func DeleteExerciseID(db *gorm.DB) fiber.Handler {
 func UpdateExercise(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var exercise *models.Exercise
-		if err := c.BodyParser(&exercise); err != nil {
+		var updateExercise *models.Exercise
+
+		if err := db.Model(&models.Exercise{}).Where("video_id = ?", c.Params("video_id")).First(&exercise).Error; err != nil {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
+		if err := c.BodyParser(&updateExercise); err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
-
-		if err := constants.Validate.Struct(exercise); err != nil {
-			return c.Status(fiber.StatusBadRequest).JSON(err)
+		updateExercise.VideoID = exercise.VideoID
+		if err := constants.Validate.Struct(updateExercise); err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
 
-		if err := db.Model(&models.Exercise{}).Create(&exercise).Error; err != nil {
+		exercise.Question = updateExercise.Question
+		exercise.Image = updateExercise.Image
+		exercise.Choices = updateExercise.Choices
+
+		if err := db.Save(&exercise).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
-
-		return c.Status(fiber.StatusOK).JSON(&exercise)
+		return c.Status(fiber.StatusOK).JSON("Updated")
 	}
 }

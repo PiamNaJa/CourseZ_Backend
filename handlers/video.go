@@ -125,6 +125,6 @@ func UpdateVideo(db *gorm.DB) fiber.Handler {
 			})
 		}
 
-		return c.Status(fiber.StatusOK).JSON(&video)
+		return c.Status(fiber.StatusOK).JSON("Updated")
 	}
 }

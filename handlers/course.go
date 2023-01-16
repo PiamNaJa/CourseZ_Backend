@@ -19,7 +19,7 @@ func CreateCourse(db *gorm.DB) fiber.Handler {
 		}
 
 		if err := constants.Validate.Struct(course); err != nil {
-			return c.Status(fiber.StatusBadRequest).JSON(err)
+			return c.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
 
 		if err := db.Model(&models.Course{}).Create(&course).Error; err != nil {
