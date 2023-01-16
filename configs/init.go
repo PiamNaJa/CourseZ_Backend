@@ -2,13 +2,22 @@ package configs
 
 import (
 	"log"
+	"os"
 
 	"github.com/joho/godotenv"
 )
 
+var File *os.File
+
 func Init() {
-	err := godotenv.Load()
+	file, err := os.OpenFile("./temp/.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Fatalf("error opening file: %v", err)
+	}
+	File = file
+
+	errs:= godotenv.Load()
+	if errs != nil {
+		log.Fatalf("Error loading .env file")
 	}
 }
