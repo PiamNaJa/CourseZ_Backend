@@ -60,7 +60,7 @@ func GetExerciseById(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var exercise *models.Exercise
 
-		if err := db.Model(&models.Exercise{}).Where("video_id = ?", c.Params("video_id")).Preload("Choices").First(&exercise,c.Params("id")).Error; err != nil {
+		if err := db.Model(&models.Exercise{}).Where("video_id = ?", c.Params("video_id")).Preload("Choices").First(&exercise, c.Params("id")).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
