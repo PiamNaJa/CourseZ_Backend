@@ -16,7 +16,7 @@ func CreateSubject(db *gorm.DB) fiber.Handler {
 			})
 		}
 
-		if err:= constants.Validate.Struct(subject); err != nil {
+		if err := constants.Validate.Struct(subject); err != nil {
 			return c.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
 

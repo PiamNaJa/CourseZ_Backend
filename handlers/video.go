@@ -2,11 +2,12 @@ package handlers
 
 //CompileDaemon -command="./CourseZ_Backend"
 import (
+	"strconv"
+
 	"github.com/PiamNaJa/CourseZ_Backend/constants"
 	"github.com/PiamNaJa/CourseZ_Backend/models"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
-	"strconv"
 )
 
 func CreateVideo(db *gorm.DB) fiber.Handler {
@@ -20,7 +21,7 @@ func CreateVideo(db *gorm.DB) fiber.Handler {
 
 		course_id, err := strconv.ParseInt(c.Params("course_id"), 10, 64)
 		video.CourseID = int32(course_id)
-		
+
 		if err := constants.Validate.Struct(video); err != nil {
 			return c.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
