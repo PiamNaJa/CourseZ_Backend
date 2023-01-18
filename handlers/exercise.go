@@ -71,12 +71,14 @@ func GetExerciseById(db *gorm.DB) fiber.Handler {
 
 func DeleteExerciseID(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var exercise *models.Exercise
-
-		if err := db.Model(&models.Exercise{}).Delete(&exercise, c.Params("id")).Error; err != nil {
+		r := db.Where("video_id = ? and exercise_id = ?", c.Params("video_id"), c.Params("id")).Delete(&models.Exercise{})
+		if r.Error != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
+				"error": r.Error.Error(),
 			})
+		}
+		if r.RowsAffected == 0 {
+			return c.SendStatus(fiber.StatusNotFound)
 		}
 		return c.Status(fiber.StatusOK).JSON("Deleted")
 	}
