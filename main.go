@@ -39,6 +39,7 @@ func main() {
 	routes.CourseRoutes(router.Group("/course"), configs.DB)
 	routes.VideoRoutes(router.Group("/course/:course_id/video"), configs.DB)
 	routes.SubjectRoutes(router.Group("/subject"), configs.DB)
+	routes.SearchRoutes(router.Group("/search"), configs.DB)
 
 	app.Listen(":5000")
 }
