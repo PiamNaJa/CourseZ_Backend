@@ -7,8 +7,8 @@ import (
 )
 
 func SearchRoutes(app fiber.Router, db *gorm.DB) {
-	app.Get("/:name", handlers.SearchALL(db))
-	app.Get("/course/:name", handlers.SearchCourse(db))
-	app.Get("/video/:name", handlers.SearchVideo(db))
-	app.Get("/tutor/:name", handlers.SearchTutor(db))
+	app.Get("/", handlers.SearchALL(db))
+	app.Get("/course", handlers.SearchCourse(db))
+	app.Get("/video", handlers.SearchVideo(db))
+	app.Get("/tutor", handlers.SearchTutor(db))
 }
