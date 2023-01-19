@@ -48,7 +48,7 @@ func GetAllCourse(db *gorm.DB) fiber.Handler {
 func GetCourseById(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var course *models.Course
-		id := c.Params("id")
+		id := c.Params("course_id")
 
 		if err := db.Model(&models.Course{}).Preload("Subject").Preload("Videos").First(&course, id).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
@@ -62,7 +62,7 @@ func GetCourseById(db *gorm.DB) fiber.Handler {
 func DeleteCourseByID(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var course *models.Course
-		id := c.Params("id")
+		id := c.Params("course_id")
 
 		if err := db.Model(&models.Course{}).Delete(&course, id).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
@@ -77,7 +77,7 @@ func UpdateCourse(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var course *models.Course
 		var updateCourseData *models.Course
-		id := c.Params("id")
+		id := c.Params("course_id")
 
 		if err := db.Model(&models.Course{}).Preload("Subject").First(&course, id).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{

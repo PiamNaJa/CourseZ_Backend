@@ -60,7 +60,7 @@ func GetExerciseById(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var exercise *models.Exercise
 
-		if err := db.Model(&models.Exercise{}).Where("video_id = ?", c.Params("video_id")).Preload("Choices").First(&exercise, c.Params("id")).Error; err != nil {
+		if err := db.Model(&models.Exercise{}).Where("video_id = ?", c.Params("video_id")).Preload("Choices").First(&exercise, c.Params("exercise_id")).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
@@ -71,7 +71,7 @@ func GetExerciseById(db *gorm.DB) fiber.Handler {
 
 func DeleteExerciseID(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		r := db.Where("video_id = ? and exercise_id = ?", c.Params("video_id"), c.Params("id")).Delete(&models.Exercise{})
+		r := db.Where("video_id = ? and exercise_id = ?", c.Params("video_id"), c.Params("exercise_id")).Delete(&models.Exercise{})
 		if r.Error != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": r.Error.Error(),
@@ -89,7 +89,7 @@ func UpdateExercise(db *gorm.DB) fiber.Handler {
 		var exercise *models.Exercise
 		var updateExercise *models.Exercise
 
-		if err := db.Model(&models.Exercise{}).Where("video_id = ?", c.Params("video_id")).First(&exercise).Error; err != nil {
+		if err := db.Model(&models.Exercise{}).Where("video_id = ?", c.Params("video_id")).First(&exercise, c.Params("exercise_id")).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": err.Error(),
 			})

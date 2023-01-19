@@ -8,9 +8,9 @@ import (
 )
 
 func ExerciseRoutes(app fiber.Router, db *gorm.DB) {
-	app.Post("/", m.IsLogin, m.IsTeacher, m.HaveCourse, m.HaveVideo, handlers.CreateExercise(db))
-	app.Get("/", m.IsLogin, m.HaveCourse, m.HaveVideo, handlers.GetAllExercise(db))
-	app.Get("/:id", m.HaveCourse, m.HaveVideo, handlers.GetExerciseById(db))
-	app.Delete("/:id", m.HaveCourse, m.HaveVideo, handlers.DeleteExerciseID(db))
-	app.Put("/:id", m.HaveCourse, m.HaveVideo, handlers.UpdateExercise(db))
+	app.Post("/", m.IsLogin, m.IsTeacher, m.IsCourseOwner, m.IsVideoOwner, handlers.CreateExercise(db))
+	app.Get("/", m.IsLogin, m.IsCourseOwner, m.IsVideoOwner, handlers.GetAllExercise(db))
+	app.Get("/:exercise_id", handlers.GetExerciseById(db))
+	app.Delete("/:exercise_id", m.IsCourseOwner, m.IsVideoOwner, handlers.DeleteExerciseID(db))
+	app.Put("/:exercise_id", m.IsLogin, m.IsTeacher, m.IsCourseOwner, m.IsVideoOwner, handlers.UpdateExercise(db))
 }
