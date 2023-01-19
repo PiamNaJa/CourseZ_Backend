@@ -2,11 +2,12 @@ package handlers
 
 //CompileDaemon -command="./CourseZ_Backend"
 import (
+	"strconv"
+
 	"github.com/PiamNaJa/CourseZ_Backend/constants"
 	"github.com/PiamNaJa/CourseZ_Backend/models"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
-	"strconv"
 )
 
 func CreateVideo(db *gorm.DB) fiber.Handler {

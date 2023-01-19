@@ -260,3 +260,16 @@ func GetProfile(db *gorm.DB) fiber.Handler {
 		return c.Status(fiber.StatusOK).JSON(&logindata)
 	}
 }
+
+
+func GetTeacher(db *gorm.DB) fiber.Handler{
+	return func(c *fiber.Ctx) error {
+		var user *[]models.User
+		if err := db.Model(&models.User{}).Where("role = ? or role = ?", "Teacher", "Tutor").Find(&user).Error; err != nil {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
+		return c.Status(fiber.StatusOK).JSON(&user)
+	}
+}

@@ -49,6 +49,7 @@ func main() {
 	routes.VideoRoutes(router.Group("/course/:course_id/video"), configs.DB)
 	routes.ExerciseRoutes(router.Group("/course/:course_id/video/:video_id/exercise"), configs.DB)
 	routes.SubjectRoutes(router.Group("/subject"), configs.DB)
+	routes.SearchRoutes(router.Group("/search"), configs.DB)
 
 	log.Fatal(app.Listen(":5000"))
 }
