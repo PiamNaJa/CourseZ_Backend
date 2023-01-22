@@ -332,7 +332,7 @@ func SeedDB() {
 			Picture:  "https://shorturl.asia/PoI4T",
 			Teacher: &models.UserTeacher{
 				Psychological_test: "https://testyourself.psychtests.com/testid/4176",
-				Id_card:         "http://www.bikes4deal.com/picture_upload/market/full/2021-09/B2ceH51632344286.jpeg",
+				Id_card:            "http://www.bikes4deal.com/picture_upload/market/full/2021-09/B2ceH51632344286.jpeg",
 				Experience: &[]models.Experience{
 					{
 						Title:    "เป็นครูสอนพิเศษตามบ้าน สอนเด็กเล็ก ชั้นอนุบาล-ประถมต้น",
@@ -515,6 +515,7 @@ func SeedDB() {
 			SubjectID: 1,
 			Videos: &[]models.Video{
 				{
+					Class_level: 1,
 					Video_name:  "จำนวนเต็มเเละการบวกจำนวนเต็ม",
 					Picture:     "https://i.ytimg.com/vi/unXOuA0PkCQ/maxresdefault.jpg",
 					Description: "จำนวนเต็ม ม.1 EP.1/3 | ทบทวนพื้นฐานจำนวนเต็ม และ การบวกจำนวนเต็ม เป็นคลิปสอนตั้งแต่พื้นฐานของจำนวนเต็ม ม.1 และการบวกจำนวนเต็มแบบละเอียด ",
@@ -608,6 +609,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 1,
 					Video_name:  "การลบจำนวนเต็ม",
 					Picture:     "https://i.ytimg.com/vi/608EppPrPrQ/maxresdefault.jpg",
 					Description: "สำหรับคลิปนี้ เป็นคลิปสอนตั้งแต่พื้นฐานของจำนวนเต็ม ม.1 และการลบจำนวนเต็มแบบละเอียด  ",
@@ -701,6 +703,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 1,
 					Video_name:  "การคูณจำนวนเต็ม การหารจำนวนเต็ม สมบัติของจำนวนเต็ม",
 					Price:       25,
 					Picture:     "https://shorturl.asia/uv4mi",
@@ -805,6 +808,7 @@ func SeedDB() {
 			SubjectID: 2,
 			Videos: &[]models.Video{
 				{
+					Class_level: 2,
 					Video_name:  "การแยกตัวประกอบของพหุนามดีกรีสอง (พหุนามดีกรีสองตัวแปรเดียว)",
 					Picture:     "https://www.tertututor.com/images/cover/factorize-degree-2.png",
 					Description: "การเเยกตัวประกอบ ม.2 | ทบทวนการแยกตัวประกอบของพหุนามดีกรีสอง (พหุนามดีกรีสองตัวแปรเดียว) แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนคณิตศาสตร์ ",
@@ -877,6 +881,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 2,
 					Video_name:  "การแยกตัวประกอบของพหุนามดีกรีสอง (การแจกแจงและดึงตัวร่วม)",
 					Picture:     "https://www.tertututor.com/images/cover/factorize-degree-2.png",
 					Description: "สำหรับคลิปนี้ เป็นคลิปสอนการเเยกตัวประกอบของพหุนามดีกรีสอง (การเเจกเเจงเเละดึงตัวร่วม) ม.2 แบบละเอียด เข้าใจง่าย  ",
@@ -949,6 +954,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 2,
 					Video_name:  "การแยกตัวประกอบของพหุนามดีกรีสองที่เป็นกำลังสองสมบูรณ์",
 					Price:       25,
 					Picture:     "https://www.tertututor.com/images/cover/factorize-degree-2.png",
@@ -1032,6 +1038,7 @@ func SeedDB() {
 			SubjectID: 3,
 			Videos: &[]models.Video{
 				{
+					Class_level: 3,
 					Video_name:  "สรุปสูตร 11 สูตรพื้นที่ สี่เหลี่ยม สามเหลี่ยม วงกลม",
 					Picture:     "https://i.ytimg.com/vi/8ER5qRRpyZs/maxresdefault.jpg",
 					Description: "คณิตศาสตร์ ชั้น ม.3 เรื่อง พื้นที่ และ ปริมาตร | สรุปสูตร 11 สูตรพื้นที่ สี่เหลี่ยม สามเหลี่ยม วงกลม แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนคณิตศาสตร์ ",
@@ -1104,6 +1111,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 3,
 					Video_name:  "สรุป ทุกสูตร ปริมาตรและพื้นที่ผิว 10 สูตร",
 					Picture:     "https://i.ytimg.com/vi/mZrplz8NoNY/maxresdefault.jpg",
 					Description: "คณิตศาสตร์ ชั้น ม.3 เรื่อง พื้นที่ และ ปริมาตร | สรุป ทุกสูตร ปริมาตรและพื้นที่ผิว 10 สูตร แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนคณิตศาสตร์ ",
@@ -1176,6 +1184,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 3,
 					Video_name:  "ปริมาตร ปริซึม เเละการหาปริมาตรของปริซึม",
 					Price:       25,
 					Picture:     "https://i.ytimg.com/vi/3GYgq9C2aYQ/maxresdefault.jpg",
@@ -1259,6 +1268,7 @@ func SeedDB() {
 			SubjectID: 4,
 			Videos: &[]models.Video{
 				{
+					Class_level: 4,
 					Video_name:  "เซต คืออะไร แบบแจกแจงสมาชิก ทำอย่างไร",
 					Picture:     "https://i.ytimg.com/vi/5ZegR_M8tJs/maxresdefault.jpg",
 					Description: "คณิตศาสตร์ ชั้น ม.4 เรื่อง เซต | เซต คืออะไร แบบแจกแจงสมาชิก ทำอย่างไร แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนคณิตศาสตร์ ",
@@ -1331,6 +1341,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 4,
 					Video_name:  "วิธีเขียน เซต แบบบอกเงื่อนไข ",
 					Picture:     "https://i.ytimg.com/vi/5ZegR_M8tJs/maxresdefault.jpg",
 					Description: "คณิตศาสตร์ ชั้น ม.4 เรื่อง เซต | วิธีเขียน เซต แบบบอกเงื่อนไข แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนคณิตศาสตร์ ",
@@ -1403,6 +1414,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 4,
 					Video_name:  "วิธีหา สับเซต ทั้งหมดของเซตต่อไปนี้",
 					Price:       25,
 					Picture:     "https://i.ytimg.com/vi/5elJcMDdsMw/maxresdefault.jpg",
@@ -1486,6 +1498,7 @@ func SeedDB() {
 			SubjectID: 5,
 			Videos: &[]models.Video{
 				{
+					Class_level: 5,
 					Video_name:  "ลำดับ - สรุป ลำดับเลขคณิต และ ลำดับเรขาคณิต",
 					Picture:     "https://i.ytimg.com/vi/InWJsdKh7Fs/maxresdefault.jpg",
 					Description: "คณิตศาสตร์ ชั้น ม.5 เรื่อง ลำดับเลขคณิต และ ลำดับเรขาคณิต | ลำดับเลขคณิต และ ลำดับเรขาคณิต แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนคณิตศาสตร์ ",
@@ -1537,6 +1550,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 5,
 					Video_name:  "ซิกม่า คืออะไร สูตร ใช้ยังไง ",
 					Picture:     "https://i.ytimg.com/vi/5ZegR_M8tJs/maxresdefault.jpg",
 					Description: "คณิตศาสตร์ ชั้น ม.5 เรื่อง ลำดับเลขคณิต | ซิกม่า คืออะไร สูตร ใช้ยังไง แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนคณิตศาสตร์ ",
@@ -1588,6 +1602,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 5,
 					Video_name:  "6 สูตรต้องรู้ ! อนุกรมเลขคณิต อนุกรมเรขาคณิต",
 					Price:       25,
 					Picture:     "https://i.ytimg.com/vi/BO7b9oasVNg/maxresdefault.jpg",
@@ -1650,6 +1665,7 @@ func SeedDB() {
 			SubjectID: 6,
 			Videos: &[]models.Video{
 				{
+					Class_level: 6,
 					Video_name:  "ความหมายของสถิติ",
 					Picture:     "https://i.ytimg.com/vi/InWJsdKh7Fs/maxresdefault.jpg",
 					Description: "คณิตศาสตร์ ชั้น ม.6 เรื่อง สถิติเบื้องต้น | ความหมายของสถิติ แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนคณิตศาสตร์ ",
@@ -1722,6 +1738,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 6,
 					Video_name:  "การแจกแจงความถี่#1",
 					Picture:     "https://i.ytimg.com/vi/OUvKWJ1tny4/mqdefault.jpg",
 					Description: "คณิตศาสตร์ ชั้น ม.6 เรื่อง สถิติเบื้องต้น | การแจกแจงความถี่ แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนคณิตศาสตร์ ",
@@ -1773,6 +1790,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 6,
 					Video_name:  " การแจกแจงความถี่#2",
 					Price:       25,
 					Picture:     "https://i.ytimg.com/vi/X_mX9Npqh7I/mqdefault.jpg",
@@ -1835,6 +1853,7 @@ func SeedDB() {
 			SubjectID: 20,
 			Videos: &[]models.Video{
 				{
+					Class_level: 1,
 					Video_name:  "การใช้รูปประโยคคำสั่ง คำขอร้อง คำแนะนำ+การใช้ Can/ Could/ Should",
 					Picture:     "https://i.ytimg.com/vi/-9j-BHYh-Nw/maxresdefault.jpg",
 					Description: "ภาษาอังกฤษ ชั้น ม.1 เรื่อง การใช้รูปประโยคคำสั่ง คำขอร้อง คำแนะนำ+การใช้ Can/ Could/ Should | แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนภาษาอังกฤษ ",
@@ -1907,6 +1926,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 1,
 					Video_name:  "การแนะนำตนเอง + การใช้ like/love/enjoy + V. ing",
 					Picture:     "https://i.ytimg.com/vi/SsJq-prcUMA/maxresdefault.jpg",
 					Description: "ภาษาอังกฤษ ชั้น ม.1 เรื่อง การแนะนำตนเอง + การใช้ like/love/enjoy + V. ing |  แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนภาษาอังกฤษ ",
@@ -1979,6 +1999,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 1,
 					Video_name:  "การใช้ Signal words : First, Second, Then, Next etc",
 					Price:       25,
 					Picture:     "https://i.ytimg.com/vi/SgTvu1U3A40/maxresdefault.jpg",
@@ -2041,6 +2062,7 @@ func SeedDB() {
 			SubjectID: 21,
 			Videos: &[]models.Video{
 				{
+					Class_level: 2,
 					Video_name:  "การใช้ Was/ were ในการสร้างประโยคคำถามในรูปแบบต่าง ๆ",
 					Picture:     "https://i.ytimg.com/vi/-9j-BHYh-Nw/maxresdefault.jpg",
 					Description: "ภาษาอังกฤษ ชั้น ม.2 เรื่อง การใช้ Was/ were ในการสร้างประโยคคำถามในรูปแบบต่าง ๆ | แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนภาษาอังกฤษ ",
@@ -2092,6 +2114,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 2,
 					Video_name:  "การใช้ Tenses : present simple/ present continuous",
 					Picture:     "https://i.ytimg.com/vi/YMpclowjr2o/maxresdefault.jpg",
 					Description: "ภาษาอังกฤษ ชั้น ม.2 เรื่อง การใช้ Tenses : present simple/ present continuous |  แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนภาษาอังกฤษ ",
@@ -2143,6 +2166,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 2,
 					Video_name:  "การใช้ Passive Voice ที่ใช้ในโครงสร้างประโยคง่ายๆ",
 					Price:       25,
 					Picture:     "https://i.ytimg.com/vi/OQrYoFu3twk/maxresdefault.jpg",
@@ -2205,6 +2229,7 @@ func SeedDB() {
 			SubjectID: 22,
 			Videos: &[]models.Video{
 				{
+					Class_level: 3,
 					Video_name:  "การใช้ Present continuous",
 					Picture:     "https://i.ytimg.com/vi/Pjbe9jnGxKA/maxresdefault.jpg",
 					Description: "ภาษาอังกฤษ ชั้น ม.3 เรื่อง การใช้ Present continuous | แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนภาษาอังกฤษ ",
@@ -2256,6 +2281,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 3,
 					Video_name:  "การใช้ Present perfect",
 					Picture:     "https://i.ytimg.com/vi/rS0Kx-4kSoQ/maxresdefault.jpg",
 					Description: "ภาษาอังกฤษ ชั้น ม.3 เรื่อง การใช้ Tenses : Present perfect |  แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนภาษาอังกฤษ ",
@@ -2307,6 +2333,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 3,
 					Video_name:  "การใช้ Past simple",
 					Price:       25,
 					Picture:     "https://i.ytimg.com/vi/J-SNIypNDaw/maxresdefault.jpg",
@@ -2369,6 +2396,7 @@ func SeedDB() {
 			SubjectID: 23,
 			Videos: &[]models.Video{
 				{
+					Class_level: 4,
 					Video_name:  "การใช้ Simple Present",
 					Picture:     "https://i.ytimg.com/vi/7Gbw16OKOpY/maxresdefault.jpg",
 					Description: "ภาษาอังกฤษ ชั้น ม.4 เรื่อง การใช้ Simple Present | แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนภาษาอังกฤษ ",
@@ -2441,6 +2469,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 4,
 					Video_name:  "การใช้ Present Progressive",
 					Picture:     "https://i.ytimg.com/vi/vN3NGH2eV4g/maxresdefault.jpg",
 					Description: "ภาษาอังกฤษ ชั้น ม.4 เรื่อง การใช้ Tenses : Present Progressive |  แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนภาษาอังกฤษ ",
@@ -2513,6 +2542,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 4,
 					Video_name:  "การใช้ Present Perfect",
 					Price:       25,
 					Picture:     "https://i.ytimg.com/vi/DBkX-4lorGQ/maxresdefault.jpg",
@@ -2596,6 +2626,7 @@ func SeedDB() {
 			SubjectID: 24,
 			Videos: &[]models.Video{
 				{
+					Class_level: 5,
 					Video_name:  "การใช้ Present perfect",
 					Picture:     "https://i.ytimg.com/vi/5a8m3FLHoDY/maxresdefault.jpg",
 					Description: "ภาษาอังกฤษ ชั้น ม.5 เรื่อง การใช้ Present perfect | แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนภาษาอังกฤษ ",
@@ -2668,6 +2699,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 5,
 					Video_name:  "การใช้ Present Perfect Progressive",
 					Picture:     "https://i.ytimg.com/vi/XDNt3cMc8Ls/maxresdefault.jpg",
 					Description: "ภาษาอังกฤษ ชั้น ม.5 เรื่อง การใช้ Tenses : Present Perfect Progressive |  แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนภาษาอังกฤษ ",
@@ -2740,6 +2772,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 5,
 					Video_name:  "การใช้ Passive voice",
 					Price:       25,
 					Picture:     "https://i.ytimg.com/vi/g3o6IY6Yrsw/mqdefault.jpg",
@@ -2802,6 +2835,7 @@ func SeedDB() {
 			SubjectID: 25,
 			Videos: &[]models.Video{
 				{
+					Class_level: 6,
 					Video_name:  "การใช้ Present perfect",
 					Picture:     "https://i.ytimg.com/vi/Yi5Z19yolPs/maxresdefault.jpg",
 					Description: "ภาษาอังกฤษ ชั้น ม.6 เรื่อง การใช้ Present perfect | แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนภาษาอังกฤษ ",
@@ -2853,6 +2887,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 6,
 					Video_name:  "การใช้ Present perfect progressive",
 					Picture:     "https://i.ytimg.com/vi/ZK8tWKHpj1k/maxresdefault.jpg",
 					Description: "ภาษาอังกฤษ ชั้น ม.5 เรื่อง การใช้ Tenses : Present perfect progressive |  แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนภาษาอังกฤษ ",
@@ -2904,6 +2939,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 6,
 					Video_name:  "การใช้ Wish + Past perfect",
 					Price:       25,
 					Picture:     "https://i.ytimg.com/vi/O2B_3GzucHI/maxresdefault.jpg",
@@ -2966,6 +3002,7 @@ func SeedDB() {
 			SubjectID: 14,
 			Videos: &[]models.Video{
 				{
+					Class_level: 1,
 					Video_name:  "เสียงพยัญชนะในภาษาไทย",
 					Picture:     "https://i.ytimg.com/vi/yXhtEPiJAkY/maxresdefault.jpg",
 					Description: "ภาษาไทย ชั้น ม.1 เรื่อง การใช้ เสียงพยัญชนะในภาษาไทย| แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนภาษาไทย	 ",
@@ -3038,6 +3075,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 1,
 					Video_name:  "เสียงสระในภาษาไทย",
 					Picture:     "https://i.ytimg.com/vi/JxUVunUVZYI/maxresdefault.jpg",
 					Description: "ภาษาไทย ชั้น ม.1 เรื่อง เสียงสระในภาษาไทย | แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนภาษาไทย",
@@ -3089,6 +3127,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 1,
 					Video_name:  "เสียงวรรณยุกต์ และทบทวนเรื่องการผันวรรณยุกต์",
 					Price:       25,
 					Picture:     "https://i.ytimg.com/vi/4qoDxnZAru8/maxresdefault.jpg",
@@ -3151,6 +3190,7 @@ func SeedDB() {
 			SubjectID: 15,
 			Videos: &[]models.Video{
 				{
+					Class_level: 2,
 					Video_name:  "คำราชาศัพท์",
 					Picture:     "https://i.ytimg.com/vi/oBDM3hrasv0/maxresdefault.jpg",
 					Description: "ภาษาไทย ชั้น ม.2 เรื่อง การใช้คำราชาศัพท์| แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนภาษาไทย	 ",
@@ -3223,6 +3263,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 2,
 					Video_name:  "คำสมาสแบบสมาส และสมาสแบบสนธิ",
 					Picture:     "https://i.ytimg.com/vi/iZ6mAvHImNA/maxresdefault.jpg",
 					Description: "ภาษาไทย ชั้น ม.2 เรื่อง คำสมาสแบบสมาส และสมาสแบบสนธิ | แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนภาษาไทย",
@@ -3295,6 +3336,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 2,
 					Video_name:  "คำภาษาต่างๆที่เข้ามาในภาษาไทย ",
 					Price:       25,
 					Picture:     "https://i.ytimg.com/vi/e_AWrgJY4xU/maxresdefault.jpg",
@@ -3357,6 +3399,7 @@ func SeedDB() {
 			SubjectID: 16,
 			Videos: &[]models.Video{
 				{
+					Class_level: 3,
 					Video_name:  "ประโยคความเดียวแบบซับซ้อน",
 					Picture:     "https://i.ytimg.com/vi/V_VExzR4bdg/maxresdefault.jpg",
 					Description: "ภาษาไทย ชั้น ม.3 เรื่อง ประโยคความเดียวแบบซับซ้อน| แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนภาษาไทย	 ",
@@ -3429,6 +3472,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 3,
 					Video_name:  "ประโยคความรวมแบบซับซ้อน",
 					Picture:     "https://i.ytimg.com/vi/6wEluUfEqHk/maxresdefault.jpg",
 					Description: "ภาษาไทย ชั้น ม.3 เรื่อง ประโยคความรวมแบบซับซ้อน | แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนภาษาไทย",
@@ -3501,6 +3545,7 @@ func SeedDB() {
 					},
 				},
 				{
+					Class_level: 3,
 					Video_name:  "ประโยคความซ้อนแบบซับซ้อน",
 					Price:       25,
 					Picture:     "https://i.ytimg.com/vi/u1UgOYCDOsM/maxresdefault.jpg",
