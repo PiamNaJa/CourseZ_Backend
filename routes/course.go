@@ -10,7 +10,7 @@ import (
 func CourseRoutes(app fiber.Router, db *gorm.DB) {
 	app.Post("/", m.IsLogin, m.IsTeacher, handlers.CreateCourse(db))
 	app.Get("/", handlers.GetAllCourse(db))
-	app.Get("/:id", handlers.GetCourseById(db))
-	app.Delete("/:id", m.IsLogin, m.IsTeacher, m.IsCourseOwner, handlers.DeleteCourseByID(db))
-	app.Put("/:id", m.IsLogin, m.IsCourseOwner, handlers.UpdateCourse(db))
+	app.Get("/:course_id", handlers.GetCourseById(db))
+	app.Delete("/:course_id", m.IsLogin, m.IsTeacher, m.IsCourseOwner, handlers.DeleteCourseByID(db))
+	app.Put("/:course_id", m.IsLogin, m.IsCourseOwner, handlers.UpdateCourse(db))
 }
