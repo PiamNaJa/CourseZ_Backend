@@ -1489,7 +1489,7 @@ func SeedDB() {
 				},
 			},
 			TeacherID:   5,
-			Course_name: "คณิตศาสตร์ ชั้น ม.3 เรื่อง เซต",
+			Course_name: "คณิตศาสตร์ ชั้น ม.4 เรื่อง เซต",
 			Picture:     "https://i.ytimg.com/vi/5ZegR_M8tJs/maxresdefault.jpg",
 			Description: "“เซต” คืออะไร คอร์สนี้จะพาน้อง ๆ ได้รู้จักกับ เซต เเละได้สนุกกับการเรียนรู้เเละเเบบฝึกหัดในคอร์ส มาเริ่มกันเลย!!",
 		},
