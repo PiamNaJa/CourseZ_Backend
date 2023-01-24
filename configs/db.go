@@ -312,12 +312,12 @@ func SeedDB() {
 			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/01%20Math/05%20Nook.jpg?width=210&name=05%20Nook.jpg",
 			Teacher: &models.UserTeacher{
 				Teacher_license: "https://www.kruachieve.com/wp-content/uploads/2019/12/562000004488703.jpg",
-				Transcript:      "https://shorturl.asia/SecRv",
+				Transcript:      "http://edunetwork-kukps.kustaff.ku.ac.th/wp-content/uploads/2020/04/15-Transcript-%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2-%E0%B8%99%E0%B8%B4%E0%B8%AA%E0%B8%B4%E0%B8%95%E0%B8%AA%E0%B8%B3%E0%B9%80%E0%B8%A3%E0%B9%87%E0%B8%88%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%A8%E0%B8%B6%E0%B8%81%E0%B8%A9%E0%B8%B2_Page_1-scaled.jpg",
 				Id_card:         "http://www.bikes4deal.com/picture_upload/market/full/2021-09/B2ceH51632344286.jpeg",
 				Experience: &[]models.Experience{
 					{
 						Title:    "เป็นครูสอนพิเศษตามบ้าน สอนเด็กเล็ก ชั้นอนุบาล-ประถมต้น",
-						Evidence: "https://shorturl.asia/4iuPM",
+						Evidence: "https://img-prod.api-onscene.com/cdn-cgi/image/format=auto,width=1600,height=900/https://sls-prod.api-onscene.com/partner_files/trueidintrend/124879/179988_0.jpg",
 					},
 				},
 			},
@@ -336,7 +336,7 @@ func SeedDB() {
 				Experience: &[]models.Experience{
 					{
 						Title:    "เป็นครูสอนพิเศษตามบ้าน สอนเด็กเล็ก ชั้นอนุบาล-ประถมต้น",
-						Evidence: "https://shorturl.asia/4iuPM",
+						Evidence: "https://img-prod.api-onscene.com/cdn-cgi/image/format=auto,width=1600,height=900/https://sls-prod.api-onscene.com/partner_files/trueidintrend/124879/179988_0.jpg",
 					},
 				},
 			},
@@ -351,12 +351,12 @@ func SeedDB() {
 			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/01%20Math/06%20Ice.jpg?width=210&name=06%20Ice.jpg",
 			Teacher: &models.UserTeacher{
 				Teacher_license: "https://www.kruachieve.com/wp-content/uploads/2019/12/562000004488703.jpg",
-				Transcript:      "https://shorturl.asia/SecRv",
+				Transcript:      "http://edunetwork-kukps.kustaff.ku.ac.th/wp-content/uploads/2020/04/15-Transcript-%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2-%E0%B8%99%E0%B8%B4%E0%B8%AA%E0%B8%B4%E0%B8%95%E0%B8%AA%E0%B8%B3%E0%B9%80%E0%B8%A3%E0%B9%87%E0%B8%88%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%A8%E0%B8%B6%E0%B8%81%E0%B8%A9%E0%B8%B2_Page_1-scaled.jpg",
 				Id_card:         "http://www.bikes4deal.com/picture_upload/market/full/2021-09/B2ceH51632344286.jpeg",
 				Experience: &[]models.Experience{
 					{
 						Title:    "เป็นครูสอนพิเศษตามบ้าน สอนเด็กเล็ก ชั้นอนุบาล-ประถมต้น",
-						Evidence: "https://shorturl.asia/4iuPM",
+						Evidence: "https://img-prod.api-onscene.com/cdn-cgi/image/format=auto,width=1600,height=900/https://sls-prod.api-onscene.com/partner_files/trueidintrend/124879/179988_0.jpg",
 					},
 				},
 			},
@@ -371,12 +371,12 @@ func SeedDB() {
 			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/03%20Thai/02.png?width=210&name=02.png",
 			Teacher: &models.UserTeacher{
 				Teacher_license: "https://www.kruachieve.com/wp-content/uploads/2019/12/562000004488703.jpg",
-				Transcript:      "https://shorturl.asia/SecRv",
+				Transcript:      "http://edunetwork-kukps.kustaff.ku.ac.th/wp-content/uploads/2020/04/15-Transcript-%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2-%E0%B8%99%E0%B8%B4%E0%B8%AA%E0%B8%B4%E0%B8%95%E0%B8%AA%E0%B8%B3%E0%B9%80%E0%B8%A3%E0%B9%87%E0%B8%88%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%A8%E0%B8%B6%E0%B8%81%E0%B8%A9%E0%B8%B2_Page_1-scaled.jpg",
 				Id_card:         "http://www.bikes4deal.com/picture_upload/market/full/2021-09/B2ceH51632344286.jpeg",
 				Experience: &[]models.Experience{
 					{
 						Title:    "เป็นครูจิตอาสา สอนหนังสือให้เด็กเล็ก",
-						Evidence: "https://shorturl.asia/V7k58",
+						Evidence: "https://www.jitarsabank.com/upload/images/20190210/AqRCaPsgcAO0hXXUg6yEA5apjQRfjohC4zdEwDEq.jpeg",
 					},
 				},
 			},
@@ -391,12 +391,12 @@ func SeedDB() {
 			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/07%20Bio/01.png?width=210&name=01.png",
 			Teacher: &models.UserTeacher{
 				Teacher_license: "https://www.kruachieve.com/wp-content/uploads/2019/12/562000004488703.jpg",
-				Transcript:      "https://shorturl.asia/SecRv",
+				Transcript:      "http://edunetwork-kukps.kustaff.ku.ac.th/wp-content/uploads/2020/04/15-Transcript-%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2-%E0%B8%99%E0%B8%B4%E0%B8%AA%E0%B8%B4%E0%B8%95%E0%B8%AA%E0%B8%B3%E0%B9%80%E0%B8%A3%E0%B9%87%E0%B8%88%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%A8%E0%B8%B6%E0%B8%81%E0%B8%A9%E0%B8%B2_Page_1-scaled.jpg",
 				Id_card:         "http://www.bikes4deal.com/picture_upload/market/full/2021-09/B2ceH51632344286.jpeg",
 				Experience: &[]models.Experience{
 					{
 						Title:    "เป็นครูสอนพิเศษตามบ้าน สอนเด็กเล็ก ชั้นอนุบาล-ประถมต้น",
-						Evidence: "https://shorturl.asia/4iuPM",
+						Evidence: "https://img-prod.api-onscene.com/cdn-cgi/image/format=auto,width=1600,height=900/https://sls-prod.api-onscene.com/partner_files/trueidintrend/124879/179988_0.jpg",
 					},
 				},
 			},
@@ -411,12 +411,12 @@ func SeedDB() {
 			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/05%20Eng/01.png?width=210&name=01.png",
 			Teacher: &models.UserTeacher{
 				Teacher_license: "https://www.kruachieve.com/wp-content/uploads/2019/12/562000004488703.jpg",
-				Transcript:      "https://shorturl.asia/SecRv",
+				Transcript:      "http://edunetwork-kukps.kustaff.ku.ac.th/wp-content/uploads/2020/04/15-Transcript-%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2-%E0%B8%99%E0%B8%B4%E0%B8%AA%E0%B8%B4%E0%B8%95%E0%B8%AA%E0%B8%B3%E0%B9%80%E0%B8%A3%E0%B9%87%E0%B8%88%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%A8%E0%B8%B6%E0%B8%81%E0%B8%A9%E0%B8%B2_Page_1-scaled.jpg",
 				Id_card:         "http://www.bikes4deal.com/picture_upload/market/full/2021-09/B2ceH51632344286.jpeg",
 				Experience: &[]models.Experience{
 					{
 						Title:    "เป็นครูจิตอาสา สอนหนังสือให้เด็กเล็ก",
-						Evidence: "https://shorturl.asia/V7k58",
+						Evidence: "https://www.jitarsabank.com/upload/images/20190210/AqRCaPsgcAO0hXXUg6yEA5apjQRfjohC4zdEwDEq.jpeg",
 					},
 				},
 			},
@@ -431,12 +431,12 @@ func SeedDB() {
 			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/01%20Math/07%20Leng.jpg?width=210&name=07%20Leng.jpg",
 			Teacher: &models.UserTeacher{
 				Teacher_license: "https://www.kruachieve.com/wp-content/uploads/2019/12/562000004488703.jpg",
-				Transcript:      "https://shorturl.asia/SecRv",
+				Transcript:      "http://edunetwork-kukps.kustaff.ku.ac.th/wp-content/uploads/2020/04/15-Transcript-%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2-%E0%B8%99%E0%B8%B4%E0%B8%AA%E0%B8%B4%E0%B8%95%E0%B8%AA%E0%B8%B3%E0%B9%80%E0%B8%A3%E0%B9%87%E0%B8%88%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%A8%E0%B8%B6%E0%B8%81%E0%B8%A9%E0%B8%B2_Page_1-scaled.jpg",
 				Id_card:         "http://www.bikes4deal.com/picture_upload/market/full/2021-09/B2ceH51632344286.jpeg",
 				Experience: &[]models.Experience{
 					{
 						Title:    "เป็นครูสอนพิเศษตามบ้าน สอนเด็กเล็ก ชั้นอนุบาล-ประถมต้น",
-						Evidence: "https://shorturl.asia/4iuPM",
+						Evidence: "https://img-prod.api-onscene.com/cdn-cgi/image/format=auto,width=1600,height=900/https://sls-prod.api-onscene.com/partner_files/trueidintrend/124879/179988_0.jpg",
 					},
 				},
 			},
@@ -451,12 +451,12 @@ func SeedDB() {
 			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/06%20Sci/01.jpg?width=210&name=01.jpg",
 			Teacher: &models.UserTeacher{
 				Teacher_license: "https://www.kruachieve.com/wp-content/uploads/2019/12/562000004488703.jpg",
-				Transcript:      "https://shorturl.asia/SecRv",
+				Transcript:      "http://edunetwork-kukps.kustaff.ku.ac.th/wp-content/uploads/2020/04/15-Transcript-%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2-%E0%B8%99%E0%B8%B4%E0%B8%AA%E0%B8%B4%E0%B8%95%E0%B8%AA%E0%B8%B3%E0%B9%80%E0%B8%A3%E0%B9%87%E0%B8%88%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%A8%E0%B8%B6%E0%B8%81%E0%B8%A9%E0%B8%B2_Page_1-scaled.jpg",
 				Id_card:         "http://www.bikes4deal.com/picture_upload/market/full/2021-09/B2ceH51632344286.jpeg",
 				Experience: &[]models.Experience{
 					{
 						Title:    "เป็นครูจิตอาสา สอนหนังสือให้เด็กเล็ก",
-						Evidence: "https://shorturl.asia/V7k58",
+						Evidence: "https://www.jitarsabank.com/upload/images/20190210/AqRCaPsgcAO0hXXUg6yEA5apjQRfjohC4zdEwDEq.jpeg",
 					},
 				},
 			},
@@ -471,12 +471,12 @@ func SeedDB() {
 			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/02%20Soc/04%20Rabhi.jpg?width=210&name=04%20Rabhi.jpg",
 			Teacher: &models.UserTeacher{
 				Teacher_license: "https://www.kruachieve.com/wp-content/uploads/2019/12/562000004488703.jpg",
-				Transcript:      "https://shorturl.asia/SecRv",
+				Transcript:      "http://edunetwork-kukps.kustaff.ku.ac.th/wp-content/uploads/2020/04/15-Transcript-%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2-%E0%B8%99%E0%B8%B4%E0%B8%AA%E0%B8%B4%E0%B8%95%E0%B8%AA%E0%B8%B3%E0%B9%80%E0%B8%A3%E0%B9%87%E0%B8%88%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%A8%E0%B8%B6%E0%B8%81%E0%B8%A9%E0%B8%B2_Page_1-scaled.jpg",
 				Id_card:         "http://www.bikes4deal.com/picture_upload/market/full/2021-09/B2ceH51632344286.jpeg",
 				Experience: &[]models.Experience{
 					{
 						Title:    "เป็นครูสอนพิเศษตามบ้าน สอนเด็กเล็ก ชั้นอนุบาล-ประถมต้น",
-						Evidence: "https://shorturl.asia/4iuPM",
+						Evidence: "https://img-prod.api-onscene.com/cdn-cgi/image/format=auto,width=1600,height=900/https://sls-prod.api-onscene.com/partner_files/trueidintrend/124879/179988_0.jpg",
 					},
 				},
 			},
@@ -491,12 +491,12 @@ func SeedDB() {
 			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/06%20Sci/03.png?width=210&name=03.png",
 			Teacher: &models.UserTeacher{
 				Teacher_license: "https://www.kruachieve.com/wp-content/uploads/2019/12/562000004488703.jpg",
-				Transcript:      "https://shorturl.asia/SecRv",
+				Transcript:      "http://edunetwork-kukps.kustaff.ku.ac.th/wp-content/uploads/2020/04/15-Transcript-%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2-%E0%B8%99%E0%B8%B4%E0%B8%AA%E0%B8%B4%E0%B8%95%E0%B8%AA%E0%B8%B3%E0%B9%80%E0%B8%A3%E0%B9%87%E0%B8%88%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%A8%E0%B8%B6%E0%B8%81%E0%B8%A9%E0%B8%B2_Page_1-scaled.jpg",
 				Id_card:         "http://www.bikes4deal.com/picture_upload/market/full/2021-09/B2ceH51632344286.jpeg",
 				Experience: &[]models.Experience{
 					{
 						Title:    "เป็นครูจิตอาสา สอนหนังสือให้เด็กเล็ก",
-						Evidence: "https://shorturl.asia/V7k58",
+						Evidence: "https://www.jitarsabank.com/upload/images/20190210/AqRCaPsgcAO0hXXUg6yEA5apjQRfjohC4zdEwDEq.jpeg",
 					},
 				},
 			},
