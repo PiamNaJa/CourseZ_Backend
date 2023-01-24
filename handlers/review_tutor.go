@@ -23,7 +23,9 @@ func CreateReviewTutor(db *gorm.DB) fiber.Handler {
 		review.TeacherID = int32(teacher_id)
 
 		if err := constants.Validate.Struct(review); err != nil {
-			return c.Status(fiber.StatusBadRequest).JSON(err)
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"error": err.Error(),
+			})
 		}
 
 		if err != nil {

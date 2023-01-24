@@ -309,7 +309,7 @@ func SeedDB() {
 			Nickname: "ครูกุ๊กไก่",
 			Birthday: time.Now(),
 			Role:     "Teacher",
-			Picture:  "https://shorturl.asia/CZMPx",
+			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/01%20Math/05%20Nook.jpg?width=210&name=05%20Nook.jpg",
 			Teacher: &models.UserTeacher{
 				Teacher_license: "https://www.kruachieve.com/wp-content/uploads/2019/12/562000004488703.jpg",
 				Transcript:      "https://shorturl.asia/SecRv",
@@ -329,7 +329,7 @@ func SeedDB() {
 			Nickname: "ครูเดือน",
 			Birthday: time.Now(),
 			Role:     "Tutor",
-			Picture:  "https://shorturl.asia/PoI4T",
+			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/01%20Math/01%20Nhoi.jpg?width=210&name=01%20Nhoi.jpg",
 			Teacher: &models.UserTeacher{
 				Psychological_test: "https://testyourself.psychtests.com/testid/4176",
 				Id_card:            "http://www.bikes4deal.com/picture_upload/market/full/2021-09/B2ceH51632344286.jpeg",
@@ -348,7 +348,7 @@ func SeedDB() {
 			Nickname: "ครูเมฆ",
 			Birthday: time.Now(),
 			Role:     "Teacher",
-			Picture:  "https://shorturl.asia/3SM9q",
+			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/01%20Math/06%20Ice.jpg?width=210&name=06%20Ice.jpg",
 			Teacher: &models.UserTeacher{
 				Teacher_license: "https://www.kruachieve.com/wp-content/uploads/2019/12/562000004488703.jpg",
 				Transcript:      "https://shorturl.asia/SecRv",
@@ -368,7 +368,7 @@ func SeedDB() {
 			Nickname: "ครูดาว",
 			Birthday: time.Now(),
 			Role:     "Teacher",
-			Picture:  "https://shorturl.asia/FRYPW",
+			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/03%20Thai/02.png?width=210&name=02.png",
 			Teacher: &models.UserTeacher{
 				Teacher_license: "https://www.kruachieve.com/wp-content/uploads/2019/12/562000004488703.jpg",
 				Transcript:      "https://shorturl.asia/SecRv",
@@ -388,7 +388,7 @@ func SeedDB() {
 			Nickname: "ครูสิงโต",
 			Birthday: time.Now(),
 			Role:     "Teacher",
-			Picture:  "https://shorturl.asia/X1iyt",
+			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/07%20Bio/01.png?width=210&name=01.png",
 			Teacher: &models.UserTeacher{
 				Teacher_license: "https://www.kruachieve.com/wp-content/uploads/2019/12/562000004488703.jpg",
 				Transcript:      "https://shorturl.asia/SecRv",
@@ -408,7 +408,7 @@ func SeedDB() {
 			Nickname: "ครูข้าวต้ม",
 			Birthday: time.Now(),
 			Role:     "Teacher",
-			Picture:  "https://shorturl.asia/rxl37",
+			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/05%20Eng/01.png?width=210&name=01.png",
 			Teacher: &models.UserTeacher{
 				Teacher_license: "https://www.kruachieve.com/wp-content/uploads/2019/12/562000004488703.jpg",
 				Transcript:      "https://shorturl.asia/SecRv",
@@ -428,7 +428,7 @@ func SeedDB() {
 			Nickname: "ครูเฟียส",
 			Birthday: time.Now(),
 			Role:     "Teacher",
-			Picture:  "https://shorturl.asia/iKC41",
+			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/01%20Math/07%20Leng.jpg?width=210&name=07%20Leng.jpg",
 			Teacher: &models.UserTeacher{
 				Teacher_license: "https://www.kruachieve.com/wp-content/uploads/2019/12/562000004488703.jpg",
 				Transcript:      "https://shorturl.asia/SecRv",
@@ -448,7 +448,7 @@ func SeedDB() {
 			Nickname: "ครูปลา",
 			Birthday: time.Now(),
 			Role:     "Teacher",
-			Picture:  "https://shorturl.asia/ri1Av",
+			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/06%20Sci/01.jpg?width=210&name=01.jpg",
 			Teacher: &models.UserTeacher{
 				Teacher_license: "https://www.kruachieve.com/wp-content/uploads/2019/12/562000004488703.jpg",
 				Transcript:      "https://shorturl.asia/SecRv",
@@ -468,7 +468,7 @@ func SeedDB() {
 			Nickname: "ครูติ๊ก",
 			Birthday: time.Now(),
 			Role:     "Teacher",
-			Picture:  "https://shorturl.asia/Ckv3h",
+			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/02%20Soc/04%20Rabhi.jpg?width=210&name=04%20Rabhi.jpg",
 			Teacher: &models.UserTeacher{
 				Teacher_license: "https://www.kruachieve.com/wp-content/uploads/2019/12/562000004488703.jpg",
 				Transcript:      "https://shorturl.asia/SecRv",
@@ -488,7 +488,7 @@ func SeedDB() {
 			Nickname: "ครูฟ้า",
 			Birthday: time.Now(),
 			Role:     "Teacher",
-			Picture:  "https://shorturl.asia/q7tQd",
+			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/06%20Sci/03.png?width=210&name=03.png",
 			Teacher: &models.UserTeacher{
 				Teacher_license: "https://www.kruachieve.com/wp-content/uploads/2019/12/562000004488703.jpg",
 				Transcript:      "https://shorturl.asia/SecRv",

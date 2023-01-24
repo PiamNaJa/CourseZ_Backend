@@ -12,6 +12,6 @@ func UserRoutes(app fiber.Router, db *gorm.DB) {
 	app.Post("/register/teacher", handlers.RegisterTeacher(db))
 	app.Post("/login", handlers.LoginUser(db))
 	app.Put("/:id", m.IsLogin, m.IsUser, handlers.Update(db))
-	app.Get("/teacher",handlers.GetTeacher(db))
-	app.Get("/:id",handlers.GetProfile(db))
+	app.Get("/teacher", handlers.GetTeacher(db))
+	app.Get("/:id", handlers.GetProfile(db))
 }

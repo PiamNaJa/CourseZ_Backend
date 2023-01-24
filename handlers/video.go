@@ -58,7 +58,7 @@ func GetVideoByFilter(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var video *[]models.Video
 
-		if err := db.Model(&models.Video{}).Preload("Reviews").Preload("Exercises").Where("class_level = ?", c.Params("class_level")).Find(&video).Error; err != nil {
+		if err := db.Model(&models.Video{}).Where("class_level = ?", c.Params("class_level")).Find(&video).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": "No record",
 			})

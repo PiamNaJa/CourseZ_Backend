@@ -18,7 +18,9 @@ func CreatePost(db *gorm.DB) fiber.Handler {
 		}
 
 		if err := constants.Validate.Struct(post); err != nil {
-			return c.Status(fiber.StatusBadRequest).JSON(err)
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"error": err.Error(),
+			})
 		}
 
 		if err := db.Model(&models.Post{}).Create(&post).Error; err != nil {
