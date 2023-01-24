@@ -54,19 +54,18 @@ func GetAllVideo(db *gorm.DB) fiber.Handler {
 	}
 }
 
-// func GetVideoByFilter(db *gorm.DB) fiber.Handler {
-// 	return func(c *fiber.Ctx) error {
-// 		var video *[]models.Video
-// 		flt := c.Params("flt")
+func GetVideoByFilter(db *gorm.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		var video *[]models.Video
 
-// 		if err := db.Model(&models.Video{}).Preload("Course").Find(&video, flt).Error; err != nil {
-// 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-// 				"error": err.Error(),
-// 			})
-// 		}
-// 		return c.Status(fiber.StatusOK).JSON(&video)
-// 	}
-// }
+		if err := db.Model(&models.Video{}).Where("class_level = ?", c.Params("class_level")).Find(&video).Error; err != nil {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+				"error": "No record",
+			})
+		}
+		return c.Status(fiber.StatusOK).JSON(&video)
+	}
+}
 
 func GetVideoById(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
