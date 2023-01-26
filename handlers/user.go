@@ -264,7 +264,7 @@ func GetProfile(db *gorm.DB) fiber.Handler {
 func GetTeacher(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var result []map[string]interface{}
-		db.Raw(`SELECT users.user_id, user_teachers.teacher_id, nickname, class_level, users.picture, AVG(rating) AS rating
+		db.Raw(`SELECT users.user_id, user_teachers.teacher_id, nickname, fullname, class_level, users.picture, AVG(rating) AS rating
 		FROM users JOIN user_teachers on users.user_id = user_teachers.user_id 
 		JOIN courses ON user_teachers.teacher_id = courses.teacher_id
 		JOIN subjects ON courses.subject_id = subjects.subject_id
