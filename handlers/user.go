@@ -261,15 +261,17 @@ func GetProfile(db *gorm.DB) fiber.Handler {
 	}
 }
 
-
-func GetTeacher(db *gorm.DB) fiber.Handler{
+func GetTeacher(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var user *[]models.User
-		if err := db.Model(&models.User{}).Where("role = ? or role = ?", "Teacher", "Tutor").Find(&user).Error; err != nil {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"error": err.Error(),
-			})
-		}
-		return c.Status(fiber.StatusOK).JSON(&user)
+		var result []map[string]interface{}
+		db.Raw(`SELECT users.user_id, user_teachers.teacher_id, nickname, class_level, users.picture, AVG(rating) AS rating
+		FROM users JOIN user_teachers on users.user_id = user_teachers.user_id 
+		JOIN courses ON user_teachers.teacher_id = courses.teacher_id
+		JOIN subjects ON courses.subject_id = subjects.subject_id
+		LEFT JOIN review_tutors ON user_teachers.teacher_id = review_tutors.teacher_id
+		WHERE role = 'Teacher' OR role = 'Tutor'
+		GROUP BY users.user_id, user_teachers.teacher_id, class_level
+		ORDER BY rating`).Find(&result)
+		return c.Status(fiber.StatusOK).JSON(&result)
 	}
 }
