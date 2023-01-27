@@ -265,7 +265,7 @@ func GetTeacher(db *gorm.DB) fiber.Handler {
 		LEFT JOIN review_tutors ON user_teachers.teacher_id = review_tutors.teacher_id
 		WHERE role = 'Teacher' OR role = 'Tutor'
 		GROUP BY users.user_id
-		ORDER BY rating`).Find(&result)
+		ORDER BY rating DESC`).Find(&result)
 		return c.Status(fiber.StatusOK).JSON(&result)
 	}
 }
@@ -281,7 +281,7 @@ func GetTeacherByClassLevel(db *gorm.DB) fiber.Handler {
         Where("role = 'Teacher' OR role = 'Tutor'").
         Group("users.user_id, user_teachers.teacher_id, subjects.class_level, nickname, fullname, users.picture").
         Having("subjects.class_level = ?", c.Params("class_level")).
-        Order("rating").
+        Order("rating DESC").
         Find(&result)
         return c.Status(fiber.StatusOK).JSON(&result)
     }
