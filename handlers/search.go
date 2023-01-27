@@ -60,7 +60,7 @@ func SearchTutor(db *gorm.DB) fiber.Handler {
 		var user *[]models.User
 		var name = "%" + c.Query("name") + "%"
 
-		if err := db.Model(&models.User{}).Where("nickname LIKE ?", &name).Find(&user).Error; err != nil {
+		if err := db.Model(&models.User{}).Preload("Teacher").Select("user_id", "nickname", "fullname", "picture").Preload("Teacher.Reviews").Where("nickname LIKE ?", &name).Find(&user).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": "Tutor not found",
 			})

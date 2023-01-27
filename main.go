@@ -28,9 +28,9 @@ func main() {
 
 	configs.Init()
 	configs.ConnectDB()
-	configs.WipeData()
+	// configs.WipeData()
 	configs.MigrateData()
-	configs.SeedDB()
+	// configs.SeedDB()
 	app.Use(logger.New(logger.Config{
 		Format:     "${pid} ${status} - ${method} ${path}\n",
 		TimeFormat: "02-Jan-2006",
