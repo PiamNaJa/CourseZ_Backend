@@ -1,8 +1,6 @@
 package handlers
 
 import (
-	"fmt"
-
 	"github.com/PiamNaJa/CourseZ_Backend/constants"
 	"github.com/PiamNaJa/CourseZ_Backend/models"
 	"github.com/gofiber/fiber/v2"
@@ -275,7 +273,7 @@ func GetTeacherByClassLevel(db *gorm.DB) fiber.Handler {
     return func(c *fiber.Ctx) error {
 		var result []map[string]interface{}
         db.Table("users").
-        Select("users.user_id, user_teachers.teacher_id, nickname, fullname, subjects.class_level, users.picture, COALESCE(AVG(rating), 0) AS rating").
+        Select("users.user_id, user_teachers.teacher_id, nickname, fullname, subjects.class_level, users.picture, COALESCE(AVG(rating), 0.0) AS rating").
         Joins("JOIN user_teachers on users.user_id = user_teachers.user_id").
         Joins("JOIN courses ON user_teachers.teacher_id = courses.teacher_id").
         Joins("JOIN subjects ON courses.subject_id = subjects.subject_id").
@@ -285,7 +283,6 @@ func GetTeacherByClassLevel(db *gorm.DB) fiber.Handler {
         Having("subjects.class_level = ?", c.Params("class_level")).
         Order("rating").
         Find(&result)
-		fmt.Println("result")
         return c.Status(fiber.StatusOK).JSON(&result)
     }
 }
