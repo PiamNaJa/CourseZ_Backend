@@ -272,7 +272,7 @@ func GetTeacher(db *gorm.DB) fiber.Handler {
 func GetTeacherByClassLevel(db *gorm.DB) fiber.Handler {
     return func(c *fiber.Ctx) error {
 		var result []map[string]interface{}
-        db.Table("users").
+        if err:= db.Table("users").
         Select("users.user_id, user_teachers.teacher_id, nickname, fullname, subjects.class_level, users.picture, COALESCE(AVG(rating), 0.0) AS rating").
         Joins("JOIN user_teachers on users.user_id = user_teachers.user_id").
         Joins("JOIN courses ON user_teachers.teacher_id = courses.teacher_id").
@@ -282,7 +282,14 @@ func GetTeacherByClassLevel(db *gorm.DB) fiber.Handler {
         Group("users.user_id, user_teachers.teacher_id, subjects.class_level, nickname, fullname, users.picture").
         Having("subjects.class_level = ?", c.Params("class_level")).
         Order("rating DESC").
-        Find(&result)
+        Find(&result).Error; err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
+		if result == nil {
+			result = []map[string]interface{}{}
+		}
         return c.Status(fiber.StatusOK).JSON(&result)
     }
 }
