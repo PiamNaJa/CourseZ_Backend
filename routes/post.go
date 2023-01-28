@@ -12,6 +12,6 @@ func PostRoutes(app fiber.Router, db *gorm.DB) {
 	app.Get("/", handlers.GetAllPost(db))
 	app.Get("/:post_id", handlers.GetPostById(db))
 	app.Get("/getby/:subject_id", handlers.GetPostBySubject(db))
-	app.Put("/:post_id", m.IsLogin, m.IsCourseOwner, handlers.UpdatePost(db))
-	app.Delete("/:post_id", m.IsLogin, m.IsCourseOwner, handlers.DeletePostByID(db))
+	app.Put("/:post_id", m.IsLogin, m.IsPostOwner, handlers.UpdatePost(db))
+	app.Delete("/:post_id", m.IsLogin, m.IsPostOwner, handlers.DeletePostByID(db))
 }
