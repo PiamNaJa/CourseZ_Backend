@@ -231,45 +231,65 @@ func Update(db *gorm.DB) fiber.Handler {
 func GetProfile(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var user *models.User
-		var history *[]models.History
-		if err := db.Model(&models.User{}).Preload("Teacher").Where("user_id = ?", c.Params("id")).First(&user).Error; err != nil {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"error": err.Error(),
-			})
-		}
-		if err := db.Model(&models.History{}).Preload("Video").Where("user_id = ?", c.Params("id")).Find(&history).Error; err != nil {
+		if err := db.Model(&models.User{}).Omit("password").Preload("Teacher").Preload("Teacher.Courses").Preload("History").Preload("History.Video").Where("user_id = ?", c.Params("id")).First(&user).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
 
-		var logindata = &models.LoginData{
-			Fullname: user.Fullname,
-			Nickname: user.Nickname,
-			Birthday: user.Birthday,
-			Role:     user.Role,
-			Picture:  user.Picture,
-			Point:    user.Point,
-			History:  history, //waiting history api
-			Teacher:  user.Teacher,
-		}
-		if len(*logindata.History) == 0 {
-			logindata.History = nil
+		// var logindata = &models.LoginData{
+		// 	Fullname: user.Fullname,
+		// 	Nickname: user.Nickname,
+		// 	Birthday: user.Birthday,
+		// 	Role:     user.Role,
+		// 	Picture:  user.Picture,
+		// 	Point:    user.Point,
+		// 	History:  history, //waiting history api
+		// 	Teacher:  user.Teacher,
+		// }
+		if len(*user.History) == 0 {
+			user.History = nil
 		}
 
-		return c.Status(fiber.StatusOK).JSON(&logindata)
+		return c.Status(fiber.StatusOK).JSON(&user)
 	}
 }
 
-
-func GetTeacher(db *gorm.DB) fiber.Handler{
+func GetTeacher(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var user *[]models.User
-		if err := db.Model(&models.User{}).Where("role = ? or role = ?", "Teacher", "Tutor").Find(&user).Error; err != nil {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+		var result []map[string]interface{}
+		db.Raw(`SELECT MIN(users.user_id) as user_id, MIN(user_teachers.teacher_id) as teacher_id, MIN(nickname) as nickname, MIN(fullname) as fullname, MIN(class_level) as class_level, MIN(users.picture) as picture, COALESCE(AVG(rating), 0.0) AS rating
+		FROM users JOIN user_teachers on users.user_id = user_teachers.user_id 
+		JOIN courses ON user_teachers.teacher_id = courses.teacher_id
+		JOIN subjects ON courses.subject_id = subjects.subject_id
+		LEFT JOIN review_tutors ON user_teachers.teacher_id = review_tutors.teacher_id
+		WHERE role = 'Teacher' OR role = 'Tutor'
+		GROUP BY users.user_id
+		ORDER BY rating DESC`).Find(&result)
+		return c.Status(fiber.StatusOK).JSON(&result)
+	}
+}
+func GetTeacherByClassLevel(db *gorm.DB) fiber.Handler {
+    return func(c *fiber.Ctx) error {
+		var result []map[string]interface{}
+        if err:= db.Table("users").
+        Select("users.user_id, user_teachers.teacher_id, nickname, fullname, subjects.class_level, users.picture, COALESCE(AVG(rating), 0.0) AS rating").
+        Joins("JOIN user_teachers on users.user_id = user_teachers.user_id").
+        Joins("JOIN courses ON user_teachers.teacher_id = courses.teacher_id").
+        Joins("JOIN subjects ON courses.subject_id = subjects.subject_id").
+        Joins("LEFT JOIN review_tutors ON user_teachers.teacher_id = review_tutors.teacher_id").
+        Where("role = 'Teacher' OR role = 'Tutor'").
+        Group("users.user_id, user_teachers.teacher_id, subjects.class_level, nickname, fullname, users.picture").
+        Having("subjects.class_level = ?", c.Params("class_level")).
+        Order("rating DESC").
+        Find(&result).Error; err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
-		return c.Status(fiber.StatusOK).JSON(&user)
-	}
+		if result == nil {
+			result = []map[string]interface{}{}
+		}
+        return c.Status(fiber.StatusOK).JSON(&result)
+    }
 }

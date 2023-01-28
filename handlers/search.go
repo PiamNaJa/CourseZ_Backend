@@ -57,15 +57,27 @@ func SearchCourse(db *gorm.DB) fiber.Handler {
 
 func SearchTutor(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var user *[]models.User
+		var result []map[string]interface{}
 		var name = "%" + c.Query("name") + "%"
-
-		if err := db.Model(&models.User{}).Where("nickname LIKE ?", &name).Find(&user).Error; err != nil {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"error": "Tutor not found",
+        if err:= db.Table("users").
+		Select("MIN(users.user_id) as user_id, MIN(user_teachers.teacher_id) as teacher_id, MIN(nickname) as nickname, MIN(fullname) as fullname, MIN(class_level) as class_level, MIN(users.picture) as picture, COALESCE(AVG(rating), 0.0) as rating").
+		Joins("JOIN user_teachers ON users.user_id = user_teachers.user_id").
+		Joins("JOIN courses ON user_teachers.teacher_id = courses.teacher_id").
+		Joins("JOIN subjects ON courses.subject_id = subjects.subject_id").
+		Joins("LEFT JOIN review_tutors ON user_teachers.teacher_id = review_tutors.teacher_id").
+		Where("role = 'Teacher' OR role = 'Tutor'").
+		Group("users.user_id").
+		Having("nickname LIKE ?", name).
+		Order("rating DESC").
+        Find(&result).Error; err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
 			})
 		}
-		return c.Status(fiber.StatusOK).JSON(&user)
+		if result == nil {
+			result = []map[string]interface{}{}
+		}
+        return c.Status(fiber.StatusOK).JSON(&result)
 	}
 }
 
