@@ -64,7 +64,20 @@ func GetPostBySubject(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var post *[]models.Post
 
-		if err := db.Model(&models.Post{}).Where("subject_id = ?", c.Params("subject_id")).Find(&post).Error; err != nil {
+		if err := db.Model(&models.Post{}).Where("subject_id = ?", c.Query("subject_id")).Find(&post).Error; err != nil {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+				"error": "No record",
+			})
+		}
+		return c.Status(fiber.StatusOK).JSON(&post)
+	}
+}
+
+func GetPostByClassLevel(db *gorm.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		var post *[]models.Post
+
+		if err := db.Model(&models.Post{}).Where("class_level = ?", c.Params("class_level")).Find(&post).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": "No record",
 			})
