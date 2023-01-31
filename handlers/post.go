@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"net/url"
+
 	"github.com/PiamNaJa/CourseZ_Backend/constants"
 	"github.com/PiamNaJa/CourseZ_Backend/models"
 	"github.com/gofiber/fiber/v2"
@@ -9,7 +11,7 @@ import (
 
 func CreatePost(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var post *models.Post
+		var post models.Post
 
 		if err := c.BodyParser(&post); err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -35,20 +37,20 @@ func CreatePost(db *gorm.DB) fiber.Handler {
 
 func GetAllPost(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var post *[]models.Post
+		var posts []models.Post
 
-		if err := db.Model(&models.Post{}).Preload("Subject").Preload("User").Preload("Comments").Find(&post).Error; err != nil {
+		if err := db.Model(&models.Post{}).Preload("Subject").Preload("User").Preload("Comments").Find(&posts).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": "record not found",
 			})
 		}
-		return c.Status(fiber.StatusOK).JSON(&post)
+		return c.Status(fiber.StatusOK).JSON(&posts)
 	}
 }
 
 func GetPostById(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var post *models.Post
+		var post models.Post
 		id := c.Params("post_id")
 
 		if err := db.Model(&models.Post{}).Preload("Subject").Preload("User").Preload("Comments").First(&post, id).Error; err != nil {
@@ -62,33 +64,53 @@ func GetPostById(db *gorm.DB) fiber.Handler {
 
 func GetPostBySubject(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var post *[]models.Post
+		var posts, postsSubject []models.Post
 
-		if err := db.Model(&models.Post{}).Where("subject_id = ?", c.Query("subject_id")).Find(&post).Error; err != nil {
+		if err := db.Model(&models.Post{}).Preload("Subject").Preload("Comments").Find(&posts).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": "No record",
 			})
 		}
-		return c.Status(fiber.StatusOK).JSON(&post)
+		subject_title, err := url.QueryUnescape(c.Params("subject_title"))
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
+		}
+		for _, post := range posts {
+			if post.Subject.Subject_title == subject_title {
+				postsSubject = append(postsSubject, post)
+			}
+		}
+
+		return c.Status(fiber.StatusOK).JSON(&postsSubject)
 	}
 }
 
 func GetPostByClassLevel(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var post *[]models.Post
+		var posts, postClassLevel []models.Post
 
-		if err := db.Model(&models.Post{}).Where("class_level = ?", c.Params("class_level")).Find(&post).Error; err != nil {
+		class_level, err := c.ParamsInt("class_level")
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
+		}
+
+		if err := db.Model(&models.Post{}).Preload("Subject").Preload("Comments").Find(&posts).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": "No record",
 			})
 		}
-		return c.Status(fiber.StatusOK).JSON(&post)
+		for _, post := range posts {
+			if post.Subject.Class_level == int8(class_level) {
+				postClassLevel = append(postClassLevel, post)
+			}
+		}
+		return c.Status(fiber.StatusOK).JSON(&postClassLevel)
 	}
 }
 
 func DeletePostByID(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var post *models.Post
+		var post models.Post
 		id := c.Params("post_id")
 
 		if err := db.Model(&models.Post{}).Delete(&post, id).Error; err != nil {
@@ -102,8 +124,8 @@ func DeletePostByID(db *gorm.DB) fiber.Handler {
 
 func UpdatePost(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var post *models.Post
-		var updatePostData *models.Post
+		var post models.Post
+		var updatePostData models.Post
 		id := c.Params("post_id")
 
 		if err := db.Model(&models.Post{}).Preload("Subject").Preload("User").Preload("Comments").First(&post, id).Error; err != nil {
