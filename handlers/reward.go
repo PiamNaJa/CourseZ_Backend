@@ -9,7 +9,7 @@ import (
 
 func CreateRewardItem(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var rewardItem *models.Reward_Item
+		var rewardItem models.Reward_Item
 		if err := c.BodyParser(&rewardItem); err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
@@ -32,7 +32,7 @@ func CreateRewardItem(db *gorm.DB) fiber.Handler {
 
 func GetAllRewardItems(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var rewardItems *[]models.Reward_Item
+		var rewardItems []models.Reward_Item
 		if err := db.Model(&models.Reward_Item{}).Find(&rewardItems).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
@@ -45,7 +45,7 @@ func GetAllRewardItems(db *gorm.DB) fiber.Handler {
 
 func GetRewardItemById(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var rewardItem *models.Reward_Item
+		var rewardItem models.Reward_Item
 		if err := db.Model(&models.Reward_Item{}).First(&rewardItem, c.Params("item_id")).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
@@ -58,7 +58,7 @@ func GetRewardItemById(db *gorm.DB) fiber.Handler {
 
 func DeleteRewardItemById(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var rewardItem *models.Reward_Item
+		var rewardItem models.Reward_Item
 		if err := db.Model(&models.Reward_Item{}).Delete(&rewardItem, c.Params("item_id")).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
@@ -71,8 +71,8 @@ func DeleteRewardItemById(db *gorm.DB) fiber.Handler {
 
 func UpdateRewardItem(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var rewardItem *models.Reward_Item
-		var rewardItemInput *models.Reward_Item
+		var rewardItem models.Reward_Item
+		var rewardItemInput models.Reward_Item
 		if err := c.BodyParser(&rewardItemInput); err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
@@ -104,7 +104,7 @@ func UpdateRewardItem(db *gorm.DB) fiber.Handler {
 
 func CreateRewardInfo(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var rewardInfo *models.Reward_Info
+		var rewardInfo models.Reward_Info
 		if err := c.BodyParser(&rewardInfo); err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
@@ -127,7 +127,7 @@ func CreateRewardInfo(db *gorm.DB) fiber.Handler {
 
 func GetAllRewardInfo(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var rewardInfo *[]models.Reward_Info
+		var rewardInfo []models.Reward_Info
 		if err := db.Model(&models.Reward_Info{}).Preload("User", func(tx *gorm.DB) *gorm.DB {
 			return tx.Select("fullname", "nickname", "user_id")
 		}).Preload("Item").Find(&rewardInfo).Error; err != nil {
@@ -142,15 +142,15 @@ func GetAllRewardInfo(db *gorm.DB) fiber.Handler {
 
 func GetRewardInfoByUser(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var rewardInfo *[]models.Reward_Info
-		var rewardItem []*models.Reward_Item
+		var rewardInfo []models.Reward_Info
+		var rewardItem []models.Reward_Item
 		if err := db.Model(&models.Reward_Info{}).Where("user_id = ?", c.Params("user_id")).Preload("Item").Find(&rewardInfo).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
-		for _, rI := range *rewardInfo {
-			rewardItem = append(rewardItem, rI.Item)
+		for _, rI := range rewardInfo {
+			rewardItem = append(rewardItem, *rI.Item)
 		}
 		return c.Status(fiber.StatusOK).JSON(&rewardItem)
 	}
@@ -158,7 +158,7 @@ func GetRewardInfoByUser(db *gorm.DB) fiber.Handler {
 
 func GetRewardInfoByID(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var rewardInfo *models.Reward_Info
+		var rewardInfo models.Reward_Info
 		if err := db.Model(&models.Reward_Info{}).Where("reward_id", c.Params("reward_id")).Preload("User", func(tx *gorm.DB) *gorm.DB {
 			return tx.Select("fullname", "nickname", "user_id")
 		}).Preload("Item").Find(&rewardInfo).Error; err != nil {
@@ -172,7 +172,7 @@ func GetRewardInfoByID(db *gorm.DB) fiber.Handler {
 
 func DeleteRewardInfoById(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var rewardInfo *models.Reward_Info
+		var rewardInfo models.Reward_Info
 		if err := db.Model(&models.Reward_Info{}).Delete(&rewardInfo, c.Params("reward_id")).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),

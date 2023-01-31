@@ -10,7 +10,7 @@ import (
 
 func RegisterStudent(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var user *models.User
+		var user models.User
 		if err := c.BodyParser(&user); err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
@@ -62,8 +62,8 @@ func RegisterStudent(db *gorm.DB) fiber.Handler {
 
 func RegisterTeacher(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var user *models.User
-		var userTeacher *models.UserTeacher
+		var user models.User
+		var userTeacher models.UserTeacher
 		if err := c.BodyParser(&user); err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
@@ -136,7 +136,7 @@ func RegisterTeacher(db *gorm.DB) fiber.Handler {
 
 func LoginUser(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var user *models.User
+		var user models.User
 		var err error
 
 		if err := c.BodyParser(&user); err != nil {
@@ -199,7 +199,7 @@ func LoginUser(db *gorm.DB) fiber.Handler {
 
 func Update(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var user *models.User
+		var user models.User
 		if err := c.BodyParser(&user); err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
@@ -216,7 +216,7 @@ func Update(db *gorm.DB) fiber.Handler {
 			}
 		}
 
-		if err := db.Model(&models.User{}).Where("user_id = ?", c.Params("id")).Updates(&user).Error; err != nil {
+		if err := db.Model(&models.User{}).Where("user_id = ?", c.Params("user_id")).Updates(&user).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": err.Error(),
 			})
@@ -230,8 +230,8 @@ func Update(db *gorm.DB) fiber.Handler {
 
 func GetProfile(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var user *models.User
-		if err := db.Model(&models.User{}).Omit("password").Preload("Teacher").Preload("Teacher.Courses").Preload("History").Preload("History.Video").Where("user_id = ?", c.Params("id")).First(&user).Error; err != nil {
+		var user models.User
+		if err := db.Model(&models.User{}).Omit("password").Preload("Teacher").Preload("Teacher.Courses").Preload("History").Preload("History.Video").Where("user_id = ?", c.Params("user_id")).First(&user).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": err.Error(),
 			})

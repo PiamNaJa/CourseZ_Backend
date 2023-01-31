@@ -43,7 +43,7 @@ func SearchALL(db *gorm.DB) fiber.Handler {
 
 func SearchCourse(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var course *[]models.Course
+		var course []models.Course
 		var name = "%" + c.Query("name") + "%"
 
 		if err := db.Model(&models.Course{}).Preload("Subject").Where("course_name LIKE ?", &name).Find(&course).Error; err != nil {
@@ -83,7 +83,7 @@ func SearchTutor(db *gorm.DB) fiber.Handler {
 
 func SearchVideo(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var video *[]models.Video
+		var video []models.Video
 		var name = "%" + c.Query("name") + "%"
 
 		if err := db.Model(&models.Video{}).Preload("Course").Where("video_name LIKE ?", &name).Find(&video).Error; err != nil {

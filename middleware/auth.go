@@ -36,7 +36,7 @@ func IsUser(c *fiber.Ctx) error {
 	}
 	user_id := claims["user_id"].(float64)
 
-	userUpdateId, err := strconv.ParseFloat(c.Params("id"), 64)
+	userUpdateId, err := strconv.ParseFloat(c.Params("user_id"), 64)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": "Something went wrong",

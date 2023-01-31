@@ -53,6 +53,7 @@ func main() {
 	routes.ReviewVideoRoutes(router.Group("/video/:video_id/review"), configs.DB)
 	routes.ReviewTutorRoutes(router.Group("/teacher/:teacher_id/review"), configs.DB)
 	routes.PostRoutes(router.Group("/post"), configs.DB)
+	routes.RewardRoutes(router.Group("/reward"), configs.DB)
 
 	log.Fatal(app.Listen(":5000"))
 }
