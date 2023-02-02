@@ -342,7 +342,7 @@ func SeedDB() {
 			},
 		},
 		{
-			Email:    "teacher3@mail.com",
+			Email:    "teacher3@mail.com", //ครูฟิสิก
 			Password: "1234",
 			Fullname: "สุชาติ ม่วงดี",
 			Nickname: "ครูเมฆ",
@@ -507,6 +507,43 @@ func SeedDB() {
 	}
 
 	fmt.Println("Teacher created")
+
+	//rewardItem
+	var rewardItem = &[]models.Reward_Item{
+		{
+			Item_name:    "หนังสือเรียนภาษาอังกฤษ Easy Street English",
+			Item_title:   "Easy Street English พูดอังกฤษง่ายๆ ใช้งานได้จริง อัดแน่นไปด้วยบทสนทนาภาษาอังกฤษที่ใช้บ่อยในชีวิตประจำวัน การนัดหมาย การเดินทาง การช้อปปิ้ง มื้ออาหาร จองที่พัก เข้าร้านเสริมสวย และอื่นๆ เหมาะสำหรับผู้ที่ต้องการพัฒนาภาษาอังกฤษ ราคา 147 บาท",
+			Item_cost:    147,
+			Item_picture: "https://promotions.co.th/wp-content/uploads/2021/07/Easy-Street-English.png",
+		},
+		{
+			Item_name:    "หนังสือเรียนภาษาอังกฤษ English From Zero",
+			Item_title:   "English From Zero หนังสือ เรียนพูด อ่าน เขียน ภาษาอังกฤษ เริ่มต้นจากศูนย์ พร้อมรวบรวม 22 บทเรียน นับตั้งแต่เรียนตัวอักษร การประสมคำ คำศัพท์ ไวยากรณ์ พูด อ่าน เขียน แปล และอีกมากมาย เรียนรู้ได้ง่าย เข้าใจได้อย่างรวดเร็ว ราคา 201 บาท",
+			Item_cost:    201,
+			Item_picture: "https://promotions.co.th/wp-content/uploads/2021/07/English-From-Zero.png",
+		},
+		{
+			Item_name:    "หนังสือเรียน 9 สามัญ",
+			Item_title:   "หนังสือ เตรียมสอบเข้ม 9 วิชาสามัญ รวมทุกวิชา มั่นใจเต็ม 100",
+			Item_cost:    355,
+			Item_picture: "https://serazu.com/library/products/2315/XXXXXL9786164871359.jpg",
+		},
+		{
+			Item_name:    "กระเป๋าดินสอ Master Art Funny Deer",
+			Item_title:   "กระเป๋าดินสอ Master Art Funny Deer รุ่น MF-C01 (คละลาย)",
+			Item_cost:    45,
+			Item_picture: "https://www.stationerymine.com/media/catalog/product/cache/cf3f2243ef4940fd5c66f2ff035145ac/2/7/276232_msta_pencil_case_funny_deer_mf-c01_blue_001.jpg",
+		},
+		{
+			Item_name:    "ชุดดินสอสีไม้",
+			Item_title:   "ชุดดินสอสีไม้ 36 สี TOMBOW CB-NQ36C",
+			Item_cost:    250,
+			Item_picture: "https://tombowth.com/wp-content/uploads/2021/05/front-2.jpg",
+		},
+	}
+	if err := DB.Model(&models.Reward_Item{}).Create(&rewardItem).Error; err != nil {
+		panic(err)
+	}
 
 	//Course
 	var course = &[]models.Course{
@@ -3603,6 +3640,512 @@ func SeedDB() {
 			Picture:     "http://www.kabinburischool.ac.th/wp-content/uploads/2020/05/หรรษาภาษาไทย.jpg",
 			Description: "คอร์สนี้จะพาน้อง ๆ ได้รู้จักกับ ภาษาไทยพื้นฐานในเรื่องต่าง ๆ เเละได้สนุกกับการเรียนรู้เเละเเบบฝึกหัดในคอร์ส มาเริ่มกันเลย!!",
 		},
+		{
+			//Course_16
+			SubjectID: 36,
+			Videos: &[]models.Video{
+				{
+					Class_level: 7,
+					Video_name:  "ลิมิตของฟังก์ชัน#1",
+					Picture:     "https://i.ytimg.com/vi/YZYk98uKXCA/maxresdefault.jpg",
+					Description: "แคลคูลัสเบื้องต้น เรื่อง ลิมิตของฟังก์ชัน| แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียน",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_16%2FVideo_1%2F%E0%B9%81%E0%B8%84%E0%B8%A5%E0%B8%84%E0%B8%B9%E0%B8%A5%E0%B8%B1%E0%B8%AA%20EP.1_16%20%E0%B8%A5%E0%B8%B4%E0%B8%A1%E0%B8%B4%E0%B8%95%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%9F%E0%B8%B1%E0%B8%87%E0%B8%81%E0%B9%8C%E0%B8%8A%E0%B8%B1%E0%B8%99.mp4?alt=media&token=8fefcca9-86e8-4403-9f03-b9159243e2a3",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_16%2FVideo_1%2F%E0%B8%8A%E0%B8%B5%E0%B8%97%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%99%20%E0%B8%A5%E0%B8%B4%E0%B8%A1%E0%B8%B4%E0%B8%95%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%9F%E0%B8%B1%E0%B8%87%E0%B8%8A%E0%B8%B1%E0%B8%99.pdf?alt=media&token=c552ba91-8c27-4ebe-a3b2-7e91c31a0ebb",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "จงหาค่าลิมิตต่อไปนี้",
+							Image:    "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_16%2FVideo_1%2FExercise%2F%E0%B9%80%E0%B9%80%E0%B8%9A%E0%B8%9A%E0%B8%9D%E0%B8%B6%E0%B8%81%E0%B8%AB%E0%B8%B1%E0%B8%94%E0%B8%A5%E0%B8%B4%E0%B8%A1%E0%B8%B4%E0%B8%95(1).png?alt=media&token=b52d3cc1-ca7c-46b0-be66-adaff4a66519",
+							Choices: &[]models.Choice{
+								{
+									Title:   "1/6",
+									Correct: true,
+								},
+								{
+									Title:   "1/2",
+									Correct: false,
+								},
+								{
+									Title:   "1/8",
+									Correct: false,
+								},
+								{
+									Title:   "0",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "จงหาค่าลิมิตต่อไปนี้",
+							Image:    "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_16%2FVideo_1%2FExercise%2F%E0%B9%80%E0%B9%80%E0%B8%9A%E0%B8%9A%E0%B8%9D%E0%B8%B6%E0%B8%81%E0%B8%AB%E0%B8%B1%E0%B8%94%E0%B8%A5%E0%B8%B4%E0%B8%A1%E0%B8%B4%E0%B8%95(2).png?alt=media&token=3c779dae-cedd-4498-bc90-e9e430f202a2",
+							Choices: &[]models.Choice{
+								{
+									Title:   "-2",
+									Correct: false,
+								},
+								{
+									Title:   "-1",
+									Correct: false,
+								},
+								{
+									Title:   "0",
+									Correct: true,
+								},
+								{
+									Title:   "1",
+									Correct: false,
+								},
+							},
+						},
+					},
+				},
+				{
+					Class_level: 7,
+					Video_name:  "ลิมิตของฟังก์ชัน#2",
+					Picture:     "https://i.ytimg.com/vi/YsJC7nNngXo/mqdefault.jpg",
+					Description: "แคลคูลัสเบื้องต้น เรื่อง ลิมิตของฟังก์ชัน| แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียน",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_16%2FVideo_2%2F%E0%B9%81%E0%B8%84%E0%B8%A5%E0%B8%84%E0%B8%B9%E0%B8%A5%E0%B8%B1%E0%B8%AA%20EP.2_16%20%E0%B8%A5%E0%B8%B4%E0%B8%A1%E0%B8%B4%E0%B8%95%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%9F%E0%B8%B1%E0%B8%87%E0%B8%81%E0%B9%8C%E0%B8%8A%E0%B8%B1%E0%B8%99.mp4?alt=media&token=57ce8e68-2e00-4c4a-bdbc-d0299fb4d1fb",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_16%2FVideo_2%2F%E0%B8%8A%E0%B8%B5%E0%B8%97%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%99%20%E0%B8%A5%E0%B8%B4%E0%B8%A1%E0%B8%B4%E0%B8%95%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%9F%E0%B8%B1%E0%B8%87%E0%B8%8A%E0%B8%B1%E0%B8%99.pdf?alt=media&token=f8434e94-3378-41ae-8b8b-754b6602d8ae",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "1.ข้อใดเป็นสูตรกำลังสองสมบูรณ์",
+							Choices: &[]models.Choice{
+								{
+									Title:   "(หน้า+หลัง)กำลังสอง = หน้ากำลังสอง + 2หน้าหลัง + หลังกำลังสอง ",
+									Correct: true,
+								},
+								{
+									Title:   "หน้ากำลังสอง + หลังกำลังสอง = ( หน้า + หลัง )( หน้า - หลัง )",
+									Correct: false,
+								},
+								{
+									Title:   "(หน้า + หลัง)กำลังสาม = หน้ากำลังสาม + 3หน้ากำลังสองหลัง + 3หน้ากำลังสองหลัง + หลังกำลังสาม",
+									Correct: false,
+								},
+								{
+									Title:   "ผิดทุกข้อ",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "2.ข้อใดเป็นสูตรผลต่างกำลังสอง",
+							Choices: &[]models.Choice{
+								{
+									Title:   "หน้ากำลังสอง + หลังกำลังสอง = ( หน้า + หลัง )( หน้า - หลัง )",
+									Correct: true,
+								},
+								{
+									Title:   "(หน้า+หลัง)กำลังสอง = หน้ากำลังสอง + 2หน้าหลัง + หลังกำลังสอง",
+									Correct: false,
+								},
+								{
+									Title:   "(หน้า + หลัง)กำลังสาม = หน้ากำลังสาม + 3หน้ากำลังสองหลัง + 3หน้ากำลังสองหลัง + หลังกำลังสาม",
+									Correct: false,
+								},
+								{
+									Title:   "ผิดทุกข้อ",
+									Correct: false,
+								},
+							},
+						},
+					},
+				},
+				{
+					Class_level: 7,
+					Video_name:  "ลิมิตอนันต์",
+					Price:       25,
+					Picture:     "https://i.ytimg.com/vi/P55D83g6zcM/maxresdefault.jpg",
+					Description: "สำหรับคลิปนี้ เป็นคลิปสอน ลิมิตอนันต์ แบบละเอียด เข้าใจง่าย",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_16%2FVideo_3%2F%E0%B9%81%E0%B8%84%E0%B8%A5%E0%B8%84%E0%B8%B9%E0%B8%A5%E0%B8%B1%E0%B8%AA%20EP.3_16%20%E0%B8%A5%E0%B8%B4%E0%B8%A1%E0%B8%B4%E0%B8%95%E0%B8%AD%E0%B8%99%E0%B8%B1%E0%B8%99%E0%B8%95%E0%B9%8C.mp4?alt=media&token=b552787a-4299-42fd-8aac-bf23f65ef0c8",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_16%2FVideo_3%2F%E0%B8%8A%E0%B8%B5%E0%B8%97%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%99%20%E0%B8%A5%E0%B8%B4%E0%B8%A1%E0%B8%B4%E0%B8%95%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%9F%E0%B8%B1%E0%B8%87%E0%B8%8A%E0%B8%B1%E0%B8%99.pdf?alt=media&token=21ff2d94-6aff-41b8-9725-478d20f57d48",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "จงหาค่าลิมิตต่อไปนี้",
+							Image:    "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_16%2FVideo_3%2FExercise%2F%E0%B9%80%E0%B9%80%E0%B8%9A%E0%B8%9A%E0%B8%9D%E0%B8%B6%E0%B8%81%E0%B8%AB%E0%B8%B1%E0%B8%94%E0%B8%A5%E0%B8%B4%E0%B8%A1%E0%B8%B4%E0%B8%95(3).png?alt=media&token=8b15f9ff-7b6b-4df2-b384-372cb52e7c8f",
+							Choices: &[]models.Choice{
+								{
+									Title:   "0",
+									Correct: true,
+								},
+								{
+									Title:   "1",
+									Correct: false,
+								},
+								{
+									Title:   "2",
+									Correct: false,
+								},
+								{
+									Title:   "3",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "จงหาค่าลิมิตต่อไปนี้",
+							Image:    "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_16%2FVideo_3%2FExercise%2F%E0%B9%80%E0%B9%80%E0%B8%9A%E0%B8%9A%E0%B8%9D%E0%B8%B6%E0%B8%81%E0%B8%AB%E0%B8%B1%E0%B8%94%E0%B8%A5%E0%B8%B4%E0%B8%A1%E0%B8%B4%E0%B8%95(4).png?alt=media&token=d5a0aba9-d35e-4abe-a7ba-4838c1ad7aa0",
+							Choices: &[]models.Choice{
+								{
+									Title:   "1/6",
+									Correct: false,
+								},
+								{
+									Title:   "1/8",
+									Correct: true,
+								},
+								{
+									Title:   "0",
+									Correct: false,
+								},
+								{
+									Title:   "1/2",
+									Correct: false,
+								},
+							},
+						},
+					},
+				},
+			},
+			TeacherID:   4,
+			Course_name: "แคลคูลัสเบื้องต้น",
+			Picture:     "https://www.glurgeek.com/wp-content/uploads/2016/10/stock-vector-calculus-law-theory-and-mathematical-formula-equation-doodle-handwriting-icon-in-blackboard-396938626-e1475310187891.jpg",
+			Description: "คอร์สนี้จะพาน้อง ๆ ได้รู้จักกับ แคลคูลัสเบื้องต้นในเรื่องต่าง ๆ เเละได้สนุกกับการเรียนรู้เเละเเบบฝึกหัดในคอร์ส มาเริ่มกันเลย!!",
+		},
+		{
+			//Course_17
+			SubjectID: 26,
+			Videos: &[]models.Video{
+				{
+					Class_level: 7,
+					Video_name:  "เรียนมหาวิทยาลัย ไม่รู้ศัพท์พวกนี้ไม่ได้",
+					Picture:     "https://i.ytimg.com/vi/RtUlmytHcEA/maxresdefault.jpg",
+					Description: "ภาษาอังกฤษ เรื่อง คำศัพท์ที่ควรรู้| แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียน",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_17%2FVideo_1%2F%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%99%E0%B8%A1%E0%B8%AB%E0%B8%B2%E0%B8%A7%E0%B8%B4%E0%B8%97%E0%B8%A2%E0%B8%B2%E0%B8%A5%E0%B8%B1%E0%B8%A2%20%E0%B9%84%E0%B8%A1%E0%B9%88%E0%B8%A3%E0%B8%B9%E0%B9%89%E0%B8%A8%E0%B8%B1%E0%B8%9E%E0%B8%97%E0%B9%8C%E0%B8%9E%E0%B8%A7%E0%B8%81%E0%B8%99%E0%B8%B5%E0%B9%89%E0%B9%84%E0%B8%A1%E0%B9%88%E0%B9%84%E0%B8%94%E0%B9%89.mp4?alt=media&token=815a53c3-1049-4dcb-b243-010c1d3dabeb",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_17%2FVideo_1%2F%E0%B8%8A%E0%B8%B5%E0%B8%97%E0%B8%84%E0%B8%B3%E0%B8%A8%E0%B8%B1%E0%B8%9E%E0%B8%97%E0%B9%8C%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B8%AD%E0%B8%B1%E0%B8%87%E0%B8%81%E0%B8%A4%E0%B8%A9.pdf?alt=media&token=becf7d82-1770-46ae-b52c-8323c73c4ccd",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "ข้อใดคือความหมายของคำว่า Section",
+							Image:    "",
+							Choices: &[]models.Choice{
+								{
+									Title:   "กลุ่ม",
+									Correct: true,
+								},
+								{
+									Title:   "ถ่ายรูป",
+									Correct: false,
+								},
+								{
+									Title:   "ห้องพัก",
+									Correct: false,
+								},
+								{
+									Title:   "การเเสดง",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "ข้อใดคือความหมายของคำว่า Tuition",
+							Choices: &[]models.Choice{
+								{
+									Title:   "การนอน",
+									Correct: false,
+								},
+								{
+									Title:   "การเรียน",
+									Correct: false,
+								},
+								{
+									Title:   "การสอน การอบรม",
+									Correct: true,
+								},
+								{
+									Title:   "การงาน",
+									Correct: false,
+								},
+							},
+						},
+					},
+				},
+				{
+					Class_level: 7,
+					Video_name:  "Past simple VS Past continuous ใช้กับอดีตทั้งคู่ แต่ใช้ต่างกันยังไง",
+					Picture:     "https://i.ytimg.com/vi/RHMOjM_IMnQ/maxresdefault.jpg",
+					Description: "ภาษาอังกฤษ เรื่อง Past simple VS Past continuous ใช้กับอดีตทั้งคู่ แต่ใช้ต่างกันยังไง| แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียน",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_17%2FVideo_2%2FPast%20simple%20VS%20Past%20continuous%20%E0%B9%83%E0%B8%8A%E0%B9%89%E0%B8%81%E0%B8%B1%E0%B8%9A%E0%B8%AD%E0%B8%94%E0%B8%B5%E0%B8%95%E0%B8%97%E0%B8%B1%E0%B9%89%E0%B8%87%E0%B8%84%E0%B8%B9%E0%B9%88%20%E0%B9%81%E0%B8%95%E0%B9%88%E0%B9%83%E0%B8%8A%E0%B9%89%E0%B8%95%E0%B9%88%E0%B8%B2%E0%B8%87%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B8%A2%E0%B8%B1%E0%B8%87%E0%B9%84%E0%B8%87.mp4?alt=media&token=68f354db-f7f2-4653-b8be-9f5262a6b4b3",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_17%2FVideo_2%2F%E0%B8%8A%E0%B8%B5%E0%B8%97%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%99%20Past%20simple%20VS%20Past%20continuous%20%E0%B9%83%E0%B8%8A%E0%B9%89%E0%B8%81%E0%B8%B1%E0%B8%9A%E0%B8%AD%E0%B8%94%E0%B8%B5%E0%B8%95%E0%B8%97%E0%B8%B1%E0%B9%89%E0%B8%87%E0%B8%84%E0%B8%B9%E0%B9%88%20%E0%B9%81%E0%B8%95%E0%B9%88%E0%B9%83%E0%B8%8A%E0%B9%89%E0%B8%95%E0%B9%88%E0%B8%B2%E0%B8%87%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B8%A2%E0%B8%B1%E0%B8%87%E0%B9%84%E0%B8%87.pdf?alt=media&token=7bf511a5-1553-470e-8325-6572dcb475b8",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "1. Choose the correct answer. I ______ for exams. (Past continuous tense)",
+							Choices: &[]models.Choice{
+								{
+									Title:   "was studying",
+									Correct: true,
+								},
+								{
+									Title:   "studied",
+									Correct: false,
+								},
+								{
+									Title:   "was study",
+									Correct: false,
+								},
+								{
+									Title:   "study",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "2. Choose the correct answer. She _____ her room. (Past simple tense)",
+							Choices: &[]models.Choice{
+								{
+									Title:   "cleaned",
+									Correct: true,
+								},
+								{
+									Title:   "clean",
+									Correct: false,
+								},
+								{
+									Title:   "was cleaning",
+									Correct: false,
+								},
+								{
+									Title:   "was clean",
+									Correct: false,
+								},
+							},
+						},
+					},
+				},
+				{
+					Class_level: 7,
+					Video_name:  "Present simple / Present continuous ใช้ต่างกันยังไง",
+					Price:       25,
+					Picture:     "https://i.ytimg.com/vi/wQ0bpzrBz3k/maxresdefault.jpg",
+					Description: "ภาษาอังกฤษ เรื่อง Present simple / Present continuous ใช้ต่างกันยังไง | แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียน",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_17%2FVideo_3%2FPresent%20simple%20_%20Present%20continuous%20%E0%B9%83%E0%B8%8A%E0%B9%89%E0%B8%95%E0%B9%88%E0%B8%B2%E0%B8%87%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B8%A2%E0%B8%B1%E0%B8%87%E0%B9%84%E0%B8%87.mp4?alt=media&token=df2b476b-68c2-4bbd-84ba-930c6c9c8c0c",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_17%2FVideo_3%2F%E0%B8%8A%E0%B8%B5%E0%B8%97%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%99%20Present%20simple%20%E0%B9%80%E0%B9%80%E0%B8%A5%E0%B8%B0%20Present%20continuous%20%E0%B9%83%E0%B8%8A%E0%B9%89%E0%B8%95%E0%B9%88%E0%B8%B2%E0%B8%87%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B8%A2%E0%B8%B1%E0%B8%87%E0%B9%84%E0%B8%87.pdf?alt=media&token=9bf21cf1-97df-447e-929a-dd7d9a1b57a7",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "1.Choose the correct answer. I _____ the house now. I'll be there in 20 minutes.",
+							Choices: &[]models.Choice{
+								{
+									Title:   "am leaving",
+									Correct: true,
+								},
+								{
+									Title:   "leave",
+									Correct: false,
+								},
+								{
+									Title:   "leaving",
+									Correct: false,
+								},
+								{
+									Title:   "ผิดทุกข้อ",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "2.Choose the correct answer. We never _____ while on vacation.",
+							Choices: &[]models.Choice{
+								{
+									Title:   "are working",
+									Correct: false,
+								},
+								{
+									Title:   "work",
+									Correct: true,
+								},
+								{
+									Title:   "are work",
+									Correct: false,
+								},
+								{
+									Title:   "working",
+									Correct: false,
+								},
+							},
+						},
+					},
+				},
+			},
+			TeacherID:   10,
+			Course_name: "ภาษาอังกฤษสนุ๊กสนุก",
+			Picture:     "https://www.youngciety.com/cms-2016-storage/article/header/hero_English-is-Fun-mb.jpg",
+			Description: "คอร์สนี้จะพาน้อง ๆ ได้รู้จักกับ ภาษาอังกฤษในเรื่องต่าง ๆ เเละได้สนุกกับการเรียนรู้เเละเเบบฝึกหัดในคอร์ส มาเริ่มกันเลย!!",
+		},
+		{
+			//Course_18
+			SubjectID: 36,
+			Videos: &[]models.Video{
+				{
+					Class_level: 7,
+					Video_name:  "ปรับพื้นฐานสำหรับน้อง ป.ตรี | ฟิสิกส์ - แนวราบ 1/2",
+					Picture:     "https://i.ytimg.com/vi/s_AA8oYRfk0/maxresdefault.jpg",
+					Description: "ฟิสิกส์ เรื่อง ฟิสิกส์ - แนวราบ| แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียน",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_18%2FVideo_1%2F%E0%B8%9B%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%9E%E0%B8%B7%E0%B9%89%E0%B8%99%E0%B8%90%E0%B8%B2%E0%B8%99%E0%B8%AA%E0%B8%B3%E0%B8%AB%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%99%E0%B9%89%E0%B8%AD%E0%B8%87%20%E0%B8%9B.%E0%B8%95%E0%B8%A3%E0%B8%B5%20_%20%E0%B8%9F%E0%B8%B4%E0%B8%AA%E0%B8%B4%E0%B8%81%E0%B8%AA%E0%B9%8C%20-%20%E0%B9%81%E0%B8%99%E0%B8%A7%E0%B8%A3%E0%B8%B2%E0%B8%9A%201_2.mp4?alt=media&token=58643536-64b3-450e-a0c1-54ecfa966fa1",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_18%2FVideo_1%2F%E0%B8%9B%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%9E%E0%B8%B7%E0%B9%89%E0%B8%99%20physic%20by%20SigmaKing.pdf?alt=media&token=e12a2e66-a8a9-40af-ac54-936bd3384e7f",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "ถนนเส้นหนึ่งมีความยาวของเส้นทาง(ระยะทาง)ที่วัตถุเคลื่อนที่จาก A ไป B เป็น 120 เมตร ใช้เวลา 25 วินาที จงหาอัตราเร็วการเคลื่อนที่ของวัตถุจากระยะ A ไป B เป็นเท่าใด",
+							Choices: &[]models.Choice{
+								{
+									Title:   "4.8 m/s",
+									Correct: true,
+								},
+								{
+									Title:   "3.8 m/s",
+									Correct: false,
+								},
+								{
+									Title:   "2.8 m/s",
+									Correct: false,
+								},
+								{
+									Title:   "1.8 m/s",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "จากข้อที่เเล้ว หากวัตถุเคลื่อนที่จาก B ไป C เป็น 80 เมตร ใช้เวลา 35 วินาที จงหาอัตราเร็วการเคลื่อนที่ของวัตถุจากระยะ B ไป C เป็นเท่าใด",
+							Choices: &[]models.Choice{
+								{
+									Title:   "2.1 m/s",
+									Correct: false,
+								},
+								{
+									Title:   "2.2 m/s",
+									Correct: false,
+								},
+								{
+									Title:   "2.3 m/s",
+									Correct: true,
+								},
+								{
+									Title:   "2.4 m/s",
+									Correct: false,
+								},
+							},
+						},
+					},
+				},
+				{
+					Class_level: 7,
+					Video_name:  "ปรับพื้นฐานสำหรับน้อง ป.ตรี | ฟิสิกส์ - แนวราบ 2/2",
+					Picture:     "https://i.ytimg.com/vi/CEeybQsNk4g/maxresdefault.jpg",
+					Description: "ฟิสิกส์ เรื่อง ฟิสิกส์ - แนวราบ| แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียน",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_18%2FVideo_2%2F%E0%B8%9B%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%9E%E0%B8%B7%E0%B9%89%E0%B8%99%E0%B8%90%E0%B8%B2%E0%B8%99%E0%B8%AA%E0%B8%B3%E0%B8%AB%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%99%E0%B9%89%E0%B8%AD%E0%B8%87%20%E0%B8%9B.%E0%B8%95%E0%B8%A3%E0%B8%B5%20_%20%E0%B8%9F%E0%B8%B4%E0%B8%AA%E0%B8%B4%E0%B8%81%E0%B8%AA%E0%B9%8C%20-%20%E0%B9%81%E0%B8%99%E0%B8%A7%E0%B8%A3%E0%B8%B2%E0%B8%9A%202_2.mp4?alt=media&token=af689be7-3cad-4dec-b76f-d26c6666b4af",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_18%2FVideo_2%2F%E0%B8%9B%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%9E%E0%B8%B7%E0%B9%89%E0%B8%99%20physic%20by%20SigmaKing.pdf?alt=media&token=354858df-ce77-4ab3-bf8e-9ac413ff3498",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "1.รถยนต์คันหนึ่งขณะเริ่มสังเกตการเคลื่อนที่มีความเร็ว 30 เมตรต่อวินาที เมื่อเวลาผ่านไป 20 วินาที มีความเร็วเป็น 40 เมตรต่อวินาที หลังจากนั้นอีก 15 วินาที รถยนต์คันนั้นจะหยุดการเคลื่อนที่พอดี จงหาความเร่งในช่วง 20 วินาทีแรก",
+							Choices: &[]models.Choice{
+								{
+									Title:   "0.5 m/s กำลังสอง",
+									Correct: true,
+								},
+								{
+									Title:   "0.6 m/s กำลังสอง",
+									Correct: false,
+								},
+								{
+									Title:   "0.7 m/s กำลังสอง",
+									Correct: false,
+								},
+								{
+									Title:   "0.8 m/s กำลังสอง",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "2.รถยนต์คันหนึ่งขณะเริ่มสังเกตการเคลื่อนที่มีความเร็ว 30 เมตรต่อวินาที เมื่อเวลาผ่านไป 20 วินาที มีความเร็วเป็น 40 เมตรต่อวินาที หลังจากนั้นอีก 15 วินาที รถยนต์คันนั้นจะหยุดการเคลื่อนที่พอดี จงหาความเร่งในช่วง 15 วินาทีหลัง",
+							Choices: &[]models.Choice{
+								{
+									Title:   "-2.67 m/s กำลังสอง",
+									Correct: true,
+								},
+								{
+									Title:   "-3.67 m/s กำลังสอง",
+									Correct: false,
+								},
+								{
+									Title:   "-1.67 m/s กำลังสอง",
+									Correct: false,
+								},
+								{
+									Title:   "-4.67 m/s กำลังสอง",
+									Correct: false,
+								},
+							},
+						},
+					},
+				},
+				{
+					Class_level: 7,
+					Video_name:  "ปรับพื้นฐานสำหรับน้อง ป.ตรี | ฟิสิกส์ - แนวดิ่ง",
+					Price:       25,
+					Picture:     "https://i.ytimg.com/vi/yXSM5ShPshE/maxresdefault.jpg",
+					Description: "ฟิสิกส์ เรื่อง ฟิสิกส์ - แนวดิ่ง| แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียน",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_18%2FVideo_3%2F%E0%B8%9B%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%9E%E0%B8%B7%E0%B9%89%E0%B8%99%E0%B8%90%E0%B8%B2%E0%B8%99%E0%B8%AA%E0%B8%B3%E0%B8%AB%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%99%E0%B9%89%E0%B8%AD%E0%B8%87%20%E0%B8%9B.%E0%B8%95%E0%B8%A3%E0%B8%B5%20_%20%E0%B8%9F%E0%B8%B4%E0%B8%AA%E0%B8%B4%E0%B8%81%E0%B8%AA%E0%B9%8C%20-%20%E0%B9%81%E0%B8%99%E0%B8%A7%E0%B8%94%E0%B8%B4%E0%B9%88%E0%B8%87.mp4?alt=media&token=befed1c9-352b-4db8-80bf-de378fbfd38e",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_18%2FVideo_3%2F%E0%B8%9B%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%9E%E0%B8%B7%E0%B9%89%E0%B8%99%20physic%20by%20SigmaKing.pdf?alt=media&token=9a01a32e-96b3-4356-9e82-06620ba530ec",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "โยนลูกบอลขึ้นไปในเเนวดิ่งด้วยความเร็วต้น 4.9 เมตรต่อวินาที นานเท่าใดลูกบอลจึงจะเคลื่อนที่ไปถึงจุดสูงสุด",
+							Choices: &[]models.Choice{
+								{
+									Title:   "0.5 s",
+									Correct: true,
+								},
+								{
+									Title:   "0.6 s",
+									Correct: false,
+								},
+								{
+									Title:   "0.7 s",
+									Correct: false,
+								},
+								{
+									Title:   "0.8 s",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "ยิงวัตถุขึ้นในเเนวดิ่ง จากพื้นด้วยความเร็ว 60 เมตร/วินาที นานเท่าใดวัตถุจึงอยู่สูงจากพื้น 100 เมตร ( g=10 เมตร/วินาทีกำลังสอง)",
+							Choices: &[]models.Choice{
+								{
+									Title:   "2, 17",
+									Correct: false,
+								},
+								{
+									Title:   "2, 10",
+									Correct: true,
+								},
+								{
+									Title:   "20, 14",
+									Correct: false,
+								},
+								{
+									Title:   "2, 15",
+									Correct: false,
+								},
+							},
+						},
+					},
+				},
+			},
+			TeacherID:   3,
+			Course_name: "ปรับพื้นฐานวิชาฟิสิกส์",
+			Picture:     "https://panyasociety.com/pages/wp-content/uploads/2020/10/PhysicCover-01_New.png",
+			Description: "คอร์สนี้จะพาน้อง ๆ ได้รู้จักกับ ฟิสิกส์ในเรื่องต่าง ๆ เเละได้สนุกกับการเรียนรู้เเละเเบบฝึกหัดในคอร์ส มาเริ่มกันเลย!!",
+		},
 	}
 	if err := DB.Model(&models.Course{}).Create(&course).Error; err != nil {
 		panic(err)
@@ -3619,4 +4162,171 @@ func MigrateData() {
 	DB.AutoMigrate(&models.User{}, &models.UserTeacher{}, &models.Experience{}, &models.Comment{}, &models.Course{}, &models.History{}, &models.Post{}, &models.Review_Video{}, &models.Review_Tutor{}, &models.Reward_Info{}, &models.Reward_Item{}, &models.Subject{}, &models.Video{}, &models.Exercise{}, &models.Choice{})
 }
 
-//Psychological_test: "https://testyourself.psychtests.com/bin/report?req=Mnw0MTc2fDEyMDA3NzM1fDF8MQ==",
+// {
+// 	//Course_
+// 	SubjectID: 7,
+// 	Videos: &[]models.Video{
+// 		{
+// 			Class_level: 7,
+// 			Video_name:  "#1",
+// 			Picture:     "",
+// 			Description: "แคลคูลัสเบื้องต้น เรื่อง ลิมิตของฟังก์ชัน| แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียน",
+// 			Url:         "",
+// 			Sheet:       "",
+// 			Exercises: &[]models.Exercise{
+// 				{
+// 					Question: "",
+// 					Image:    "",
+// 					Choices: &[]models.Choice{
+// 						{
+// 							Title:   "",
+// 							Correct: true,
+// 						},
+// 						{
+// 							Title:   "",
+// 							Correct: false,
+// 						},
+// 						{
+// 							Title:   "",
+// 							Correct: false,
+// 						},
+// 						{
+// 							Title:   "",
+// 							Correct: false,
+// 						},
+// 					},
+// 				},
+// 				{
+// 					Question: "จงหาค่าลิมิตต่อไปน",
+// 					Choices: &[]models.Choice{
+// 						{
+// 							Title:   "",
+// 							Correct: false,
+// 						},
+// 						{
+// 							Title:   "",
+// 							Correct: false,
+// 						},
+// 						{
+// 							Title:   "",
+// 							Correct: true,
+// 						},
+// 						{
+// 							Title:   "",
+// 							Correct: false,
+// 						},
+// 					},
+// 				},
+// 			},
+// 		},
+// 		{
+// 			Class_level: 7,
+// 			Video_name:  "#2",
+// 			Picture:     "",
+// 			Description: "แคลคูลัสเบื้องต้น เรื่อง ลิมิตของฟังก์ชัน| แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียน",
+// 			Url:         "",
+// 			Sheet:       "",
+// 			Exercises: &[]models.Exercise{
+// 				{
+// 					Question: "1.",
+// 					Choices: &[]models.Choice{
+// 						{
+// 							Title:   "",
+// 							Correct: true,
+// 						},
+// 						{
+// 							Title:   "",
+// 							Correct: false,
+// 						},
+// 						{
+// 							Title:   "",
+// 							Correct: false,
+// 						},
+// 						{
+// 							Title:   "",
+// 							Correct: false,
+// 						},
+// 					},
+// 				},
+// 				{
+// 					Question: "2.",
+// 					Choices: &[]models.Choice{
+// 						{
+// 							Title:   "",
+// 							Correct: true,
+// 						},
+// 						{
+// 							Title:   "",
+// 							Correct: false,
+// 						},
+// 						{
+// 							Title:   "",
+// 							Correct: false,
+// 						},
+// 						{
+// 							Title:   "",
+// 							Correct: false,
+// 						},
+// 					},
+// 				},
+// 			},
+// 		},
+// 		{
+// 			Class_level: 7,
+// 			Video_name:  "",
+// 			Price:       25,
+// 			Picture:     "",
+// 			Description: "สำหรับคลิปนี้ เป็นคลิปสอน ลิมิตอนันต์ แบบละเอียด เข้าใจง่าย",
+// 			Url:         "",
+// 			Sheet:       "",
+// 			Exercises: &[]models.Exercise{
+// 				{
+// 					Question: "",
+// 					Choices: &[]models.Choice{
+// 						{
+// 							Title:   "",
+// 							Correct: true,
+// 						},
+// 						{
+// 							Title:   "",
+// 							Correct: false,
+// 						},
+// 						{
+// 							Title:   "",
+// 							Correct: false,
+// 						},
+// 						{
+// 							Title:   "",
+// 							Correct: false,
+// 						},
+// 					},
+// 				},
+// 				{
+// 					Question: "",
+// 					Choices: &[]models.Choice{
+// 						{
+// 							Title:   "",
+// 							Correct: false,
+// 						},
+// 						{
+// 							Title:   "",
+// 							Correct: true,
+// 						},
+// 						{
+// 							Title:   "",
+// 							Correct: false,
+// 						},
+// 						{
+// 							Title:   "",
+// 							Correct: false,
+// 						},
+// 					},
+// 				},
+// 			},
+// 		},
+// 	},
+// 	TeacherID:   4,
+// 	Course_name: "",
+// 	Picture:     "",
+// 	Description: "คอร์สนี้จะพาน้อง ๆ ได้รู้จักกับ แคลคูลัสเบื้องต้นในเรื่องต่าง ๆ เเละได้สนุกกับการเรียนรู้เเละเเบบฝึกหัดในคอร์ส มาเริ่มกันเลย!!",
+// },
