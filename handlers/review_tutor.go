@@ -11,7 +11,7 @@ import (
 
 func CreateReviewTutor(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var review *models.Review_Tutor
+		var review models.Review_Tutor
 
 		if err := c.BodyParser(&review); err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -46,7 +46,7 @@ func CreateReviewTutor(db *gorm.DB) fiber.Handler {
 
 func GetReviewTutorByFilter(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var review *[]models.Review_Tutor
+		var review []models.Review_Tutor
 
 		if err := db.Model(&models.Review_Tutor{}).Where("teacher_id = ?", c.Params("teacher_id")).Find(&review).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{

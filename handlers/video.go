@@ -2,8 +2,6 @@ package handlers
 
 //CompileDaemon -command="./CourseZ_Backend"
 import (
-	"strconv"
-
 	"github.com/PiamNaJa/CourseZ_Backend/constants"
 	"github.com/PiamNaJa/CourseZ_Backend/models"
 	"github.com/gofiber/fiber/v2"
@@ -12,21 +10,21 @@ import (
 
 func CreateVideo(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var video *models.Video
+		var video models.Video
+		var course models.Course
 		if err := c.BodyParser(&video); err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
 
-		course_id, err := strconv.ParseInt(c.Params("course_id"), 10, 64)
-		if err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
+		if err := db.Model(&models.Course{}).Preload("Subject").Where("course_id = ?", c.Params("course_id")).First(&course).Error; err != nil {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+				"error": "Video not found",
 			})
 		}
-		video.CourseID = int32(course_id)
-
+		video.CourseID = course.Course_id
+		video.Class_level = course.Subject.Class_level
 		if err := constants.Validate.Struct(video); err != nil {
 			return c.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
@@ -43,33 +41,33 @@ func CreateVideo(db *gorm.DB) fiber.Handler {
 
 func GetAllVideo(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var video *[]models.Video
+		var videos []models.Video
 
-		if err := db.Model(&models.Video{}).Preload("Reviews").Preload("Exercises").Where("course_id = ?", c.Params("course_id")).Find(&video).Error; err != nil {
+		if err := db.Model(&models.Video{}).Preload("Reviews").Preload("Exercises").Where("course_id = ?", c.Params("course_id")).Find(&videos).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": "No record",
 			})
 		}
-		return c.Status(fiber.StatusOK).JSON(&video)
+		return c.Status(fiber.StatusOK).JSON(&videos)
 	}
 }
 
 func GetVideoByFilter(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var video *[]models.Video
+		var videos []models.Video
 
-		if err := db.Model(&models.Video{}).Where("class_level = ?", c.Params("class_level")).Find(&video).Error; err != nil {
+		if err := db.Model(&models.Video{}).Where("class_level = ?", c.Params("class_level")).Find(&videos).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": "No record",
 			})
 		}
-		return c.Status(fiber.StatusOK).JSON(&video)
+		return c.Status(fiber.StatusOK).JSON(&videos)
 	}
 }
 
 func GetVideoById(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var video *models.Video
+		var video models.Video
 		id := c.Params("video_id")
 
 		if err := db.Model(&models.Video{}).Preload("Reviews").Preload("Exercises").Where("course_id = ?", c.Params("course_id")).First(&video, id).Error; err != nil {
@@ -83,7 +81,7 @@ func GetVideoById(db *gorm.DB) fiber.Handler {
 
 func DeleteVideoByID(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var video *models.Video
+		var video models.Video
 		id := c.Params("video_id")
 
 		r := db.Model(&models.Video{}).Where("course_id = ?", c.Params("course_id")).Delete(&video, id)
@@ -102,8 +100,8 @@ func DeleteVideoByID(db *gorm.DB) fiber.Handler {
 
 func UpdateVideo(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var video *models.Video
-		var updateVideoData *models.Video
+		var video models.Video
+		var updateVideoData models.Video
 		id := c.Params("video_id")
 
 		if err := db.Model(&models.Video{}).Preload("Reviews").Preload("Exercises").Where("course_id = ?", c.Params("course_id")).First(&video, id).Error; err != nil {

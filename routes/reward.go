@@ -14,9 +14,9 @@ func RewardRoutes(app fiber.Router, db *gorm.DB) {
 	app.Delete("/item/:item_id", handlers.DeleteRewardItemById(db))
 	app.Put("/item/:item_id", handlers.UpdateRewardItem(db))
 
-	app.Post("/info", handlers.CreateRewardInfo(db))
-	app.Get("/info", m.IsLogin, handlers.GetAllRewardInfo(db))
-	app.Get("/info/user/:user_id", m.IsLogin, handlers.GetRewardInfoByUser(db)) //wait user refactor m.IsUser middleware
-	app.Get("/info/:reward_id", m.IsLogin, handlers.GetRewardInfoByID(db))
-	app.Delete("/info/:reward_id", m.IsLogin, handlers.DeleteRewardInfoById(db))
+	app.Post("/info", m.IsLogin, handlers.CreateRewardInfo(db))
+	app.Get("/info", handlers.GetAllRewardInfo(db))
+	app.Get("/info/user/:user_id", m.IsLogin, m.IsUser, handlers.GetRewardInfoByUser(db))
+	app.Get("/info/:reward_id", m.IsLogin, m.IsRewardOwner, handlers.GetRewardInfoByID(db))
+	app.Delete("/info/:reward_id", m.IsLogin, m.IsRewardOwner, handlers.DeleteRewardInfoById(db))
 }

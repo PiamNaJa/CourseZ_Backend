@@ -11,7 +11,7 @@ import (
 
 func CreateExercise(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var exercise *models.Exercise
+		var exercise models.Exercise
 
 		if err := c.BodyParser(&exercise); err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -45,7 +45,7 @@ func CreateExercise(db *gorm.DB) fiber.Handler {
 
 func GetAllExercise(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var exercise *[]models.Exercise
+		var exercise []models.Exercise
 
 		if err := db.Model(&models.Exercise{}).Where("video_id = ?", c.Params("video_id")).Preload("Choices").Find(&exercise).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -58,7 +58,7 @@ func GetAllExercise(db *gorm.DB) fiber.Handler {
 
 func GetExerciseById(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var exercise *models.Exercise
+		var exercise models.Exercise
 
 		if err := db.Model(&models.Exercise{}).Where("video_id = ?", c.Params("video_id")).Preload("Choices").First(&exercise, c.Params("exercise_id")).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -86,8 +86,8 @@ func DeleteExerciseID(db *gorm.DB) fiber.Handler {
 
 func UpdateExercise(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var exercise *models.Exercise
-		var updateExercise *models.Exercise
+		var exercise models.Exercise
+		var updateExercise models.Exercise
 
 		if err := db.Model(&models.Exercise{}).Where("video_id = ?", c.Params("video_id")).First(&exercise, c.Params("exercise_id")).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{

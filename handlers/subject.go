@@ -9,7 +9,7 @@ import (
 
 func CreateSubject(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var subject *models.Subject
+		var subject models.Subject
 		if err := c.BodyParser(&subject); err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
@@ -32,7 +32,7 @@ func CreateSubject(db *gorm.DB) fiber.Handler {
 
 func GetAllSubject(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var subject *[]models.Subject
+		var subject []models.Subject
 
 		if err := db.Model(&models.Subject{}).Find(&subject).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{

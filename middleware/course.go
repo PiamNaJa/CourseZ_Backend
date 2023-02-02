@@ -27,7 +27,7 @@ func IsCourseOwner(c *fiber.Ctx) error {
 		})
 	}
 
-	var course *models.Course
+	var course models.Course
 	if err := configs.DB.Model(&models.Course{}).Where("course_id = ?", c.Params("course_id")).First(&course).Error; err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"error": "Course not found",

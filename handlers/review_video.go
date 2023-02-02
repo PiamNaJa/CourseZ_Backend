@@ -11,7 +11,7 @@ import (
 
 func CreateReviewVideo(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var review *models.Review_Video
+		var review models.Review_Video
 
 		if err := c.BodyParser(&review); err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -46,9 +46,9 @@ func CreateReviewVideo(db *gorm.DB) fiber.Handler {
 
 func GetReviewVideoByFilter(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var review *[]models.Review_Video
+		var review []models.Review_Video
 
-		if err := db.Model(&models.Video{}).Where("video_id = ?", c.Params("video_id")).Find(&review).Error; err != nil {
+		if err := db.Model(&models.Review_Video{}).Where("video_id = ?", c.Params("video_id")).Find(&review).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": "No record",
 			})

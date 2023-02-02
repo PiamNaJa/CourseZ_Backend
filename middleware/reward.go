@@ -10,7 +10,7 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
-func IsVideoOwner(c *fiber.Ctx) error {
+func IsRewardOwner(c *fiber.Ctx) error {
 	claims := jwt.MapClaims{}
 	_, err := jwt.ParseWithClaims(c.Get("authorization"), &claims, func(token *jwt.Token) (interface{}, error) {
 		return []byte(os.Getenv("JWT_Secret")), nil
@@ -27,23 +27,17 @@ func IsVideoOwner(c *fiber.Ctx) error {
 		})
 	}
 
-	var video models.Video
-	if err := configs.DB.Model(&models.Video{}).Where("video_id = ?", c.Params("video_id")).First(&video).Error; err != nil {
+	var rewardInfo models.Reward_Info
+	if err := configs.DB.Model(&models.Reward_Info{}).Where("reward_id = ?", c.Params("reward_id")).First(&rewardInfo).Error; err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-			"error": "Video not found",
+			"error": "Reward not found",
 		})
 	}
 
-	var course models.Course
-	if err := configs.DB.Model(&models.Course{}).Where("course_id = ?", video.CourseID).First(&course).Error; err != nil {
-		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-			"error": "Course not found",
-		})
-	}
-	videoOwner := course.TeacherID
+	rewardOwner := rewardInfo.UserID
 
-	owner := claims["teacher_id"].(float64)
-	if owner != float64(videoOwner) {
+	owner := claims["user_id"].(float64)
+	if owner != float64(rewardOwner) {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 			"error": "Unauthorized",
 		})
