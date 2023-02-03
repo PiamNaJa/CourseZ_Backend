@@ -1,9 +1,13 @@
 package handlers
 
 import (
+	"os"
+	"time"
+
 	"github.com/PiamNaJa/CourseZ_Backend/constants"
 	"github.com/PiamNaJa/CourseZ_Backend/models"
 	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt/v4"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
@@ -270,19 +274,19 @@ func GetTeacher(db *gorm.DB) fiber.Handler {
 	}
 }
 func GetTeacherByClassLevel(db *gorm.DB) fiber.Handler {
-    return func(c *fiber.Ctx) error {
+	return func(c *fiber.Ctx) error {
 		var result []map[string]interface{}
-        if err:= db.Table("users").
-        Select("users.user_id, user_teachers.teacher_id, nickname, fullname, subjects.class_level, users.picture, COALESCE(AVG(rating), 0.0) AS rating").
-        Joins("JOIN user_teachers on users.user_id = user_teachers.user_id").
-        Joins("JOIN courses ON user_teachers.teacher_id = courses.teacher_id").
-        Joins("JOIN subjects ON courses.subject_id = subjects.subject_id").
-        Joins("LEFT JOIN review_tutors ON user_teachers.teacher_id = review_tutors.teacher_id").
-        Where("role = 'Teacher' OR role = 'Tutor'").
-        Group("users.user_id, user_teachers.teacher_id, subjects.class_level, nickname, fullname, users.picture").
-        Having("subjects.class_level = ?", c.Params("class_level")).
-        Order("rating DESC").
-        Find(&result).Error; err != nil {
+		if err := db.Table("users").
+			Select("users.user_id, user_teachers.teacher_id, nickname, fullname, subjects.class_level, users.picture, COALESCE(AVG(rating), 0.0) AS rating").
+			Joins("JOIN user_teachers on users.user_id = user_teachers.user_id").
+			Joins("JOIN courses ON user_teachers.teacher_id = courses.teacher_id").
+			Joins("JOIN subjects ON courses.subject_id = subjects.subject_id").
+			Joins("LEFT JOIN review_tutors ON user_teachers.teacher_id = review_tutors.teacher_id").
+			Where("role = 'Teacher' OR role = 'Tutor'").
+			Group("users.user_id, user_teachers.teacher_id, subjects.class_level, nickname, fullname, users.picture").
+			Having("subjects.class_level = ?", c.Params("class_level")).
+			Order("rating DESC").
+			Find(&result).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
@@ -290,6 +294,68 @@ func GetTeacherByClassLevel(db *gorm.DB) fiber.Handler {
 		if result == nil {
 			result = []map[string]interface{}{}
 		}
-        return c.Status(fiber.StatusOK).JSON(&result)
-    }
+		return c.Status(fiber.StatusOK).JSON(&result)
+	}
+}
+
+func GetNewToken(db *gorm.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		var rT map[string]string
+		if err := c.BodyParser(&rT); err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
+		refreshToken := rT["token"]
+		claims := jwt.MapClaims{}
+		tkn, err := jwt.ParseWithClaims(refreshToken, claims, func(token *jwt.Token) (interface{}, error) {
+			return []byte(os.Getenv("JWT_REFRESH_Secret")), nil
+		},
+		)
+		if err != nil {
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
+		if !tkn.Valid {
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+				"error": "Invalid Token",
+			})
+		}
+
+		// Check if the token has expired
+		exp := claims["exp"].(float64)
+		if int64(exp) < time.Now().Unix() {
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+				"error": "Token Expired",
+			})
+		}
+
+		user_id := int32(claims["user_id"].(float64))
+		role := claims["role"].(string)
+		teacher_id := int32(claims["teacher_id"].(float64))
+		var user models.User
+		if err := db.Model(&models.User{}).Where("user_id = ?", user_id).First(&user).Error; err != nil {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
+		tokenString, err := constants.GenerateToken(&user_id, &role, &teacher_id)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
+		refeshTokenString, err := constants.GenerateRefreshToken(&user_id, &role, &teacher_id)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
+
+		return c.Status(fiber.StatusOK).JSON(fiber.Map{
+			"token":        &tokenString,
+			"refreshToken": &refeshTokenString,
+		})
+	}
 }
