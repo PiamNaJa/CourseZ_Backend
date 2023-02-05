@@ -21,7 +21,7 @@ type User struct {
 type UserTeacher struct {
 	Teacher_id         int32           `json:"teacher_id" gorm:"primaryKey;type:int"`                                                // Teacher_id is the id of the teacher
 	UserID             int32           `json:"user_id" gorm:"index;type:int"`                                                        // UserID is the id of the user
-	Teacher_license    string          `json:"teacher_license" gorm:"not null;type:varchar(5000)" validate:"required,max=5000"`      // link file
+	Teacher_license    string          `json:"teacher_license" gorm:"not null;type:varchar(5000)" validate:"max=5000"`               // link file
 	Transcript         string          `json:"transcript" gorm:"not null;type:varchar(5000)" validate:"max=5000"`                    // link file
 	Id_card            string          `json:"id_card" gorm:"not null;type:varchar(5000)" validate:"required,max=5000"`              // link file
 	Psychological_test string          `json:"psychological_test" gorm:"not null;type:varchar(255)" validate:"max=255"`              // link file
