@@ -12,7 +12,7 @@ type User struct {
 	Nickname string       `json:"nickname" gorm:"not null;type:varchar(100)" validate:"required,max=100"`         // Nickname is the nickname of the user
 	Birthday time.Time    `json:"birthday"  gorm:"not null;type:date"`                                            // Birthday is the birthday of the user
 	Role     string       `json:"role" gorm:"not null;type:varchar(20);default:Student"`                          // Role is the role of the user
-	Picture  string       `json:"picture" gorm:"not null;type:varchar(5000)" validate:"required,max=5000"`        // Picture is a link to the picture
+	Picture  string       `json:"picture" gorm:"not null;type:varchar(5000)" validate:"max=5000"`                 // Picture is a link to the picture
 	Point    int32        `json:"point" gorm:"type:int;default:0"`                                                // Point is the point of the user
 	History  *[]History   `json:"history" gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"` // History is the history of the user
 	Teacher  *UserTeacher `json:"teacher" gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"` // Teacher is the teacher of the user
