@@ -105,6 +105,6 @@ func GetPaidVideos(db *gorm.DB) fiber.Handler {
 		if len(videosId) == 0 {
 			videosId = []int32{}
 		}
-		return c.Status(fiber.StatusOK).JSON(videosId)
+		return c.Status(fiber.StatusOK).JSON(&videosId)
 	}
 }
