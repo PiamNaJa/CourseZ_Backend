@@ -40,3 +40,10 @@ func GenerateRefreshToken(user_id *int32, role *string, teacher_id *int32) (stri
 
 	return refeshToken, err
 }
+func GetClaims(token string) (jwt.MapClaims, error) {
+	claims := jwt.MapClaims{}
+	_, err := jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(os.Getenv("JWT_SECRET")), nil
+	})
+	return claims, err
+}
