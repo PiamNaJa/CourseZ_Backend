@@ -846,6 +846,7 @@ func SeedDB() {
 			Videos: &[]models.Video{
 				{
 					Class_level: 2,
+					Price:       500,
 					Video_name:  "การแยกตัวประกอบของพหุนามดีกรีสอง (พหุนามดีกรีสองตัวแปรเดียว)",
 					Picture:     "https://www.tertututor.com/images/cover/factorize-degree-2.png",
 					Description: "การเเยกตัวประกอบ ม.2 | ทบทวนการแยกตัวประกอบของพหุนามดีกรีสอง (พหุนามดีกรีสองตัวแปรเดียว) แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนคณิตศาสตร์ ",
@@ -4155,6 +4156,7 @@ func SeedDB() {
 }
 
 func WipeData() {
+	DB.Migrator().DropTable("user_paidvideos")
 	DB.Migrator().DropTable(&models.User{}, &models.UserTeacher{}, &models.Experience{}, &models.Comment{}, &models.Course{}, &models.History{}, &models.Post{}, &models.Review_Video{}, &models.Review_Tutor{}, &models.Reward_Info{}, &models.Reward_Item{}, &models.Subject{}, &models.Video{}, &models.Exercise{}, &models.Choice{})
 }
 
