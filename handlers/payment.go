@@ -78,7 +78,27 @@ func VideosPayment(db *gorm.DB) fiber.Handler {
 				"error": err.Error(),
 			})
 		}
-		return c.Status(fiber.StatusOK).JSON("Payment success")
+
+		var userInPayment models.User
+		if err := db.Model(&models.User{}).Preload("PaidVideos").Where("user_id = ?", user.User_id).First(&userInPayment).Error; err != nil {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+				"error": "User not found",
+			})
+		}
+
+		var payment models.Payment
+		payment.Payee = &userInPayment
+		payment.Recipient = &teacher
+		payment.Money = totalPrice
+		payment.Text = "pay for videos"
+
+		if err := db.Model(&models.Payment{}).Create(&payment).Error; err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
+
+		return c.Status(fiber.StatusOK).JSON(payment)
 	}
 }
 

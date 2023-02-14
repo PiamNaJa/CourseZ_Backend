@@ -55,6 +55,7 @@ func main() {
 	routes.PostRoutes(router.Group("/post"), configs.DB)
 	routes.RewardRoutes(router.Group("/reward"), configs.DB)
 	routes.PaymentRoutes(router.Group("/payment"), configs.DB)
+	routes.WithdrawRoutes(router.Group("/withdraw"), configs.DB)
 
 	log.Fatal(app.Listen(":5000"))
 }
