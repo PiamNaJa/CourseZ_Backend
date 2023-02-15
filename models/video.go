@@ -15,4 +15,5 @@ type Video struct {
 	Reviews     *[]Review_Video `json:"reviews" gorm:"foreignKey:VideoID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`            // Reviews is the reviews of the video
 	Exercises   *[]Exercise     `json:"exercises" gorm:"not null;foreignKey:VideoID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"` // Exercises is the exercises of the video
 	CreatedAt   time.Time       `json:"created_at" gorm:"not null;"`
+	Like        int32           `json:"like" gorm:"not null;type:int;default:0"`
 }
