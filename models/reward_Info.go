@@ -8,9 +8,9 @@ type Reward_Info struct {
 	ItemID       int32        `json:"item_id" gorm:"index;type:int;not null" validate:"required,number"`                    // ItemID is the id of the item
 	Item         *Reward_Item `json:"item" gorm:"not null;foreignKey:ItemID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	Lane         string       `json:"lane" gorm:"not null;type:varchar(10)" validate:"max=10"`                  //ซอย
-	Village_no   string       `json:"village_no" gorm:"not null;type:varchar(20)" validate:"max=20"`           // หมู่
+	Village_no   string       `json:"village_no" gorm:"not null;type:varchar(20)" validate:"max=20"`            // หมู่
 	Village      string       `json:"village" gorm:"not null;type:varchar(50)" validate:"max=50"`               // หมู่บ้าน
-	Road         string       `json:"road" gorm:"not null;type:varchar(50)" validate:"max=50"`                 // Road is the road of the address
+	Road         string       `json:"road" gorm:"not null;type:varchar(50)" validate:"max=50"`                  // Road is the road of the address
 	Sub_district string       `json:"sub_district" gorm:"not null;type:varchar(60)" validate:"required,max=60"` // ตำยล
 	District     string       `json:"district" gorm:"not null;type:varchar(60)" validate:"required,max=60"`     // อำเภอ
 	Province     string       `json:"province" gorm:"not null;type:varchar(60)" validate:"required,max=60"`     // จังหวัด

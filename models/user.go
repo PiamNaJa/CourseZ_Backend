@@ -19,6 +19,7 @@ type User struct {
 	PaidVideos  []*Video     `json:"paid_videos" gorm:"many2many:user_paidvideos;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`   // PaidVideo is the paid video of the user
 	LikeVideos  []*Video     `json:"like_videos" gorm:"many2many:user_likevideos;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`   // LikeVideo is the video user buyed
 	LikeCourses []*Course    `json:"like_courses" gorm:"many2many:user_likecourses;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"` // LikeCourse is the course user likeed
+  Tracsaction *[]Payment   `json:"payment" gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`             // Tracsaction is the tracsaction of the user
 }
 
 type UserTeacher struct {
@@ -32,6 +33,7 @@ type UserTeacher struct {
 	Reviews            *[]Review_Tutor `json:"reviews" gorm:"foreignKey:TeacherID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`    // Reviews is the reviews of the teacher
 	Experience         *[]Experience   `json:"experience" gorm:"foreignKey:TeacherID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"` // Experience is the experience of the teacher
 	Courses            *[]Course       `json:"courses" gorm:"foreignKey:TeacherID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`    // Courses is the courses of the teacher
+	Tracsaction        *[]Withdraw     `json:"withdraw" gorm:"foreignKey:TeacherID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`   // Tracsaction is the tracsaction of the teacher
 }
 
 type Experience struct {
