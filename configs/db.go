@@ -4153,6 +4153,44 @@ func SeedDB() {
 	}
 
 	fmt.Println("Course created")
+
+	var review_video = &[]models.Review_Video{
+		{
+			VideoID: 1,
+			Rating:  4.5,
+			Comment: "สอนดีมากครับ",
+		},
+		{
+			VideoID: 1,
+			Rating:  5,
+			Comment: "สอนสนุก เข้าใจง่ายมากครับ",
+		},
+		{
+			VideoID: 1,
+			Rating:  4.5,
+			Comment: "เข้าใจง่าย สนุกเเละน่าสนใจมากครับ",
+		},
+		{
+			VideoID: 2,
+			Rating:  3.5,
+			Comment: "ดูคลิปจบเเล้ว เข้าใจมากครับ สอนดีค่ะ",
+		},
+		{
+			VideoID: 2,
+			Rating:  4.5,
+			Comment: "เรียนสนุกและเข้าใจง่ายมากครับ",
+		},
+		{
+			VideoID: 2,
+			Rating:  4,
+			Comment: "เรียนสนุกมากค่ะ",
+		},
+	}
+	if err := DB.Model(&models.Review_Video{}).Create(&review_video).Error; err != nil {
+		panic(err)
+	}
+
+	fmt.Println("Reviews Video created")
 }
 
 func WipeData() {
