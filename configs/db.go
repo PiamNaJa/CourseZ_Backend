@@ -12,6 +12,48 @@ import (
 
 var DB *gorm.DB
 
+func TestChat() {
+	var user = &models.User{
+		User_id:  11,
+		Email:    "p@mail.com",
+		Fullname: "PP",
+		Nickname: "PP",
+		Role:     "Student",
+		Password: "$2a$10$cm2Krm4dyA2Xu.qY705/EO96ZudVKv.YLpZDQMBAW2wWNEWOWQ6Ou",
+		Picture: "https://paradepets.com/.image/t_share/MTkxMzY1Nzg4NjczMzIwNTQ2/cutest-dog-breeds-jpg.jpg",
+	}
+	var user2 = &models.User{
+		User_id:  12,
+		Email:    "aa@mail.com",
+		Fullname: "AAA",
+		Nickname: "AAA",
+		Role:     "Student",
+		Password: "$2a$10$cm2Krm4dyA2Xu.qY705/EO96ZudVKv.YLpZDQMBAW2wWNEWOWQ6Ou",
+		Picture: "https://paradepets.com/.image/t_share/MTkxMzY1Nzg4NjczMzIwNTQ2/cutest-dog-breeds-jpg.jpg",
+	}
+	var inbox = &models.Inbox{
+		User1ID:      11,
+		User1:        user,
+		User2ID:      12,
+		User2:        user2,
+		Last_message: "Hello",
+	}
+	var chat = &models.ChatRoom{
+		Inbox_id: 1,
+		Conversations: []*models.Conversation{
+			{
+				ChatRoom_id: 1,
+				Sender_id:   11,
+				Message:     "Hello",
+				CreateAt:    time.Now().Unix(),
+			}},
+	}
+	DB.Create(user)
+	DB.Create(user2)
+	DB.Create(inbox)
+	DB.Create(chat)
+}
+
 func ConnectDB() {
 	db, err := gorm.Open(postgres.Open(os.Getenv("DB_URL")), &gorm.Config{})
 	if err != nil {

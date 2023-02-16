@@ -12,6 +12,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/swagger"
+	"github.com/gofiber/websocket/v2"
 )
 
 func main() {
@@ -25,12 +26,13 @@ func main() {
 			AllowMethods:     "GET,POST,PUT,DELETE",
 		},
 	))
-
+	app.Get("/ws/:id", websocket.New(NewServer().HandleConnection))
 	configs.Init()
 	configs.ConnectDB()
 	configs.WipeData()
 	configs.MigrateData()
 	configs.SeedDB()
+	configs.TestChat()
 	app.Use(logger.New(logger.Config{
 		Format:     "${pid} ${status} - ${method} ${path}\n",
 		TimeFormat: "02-Jan-2006",
@@ -40,6 +42,7 @@ func main() {
 	sql, _ := configs.DB.DB()
 	defer sql.Close()
 	defer configs.File.Close()
+	defer app.Shutdown()
 
 	router := app.Group("/api")
 
@@ -55,6 +58,7 @@ func main() {
 	routes.PostRoutes(router.Group("/post"), configs.DB)
 	routes.RewardRoutes(router.Group("/reward"), configs.DB)
 	routes.PaymentRoutes(router.Group("/payment"), configs.DB)
+	routes.InboxRoutes(router.Group("/inbox"), configs.DB)
 	routes.WithdrawRoutes(router.Group("/withdraw"), configs.DB)
 
 	log.Fatal(app.Listen(":5000"))
