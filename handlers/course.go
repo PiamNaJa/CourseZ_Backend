@@ -36,7 +36,7 @@ func GetAllCourse(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var course []models.Course
 
-		if err := db.Model(&models.Course{}).Preload("Subject").Preload("Videos").Find(&course).Error; err != nil {
+		if err := db.Model(&models.Course{}).Preload("Subject").Preload("Videos").Preload("Videos.Reviews").Find(&course).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": "record not found",
 			})
@@ -50,7 +50,7 @@ func GetCourseById(db *gorm.DB) fiber.Handler {
 		var course models.Course
 		id := c.Params("course_id")
 
-		if err := db.Model(&models.Course{}).Preload("Subject").Preload("Videos").First(&course, id).Error; err != nil {
+		if err := db.Model(&models.Course{}).Preload("Subject").Preload("Videos").Preload("Videos.Reviews").First(&course, id).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": "Course not found",
 			})

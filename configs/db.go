@@ -4157,7 +4157,7 @@ func SeedDB() {
 	var review_video = &[]models.Review_Video{
 		{
 			VideoID: 1,
-			Rating:  4.5,
+			Rating:  4,
 			Comment: "สอนดีมากครับ",
 		},
 		{
@@ -4167,17 +4167,17 @@ func SeedDB() {
 		},
 		{
 			VideoID: 1,
-			Rating:  4.5,
+			Rating:  4,
 			Comment: "เข้าใจง่าย สนุกเเละน่าสนใจมากครับ",
 		},
 		{
 			VideoID: 2,
-			Rating:  3.5,
+			Rating:  3,
 			Comment: "ดูคลิปจบเเล้ว เข้าใจมากครับ สอนดีค่ะ",
 		},
 		{
 			VideoID: 2,
-			Rating:  4.5,
+			Rating:  4,
 			Comment: "เรียนสนุกและเข้าใจง่ายมากครับ",
 		},
 		{
