@@ -157,6 +157,34 @@ func LikeCourse(db *gorm.DB) fiber.Handler {
 
 func IsLikeCourse(db *gorm.DB)  fiber.Handler{
 	return func(c *fiber.Ctx) error {
-		return c.Status(fiber.StatusOK).JSON(true)
+		token := c.Get("authorization")
+		claims, err := constants.GetClaims(token)
+		if err != nil {
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+				"error": "Unauthorized",
+			})
+		}
+		var user models.User
+		if err := db.Preload("LikeCourses").First(&user, claims["user_id"]).Error; err != nil {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+				"error": "User not found",
+			})
+		}
+		var course models.Course
+		if err := db.First(&course, c.Params("course_id")).Error; err != nil {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+				"error": "Course not found",
+			})
+		}
+		userLike := user.LikeCourses
+		isLike := false
+		for _, u := range userLike{
+			if(u.Course_id == course.Course_id){
+				isLike = true
+				break
+			}
+		}
+		
+		return c.Status(fiber.StatusOK).JSON(isLike)
 	}
 }
