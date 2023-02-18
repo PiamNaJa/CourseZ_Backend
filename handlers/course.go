@@ -154,3 +154,9 @@ func LikeCourse(db *gorm.DB) fiber.Handler {
 		return c.Status(fiber.StatusOK).JSON("Like Success")
 	}
 }
+
+func IsLikeCourse(db *gorm.DB)  fiber.Handler{
+	return func(c *fiber.Ctx) error {
+		return c.Status(fiber.StatusOK).JSON(true)
+	}
+}
