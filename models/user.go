@@ -19,7 +19,7 @@ type User struct {
 	PaidVideos  []*Video     `json:"paid_videos" gorm:"many2many:user_paidvideos;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`   // PaidVideo is the paid video of the user
 	LikeVideos  []*Video     `json:"like_videos" gorm:"many2many:user_likevideos;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`   // LikeVideo is the video user buyed
 	LikeCourses []*Course    `json:"like_courses" gorm:"many2many:user_likecourses;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"` // LikeCourse is the course user likeed
-  Tracsaction *[]Payment   `json:"payment" gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`             // Tracsaction is the tracsaction of the user
+	Tracsaction *[]Payment   `json:"payment" gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`               // Tracsaction is the tracsaction of the user
 }
 
 type UserTeacher struct {

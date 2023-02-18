@@ -9,7 +9,8 @@ import (
 func SearchALL(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var name = "%" + c.Query("name") + "%"
-		var courses, coursesVideos []models.Course
+		var courses []models.Course
+		var coursesVideos []models.Course = []models.Course{}
 
 		if err := db.Model(&models.Course{}).Preload("Videos", func(tx *gorm.DB) *gorm.DB { //Search video in course
 			return tx.Where("video_name LIKE ?", &name)
@@ -26,11 +27,7 @@ func SearchALL(db *gorm.DB) fiber.Handler {
 			}
 		}
 
-		if coursesVideos == nil {
-			coursesVideos = []models.Course{}
-		}
-
-		if err := db.Model(&models.Course{}).Preload("Subject").Where("course_name LIKE ?", &name).Find(&courses).Error; err != nil {
+		if err := db.Preload("Subject").Where("course_name LIKE ?", &name).Find(&courses).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": "Course not found",
 			})
@@ -70,7 +67,7 @@ func SearchCourse(db *gorm.DB) fiber.Handler {
 		var course []models.Course
 		var name = "%" + c.Query("name") + "%"
 
-		if err := db.Model(&models.Course{}).Preload("Subject").Where("course_name LIKE ?", &name).Find(&course).Error; err != nil {
+		if err := db.Preload("Subject").Where("course_name LIKE ?", &name).Find(&course).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": "Course not found",
 			})
@@ -110,7 +107,7 @@ func SearchVideo(db *gorm.DB) fiber.Handler {
 		var courses, coursesSearch []models.Course
 		var name = "%" + c.Query("name") + "%"
 
-		if err := db.Model(&models.Course{}).Preload("Videos", func(tx *gorm.DB) *gorm.DB {
+		if err := db.Preload("Videos", func(tx *gorm.DB) *gorm.DB {
 			return tx.Where("video_name LIKE ?", &name)
 		}).Preload("Subject").
 			Find(&courses).Error; err != nil {
