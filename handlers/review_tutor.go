@@ -34,7 +34,7 @@ func CreateReviewTutor(db *gorm.DB) fiber.Handler {
 			})
 		}
 
-		if err := db.Model(&models.Review_Tutor{}).Create(&review).Error; err != nil {
+		if err := db.Create(&review).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
@@ -48,7 +48,7 @@ func GetReviewTutorByFilter(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var review []models.Review_Tutor
 
-		if err := db.Model(&models.Review_Tutor{}).Where("teacher_id = ?", c.Params("teacher_id")).Find(&review).Error; err != nil {
+		if err := db.Where("teacher_id = ?", c.Params("teacher_id")).Find(&review).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": "No record",
 			})
