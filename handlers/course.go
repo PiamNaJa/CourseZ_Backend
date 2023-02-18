@@ -134,28 +134,41 @@ func LikeCourse(db *gorm.DB) fiber.Handler {
 				"error": "Course not found",
 			})
 		}
+		isLike := checkIsLikeCourse(course, user.LikeCourses)
 
-		course.Like += 1
-		user.LikeCourses = append(user.LikeCourses, &course)
 		tx := db.Begin()
+		var resMessage string
+		if !isLike {
+			course.Like += 1
+			user.LikeCourses = append(user.LikeCourses, &course)
+			resMessage = "Like Success"
+			if err := tx.Save(&user).Error; err != nil {
+				tx.Rollback()
+				return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+					"error": err.Error(),
+				})
+			}
+		} else {
+			course.Like -= 1
+			if err := tx.Model(&user).Where("course_course_id = ?", course.Course_id).Association("LikeCourses").Clear(); err != nil {
+				return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+					"error": err.Error(),
+				})
+			}
+			resMessage = "Unlike Success"
+		}
 		if err := tx.Save(&course).Error; err != nil {
 			tx.Rollback()
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
-		if err := tx.Save(&user).Error; err != nil {
-			tx.Rollback()
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
-		}
 		tx.Commit()
-		return c.Status(fiber.StatusOK).JSON("Like Success")
+		return c.Status(fiber.StatusOK).SendString(resMessage)
 	}
 }
 
-func IsLikeCourse(db *gorm.DB)  fiber.Handler{
+func IsLikeCourse(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		token := c.Get("authorization")
 		claims, err := constants.GetClaims(token)
@@ -177,14 +190,17 @@ func IsLikeCourse(db *gorm.DB)  fiber.Handler{
 			})
 		}
 		userLike := user.LikeCourses
-		isLike := false
-		for _, u := range userLike{
-			if(u.Course_id == course.Course_id){
-				isLike = true
-				break
-			}
-		}
-		
+		isLike := checkIsLikeCourse(course, userLike)
+
 		return c.Status(fiber.StatusOK).JSON(isLike)
 	}
+}
+
+func checkIsLikeCourse(course models.Course, userLike []*models.Course) bool {
+	for _, u := range userLike {
+		if u.Course_id == course.Course_id {
+			return true
+		}
+	}
+	return false
 }

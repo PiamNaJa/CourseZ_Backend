@@ -12,7 +12,8 @@ func VideoRoutes(app fiber.Router, db *gorm.DB) {
 	app.Get("/", handlers.GetAllVideo(db))
 	app.Get("/getby/:class_level", handlers.GetVideoByFilter(db))
 	app.Get("/:video_id", handlers.GetVideoById(db))
-	app.Patch("/:video_id", handlers.LikeVideo(db))
+	app.Get("/:video_id/like", m.IsLogin, handlers.IsLikeVideo(db))
+	app.Patch("/:video_id", m.IsLogin, handlers.LikeVideo(db))
 	app.Delete("/:video_id", m.IsLogin, m.IsTeacher, m.IsVideoOwner, handlers.DeleteVideoByID(db))
 	app.Put("/:video_id", m.IsLogin, m.IsTeacher, handlers.UpdateVideo(db))
 }
