@@ -236,7 +236,7 @@ func Update(db *gorm.DB) fiber.Handler {
 func GetProfile(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var user models.User
-		if err := db.Omit("password").Preload("Teacher").Preload("Teacher.Courses").Preload("History").Preload("History.Video").Preload("PaidVideos").Preload("LikeVideos").Preload("LikeCourses").Preload("Tracsaction").Where("user_id = ?", c.Params("user_id")).First(&user).Error; err != nil {
+		if err := db.Omit("password").Preload(clause.Associations).Preload("Teacher.Courses").Preload("Teacher.Tracsaction").Preload("History.Video").Where("user_id = ?", c.Params("user_id")).First(&user).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": err.Error(),
 			})

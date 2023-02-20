@@ -47,7 +47,7 @@ func VideosPayment(db *gorm.DB) fiber.Handler {
 		}
 
 		var courses []models.Course
-		if err := db.Model(&models.Course{}).Preload("Videos", "video_id IN ?", request["video_id"]).Find(&courses).Error; err != nil {
+		if err := db.Preload("Videos", "video_id IN ?", request["video_id"]).Find(&courses).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})

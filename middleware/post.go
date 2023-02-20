@@ -28,7 +28,7 @@ func IsPostOwner(c *fiber.Ctx) error {
 	}
 
 	var post models.Post
-	if err := configs.DB.Model(&models.Post{}).Where("post_id = ?", c.Params("post_id")).First(&post).Error; err != nil {
+	if err := configs.DB.Where("post_id = ?", c.Params("post_id")).First(&post).Error; err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"error": "Post not found",
 		})

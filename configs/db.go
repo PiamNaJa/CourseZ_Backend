@@ -335,7 +335,7 @@ func SeedDB() {
 			Subject_picture: "https://cdn-icons-png.flaticon.com/512/1186/1186523.png",
 		},
 	}
-	if err := DB.Model(&models.Subject{}).Create(&subject).Error; err != nil {
+	if err := DB.Create(&subject).Error; err != nil {
 		panic(err)
 	}
 
@@ -544,7 +544,7 @@ func SeedDB() {
 			},
 		},
 	}
-	if err := DB.Model(&models.User{}).Create(&teacher).Error; err != nil {
+	if err := DB.Create(&teacher).Error; err != nil {
 		panic(err)
 	}
 
@@ -583,7 +583,7 @@ func SeedDB() {
 			Item_picture: "https://tombowth.com/wp-content/uploads/2021/05/front-2.jpg",
 		},
 	}
-	if err := DB.Model(&models.Reward_Item{}).Create(&rewardItem).Error; err != nil {
+	if err := DB.Create(&rewardItem).Error; err != nil {
 		panic(err)
 	}
 
@@ -4190,7 +4190,7 @@ func SeedDB() {
 			Description: "คอร์สนี้จะพาน้อง ๆ ได้รู้จักกับ ฟิสิกส์ในเรื่องต่าง ๆ เเละได้สนุกกับการเรียนรู้เเละเเบบฝึกหัดในคอร์ส มาเริ่มกันเลย!!",
 		},
 	}
-	if err := DB.Model(&models.Course{}).Create(&course).Error; err != nil {
+	if err := DB.Create(&course).Error; err != nil {
 		panic(err)
 	}
 
@@ -4348,7 +4348,7 @@ func SeedDB() {
 			Comment: "สอนเข้าใจมากค่ะ ชอบมากค่ะ คือหนูดูมาหลายๆคลิปละไม่เข้าใจ พอมาดูของพี่คือแบบเข้าใจแบบมากๆเลยค่ะ  พี่สอนละเอียด รู้ที่มาของแต่ละตัวมากค่ะ",
 		},
 	}
-	if err := DB.Model(&models.Review_Video{}).Create(&review_video).Error; err != nil {
+	if err := DB.Create(&review_video).Error; err != nil {
 		panic(err)
 	}
 
@@ -4376,7 +4376,7 @@ func SeedDB() {
 			Comment:   "ชอบที่สุดเลยค่ะ สอนสนุกกระชับเข้าใจดีมากๆเลยค่ะ เหมาะกับคนที่ไม่มีเวลาไปเรียนพิเศษข้างนอกบ้าน เรียนที่ไหนก็ได้เป็นกำลังใจให้นะคะทำต่อไปเยอะๆเลยนะคะ",
 		},
 	}
-	if err := DB.Model(&models.Review_Tutor{}).Create(&review_tutor).Error; err != nil {
+	if err := DB.Create(&review_tutor).Error; err != nil {
 		panic(err)
 	}
 
