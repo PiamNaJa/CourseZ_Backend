@@ -160,23 +160,70 @@ func LikeVideo(db *gorm.DB) fiber.Handler {
 				"error": "video not found",
 			})
 		}
-
-		video.Like += 1
-		user.LikeVideos = append(user.LikeVideos, &video)
+		isLike := checkIsLikeVideo(video, user.LikeVideos)
+		var resMessage string
 		tx := db.Begin()
+		if !isLike {
+			video.Like += 1
+			user.LikeVideos = append(user.LikeVideos, &video)
+			if err := tx.Save(&user).Error; err != nil {
+				tx.Rollback()
+				return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+					"error": err.Error(),
+				})
+			}
+			resMessage = "Like Success"
+		} else {
+			video.Like -= 1
+			if err := tx.Model(&user).Where("video_video_id = ?", video.Video_id).Association("LikeVideos").Clear(); err != nil {
+				return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+					"error": err.Error(),
+				})
+			}
+			resMessage = "Unlike Success"
+		}
 		if err := tx.Save(&video).Error; err != nil {
 			tx.Rollback()
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
-		if err := tx.Save(&user).Error; err != nil {
-			tx.Rollback()
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
+		tx.Commit()
+		return c.Status(fiber.StatusOK).SendString(resMessage)
+	}
+}
+func IsLikeVideo(db *gorm.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		token := c.Get("authorization")
+		claims, err := constants.GetClaims(token)
+		if err != nil {
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+				"error": "Unauthorized",
 			})
 		}
-		tx.Commit()
-		return c.Status(fiber.StatusOK).JSON("Like Success")
+		var user models.User
+		if err := db.Preload("LikeVideos").First(&user, claims["user_id"]).Error; err != nil {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+				"error": "User not found",
+			})
+		}
+		var video models.Video
+		id := c.Params("video_id")
+
+		if err := db.Where("course_id = ?", c.Params("course_id")).First(&video, &id).Error; err != nil {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+				"error": "video not found",
+			})
+		}
+		isLike := checkIsLikeVideo(video, user.LikeVideos)
+		return c.Status(fiber.StatusOK).JSON(isLike)
 	}
+}
+func checkIsLikeVideo(video models.Video, userLike []*models.Video) bool {
+	for _, u := range userLike {
+		if u.Video_id == video.Video_id {
+			return true
+		}
+	}
+	return false
 }
