@@ -9,6 +9,6 @@ type Course struct {
 	TeacherID   int32    `json:"teacher_id" gorm:"index;type:int;not null" validate:"required,number"`                      // TeacherID is the id of the teacher
 	Picture     string   `json:"picture" gorm:"not null;type:varchar(5000)" validate:"required,max=5000"`                   // Picture is a link to the picture
 	Description string   `json:"description" gorm:"not null;type:text" validate:"required"`                                 // Description is the description of the course
-	CreatedAt   int64    `json:"create_at" gorm:"autoCreateTime"`
+	CreatedAt   int64    `json:"created_at" gorm:"autoCreateTime"`
 	Like        int32    `json:"like" gorm:"not null;type:int;default:0"`
 }
