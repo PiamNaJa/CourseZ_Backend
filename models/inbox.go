@@ -8,6 +8,7 @@ type Inbox struct {
 	User2             *User  `json:"user2" gorm:"not null;foreignKey:User2ID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"` // user_id
 	Last_message      string `json:"last_message" gorm:"not null;type:text"`
 	LastMessageUserID int32  `json:"last_message_user_id" gorm:"not null;type:int"`
+	LastTimeMessage   int64  `json:"last_time_message" gorm:"not null;type:bigint;autoCreateTime"`
 }
 
 type ChatRoom struct {
@@ -20,5 +21,5 @@ type Conversation struct {
 	ChatRoom_id     int32  `json:"chatroom_id" gorm:"type:int"`
 	Sender_id       int32  `json:"sender_id" gorm:"not null;type:int"` // user_id
 	Message         string `json:"message" gorm:"type:text"`           // message
-	CreateAt        int64  `json:"create_at" gorm:"autoCreateTime"`
+	CreatedAt       int64  `json:"created_at" gorm:"autoCreateTime"`
 }
