@@ -45,7 +45,7 @@ func TestChat() {
 				ChatRoom_id: 1,
 				Sender_id:   11,
 				Message:     "Hello",
-				CreateAt:    time.Now().Unix(),
+				CreatedAt:    time.Now().Unix(),
 			}},
 	}
 	DB.Create(user)
