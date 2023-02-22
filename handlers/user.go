@@ -10,6 +10,7 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 func RegisterStudent(db *gorm.DB) fiber.Handler {
@@ -34,7 +35,7 @@ func RegisterStudent(db *gorm.DB) fiber.Handler {
 
 		user.Password = string(encryptPassword)
 
-		if err := db.Model(&models.User{}).Create(&user).Error; err != nil {
+		if err := db.Create(&user).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
@@ -97,7 +98,7 @@ func RegisterTeacher(db *gorm.DB) fiber.Handler {
 		}
 
 		tx := db.Begin()
-		if err := tx.Model(&models.User{}).Create(&user).Error; err != nil {
+		if err := tx.Create(&user).Error; err != nil {
 			tx.Rollback()
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
@@ -106,7 +107,7 @@ func RegisterTeacher(db *gorm.DB) fiber.Handler {
 
 		userTeacher.UserID = user.User_id
 
-		if err := tx.Model(&models.UserTeacher{}).Create(&userTeacher).Error; err != nil {
+		if err := tx.Create(&userTeacher).Error; err != nil {
 			tx.Rollback()
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
@@ -151,7 +152,7 @@ func LoginUser(db *gorm.DB) fiber.Handler {
 
 		password := user.Password
 
-		if err := db.Model(&models.User{}).Preload("Teacher").Where("email = ?", user.Email).First(&user).Error; err != nil {
+		if err := db.Preload("Teacher").Where("email = ?", &user.Email).First(&user).Error; err != nil {
 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 				"error": err.Error(),
 			})
@@ -220,7 +221,7 @@ func Update(db *gorm.DB) fiber.Handler {
 			}
 		}
 
-		if err := db.Model(&models.User{}).Where("user_id = ?", c.Params("user_id")).Updates(&user).Error; err != nil {
+		if err := db.Where("user_id = ?", c.Params("user_id")).Updates(&user).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": err.Error(),
 			})
@@ -235,26 +236,11 @@ func Update(db *gorm.DB) fiber.Handler {
 func GetProfile(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var user models.User
-		if err := db.Model(&models.User{}).Omit("password").Preload("Teacher").Preload("Teacher.Courses").Preload("History").Preload("History.Video").Where("user_id = ?", c.Params("user_id")).First(&user).Error; err != nil {
+		if err := db.Omit("password").Preload(clause.Associations).Preload("Teacher.Courses").Preload("Teacher.Tracsaction").Preload("History.Video").Where("user_id = ?", c.Params("user_id")).First(&user).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
-
-		// var logindata = &models.LoginData{
-		// 	Fullname: user.Fullname,
-		// 	Nickname: user.Nickname,
-		// 	Birthday: user.Birthday,
-		// 	Role:     user.Role,
-		// 	Picture:  user.Picture,
-		// 	Point:    user.Point,
-		// 	History:  history, //waiting history api
-		// 	Teacher:  user.Teacher,
-		// }
-		if len(*user.History) == 0 {
-			user.History = nil
-		}
-
 		return c.Status(fiber.StatusOK).JSON(&user)
 	}
 }
@@ -335,7 +321,7 @@ func GetNewToken(db *gorm.DB) fiber.Handler {
 		role := claims["role"].(string)
 		teacher_id := int32(claims["teacher_id"].(float64))
 		var user models.User
-		if err := db.Model(&models.User{}).Where("user_id = ?", user_id).First(&user).Error; err != nil {
+		if err := db.Where("user_id = ?", &user_id).First(&user).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": err.Error(),
 			})

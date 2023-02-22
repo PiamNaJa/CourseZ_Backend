@@ -20,7 +20,7 @@ func CreateSubject(db *gorm.DB) fiber.Handler {
 			return c.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
 
-		if err := db.Model(&models.Subject{}).Create(&subject).Error; err != nil {
+		if err := db.Create(&subject).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
@@ -34,7 +34,7 @@ func GetAllSubject(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var subject []models.Subject
 
-		if err := db.Model(&models.Subject{}).Find(&subject).Error; err != nil {
+		if err := db.Find(&subject).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})

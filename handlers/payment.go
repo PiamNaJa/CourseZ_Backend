@@ -10,11 +10,6 @@ import (
 func VideosPayment(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		token := c.Get("authorization")
-		if token == "" {
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-				"error": "Unauthorized",
-			})
-		}
 		claims, err := constants.GetClaims(token)
 		if err != nil {
 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
@@ -29,7 +24,7 @@ func VideosPayment(db *gorm.DB) fiber.Handler {
 		}
 
 		var user models.User
-		if err := db.Model(&models.User{}).Select("user_id", "role").Where("user_id = ?", claims["user_id"]).First(&user).Error; err != nil {
+		if err := db.Select("user_id", "role").Where("user_id = ?", claims["user_id"]).First(&user).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": "User not found",
 			})
@@ -37,7 +32,7 @@ func VideosPayment(db *gorm.DB) fiber.Handler {
 		var videos []*models.Video
 		for _, video_id := range request["video_id"].([]interface{}) {
 			var video *models.Video
-			if err := db.Model(&models.Video{}).Select("video_id", "price").Where("video_id = ?", video_id).First(&video).Error; err != nil {
+			if err := db.Select("video_id", "price").Where("video_id = ?", video_id).First(&video).Error; err != nil {
 				return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 					"error": "Video not found",
 				})
@@ -52,7 +47,7 @@ func VideosPayment(db *gorm.DB) fiber.Handler {
 		}
 
 		var courses []models.Course
-		if err := db.Model(&models.Course{}).Preload("Videos", "video_id IN ?", request["video_id"]).Find(&courses).Error; err != nil {
+		if err := db.Preload("Videos", "video_id IN ?", request["video_id"]).Find(&courses).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
@@ -71,7 +66,7 @@ func VideosPayment(db *gorm.DB) fiber.Handler {
 			}
 		}
 		var teacher models.UserTeacher
-		if err := db.Model(&models.UserTeacher{}).First(&teacher, &course.TeacherID).Error; err != nil {
+		if err := db.First(&teacher, &course.TeacherID).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
@@ -85,19 +80,19 @@ func VideosPayment(db *gorm.DB) fiber.Handler {
 		}
 
 		var userInPayment models.User
-		if err := db.Model(&models.User{}).Preload("PaidVideos").Where("user_id = ?", user.User_id).First(&userInPayment).Error; err != nil {
+		if err := db.Preload("PaidVideos").Where("user_id = ?", &user.User_id).First(&userInPayment).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": "User not found",
 			})
 		}
 
-		var payment models.Payment
-		payment.Payee = &userInPayment
-		payment.Recipient = &teacher
-		payment.Money = totalPrice
-		payment.Text = "pay for videos"
-
-		if err := db.Model(&models.Payment{}).Create(&payment).Error; err != nil {
+		payment := models.Payment{
+			Payee:     &userInPayment,
+			Recipient: &teacher,
+			Money:     totalPrice,
+			Text:      "pay for videos",
+		}
+		if err := db.Create(&payment).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
@@ -110,11 +105,6 @@ func VideosPayment(db *gorm.DB) fiber.Handler {
 func GetPaidVideos(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		token := c.Get("authorization")
-		if token == "" {
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-				"error": "Unauthorized",
-			})
-		}
 		claims, err := constants.GetClaims(token)
 		if err != nil {
 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
@@ -122,19 +112,17 @@ func GetPaidVideos(db *gorm.DB) fiber.Handler {
 			})
 		}
 		var user models.User
-		if err := db.Model(&models.User{}).Preload("PaidVideos").Select("user_id", "role").Where("user_id = ?", claims["user_id"]).First(&user).Error; err != nil {
+		if err := db.Preload("PaidVideos").Select("user_id", "role").Where("user_id = ?", claims["user_id"]).First(&user).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": "User not found",
 			})
 		}
 
-		var videosId []int32
+		var videosId []int32 = []int32{}
 		for _, video := range user.PaidVideos {
 			videosId = append(videosId, video.Video_id)
 		}
-		if len(videosId) == 0 {
-			videosId = []int32{}
-		}
+
 		return c.Status(fiber.StatusOK).JSON(&videosId)
 	}
 }

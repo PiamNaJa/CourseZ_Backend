@@ -28,7 +28,7 @@ func IsRewardOwner(c *fiber.Ctx) error {
 	}
 
 	var rewardInfo models.Reward_Info
-	if err := configs.DB.Model(&models.Reward_Info{}).Where("reward_id = ?", c.Params("reward_id")).First(&rewardInfo).Error; err != nil {
+	if err := configs.DB.Where("reward_id = ?", c.Params("reward_id")).First(&rewardInfo).Error; err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"error": "Reward not found",
 		})

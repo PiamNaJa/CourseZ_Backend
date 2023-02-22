@@ -28,14 +28,14 @@ func IsVideoOwner(c *fiber.Ctx) error {
 	}
 
 	var video models.Video
-	if err := configs.DB.Model(&models.Video{}).Where("video_id = ?", c.Params("video_id")).First(&video).Error; err != nil {
+	if err := configs.DB.Where("video_id = ?", c.Params("video_id")).First(&video).Error; err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"error": "Video not found",
 		})
 	}
 
 	var course models.Course
-	if err := configs.DB.Model(&models.Course{}).Where("course_id = ?", video.CourseID).First(&course).Error; err != nil {
+	if err := configs.DB.Where("course_id = ?", video.CourseID).First(&course).Error; err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"error": "Course not found",
 		})

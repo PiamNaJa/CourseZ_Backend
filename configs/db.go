@@ -45,7 +45,7 @@ func TestChat() {
 				ChatRoom_id: 1,
 				Sender_id:   11,
 				Message:     "Hello",
-				CreateAt:    time.Now().Unix(),
+				CreatedAt:    time.Now().Unix(),
 			}},
 	}
 	DB.Create(user)
@@ -335,7 +335,7 @@ func SeedDB() {
 			Subject_picture: "https://cdn-icons-png.flaticon.com/512/1186/1186523.png",
 		},
 	}
-	if err := DB.Model(&models.Subject{}).Create(&subject).Error; err != nil {
+	if err := DB.Create(&subject).Error; err != nil {
 		panic(err)
 	}
 
@@ -349,7 +349,6 @@ func SeedDB() {
 			Password: "1234",
 			Fullname: "สุนีย์ คิดดี",
 			Nickname: "ครูกุ๊กไก่",
-			Birthday: time.Now(),
 			Role:     "Teacher",
 			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/01%20Math/05%20Nook.jpg?width=210&name=05%20Nook.jpg",
 			Teacher: &models.UserTeacher{
@@ -369,7 +368,6 @@ func SeedDB() {
 			Password: "1234",
 			Fullname: "วรรณษา ทองสุก",
 			Nickname: "ครูเดือน",
-			Birthday: time.Now(),
 			Role:     "Tutor",
 			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/01%20Math/01%20Nhoi.jpg?width=210&name=01%20Nhoi.jpg",
 			Teacher: &models.UserTeacher{
@@ -388,7 +386,6 @@ func SeedDB() {
 			Password: "1234",
 			Fullname: "สุชาติ ม่วงดี",
 			Nickname: "ครูเมฆ",
-			Birthday: time.Now(),
 			Role:     "Teacher",
 			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/01%20Math/06%20Ice.jpg?width=210&name=06%20Ice.jpg",
 			Teacher: &models.UserTeacher{
@@ -408,7 +405,6 @@ func SeedDB() {
 			Password: "1234",
 			Fullname: "สิริยากร ผ่องพันธ์",
 			Nickname: "ครูดาว",
-			Birthday: time.Now(),
 			Role:     "Teacher",
 			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/03%20Thai/02.png?width=210&name=02.png",
 			Teacher: &models.UserTeacher{
@@ -428,7 +424,6 @@ func SeedDB() {
 			Password: "1234",
 			Fullname: "นนทการ ศรีสุข",
 			Nickname: "ครูสิงโต",
-			Birthday: time.Now(),
 			Role:     "Teacher",
 			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/07%20Bio/01.png?width=210&name=01.png",
 			Teacher: &models.UserTeacher{
@@ -448,7 +443,6 @@ func SeedDB() {
 			Password: "1234",
 			Fullname: "นาตาชา เเจ่มใส",
 			Nickname: "ครูข้าวต้ม",
-			Birthday: time.Now(),
 			Role:     "Teacher",
 			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/05%20Eng/01.png?width=210&name=01.png",
 			Teacher: &models.UserTeacher{
@@ -468,7 +462,6 @@ func SeedDB() {
 			Password: "1234",
 			Fullname: "สมเกียรติ มั่งมี",
 			Nickname: "ครูเฟียส",
-			Birthday: time.Now(),
 			Role:     "Teacher",
 			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/01%20Math/07%20Leng.jpg?width=210&name=07%20Leng.jpg",
 			Teacher: &models.UserTeacher{
@@ -488,7 +481,6 @@ func SeedDB() {
 			Password: "1234",
 			Fullname: "เเพรวา เเจ่มเเจ้ง",
 			Nickname: "ครูปลา",
-			Birthday: time.Now(),
 			Role:     "Teacher",
 			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/06%20Sci/01.jpg?width=210&name=01.jpg",
 			Teacher: &models.UserTeacher{
@@ -508,7 +500,6 @@ func SeedDB() {
 			Password: "1234",
 			Fullname: "ภูวินทร์ สีม่วง",
 			Nickname: "ครูติ๊ก",
-			Birthday: time.Now(),
 			Role:     "Teacher",
 			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/02%20Soc/04%20Rabhi.jpg?width=210&name=04%20Rabhi.jpg",
 			Teacher: &models.UserTeacher{
@@ -528,7 +519,6 @@ func SeedDB() {
 			Password: "1234",
 			Fullname: "ฟ้าใส ชื่นมื่น",
 			Nickname: "ครูฟ้า",
-			Birthday: time.Now(),
 			Role:     "Teacher",
 			Picture:  "https://blog.startdee.com/hs-fs/hubfs/1%20Startdee/Blog%20Startdee/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2/06%20Sci/03.png?width=210&name=03.png",
 			Teacher: &models.UserTeacher{
@@ -544,7 +534,7 @@ func SeedDB() {
 			},
 		},
 	}
-	if err := DB.Model(&models.User{}).Create(&teacher).Error; err != nil {
+	if err := DB.Create(&teacher).Error; err != nil {
 		panic(err)
 	}
 
@@ -583,7 +573,7 @@ func SeedDB() {
 			Item_picture: "https://tombowth.com/wp-content/uploads/2021/05/front-2.jpg",
 		},
 	}
-	if err := DB.Model(&models.Reward_Item{}).Create(&rewardItem).Error; err != nil {
+	if err := DB.Create(&rewardItem).Error; err != nil {
 		panic(err)
 	}
 
@@ -4190,7 +4180,7 @@ func SeedDB() {
 			Description: "คอร์สนี้จะพาน้อง ๆ ได้รู้จักกับ ฟิสิกส์ในเรื่องต่าง ๆ เเละได้สนุกกับการเรียนรู้เเละเเบบฝึกหัดในคอร์ส มาเริ่มกันเลย!!",
 		},
 	}
-	if err := DB.Model(&models.Course{}).Create(&course).Error; err != nil {
+	if err := DB.Create(&course).Error; err != nil {
 		panic(err)
 	}
 
@@ -4348,7 +4338,7 @@ func SeedDB() {
 			Comment: "สอนเข้าใจมากค่ะ ชอบมากค่ะ คือหนูดูมาหลายๆคลิปละไม่เข้าใจ พอมาดูของพี่คือแบบเข้าใจแบบมากๆเลยค่ะ  พี่สอนละเอียด รู้ที่มาของแต่ละตัวมากค่ะ",
 		},
 	}
-	if err := DB.Model(&models.Review_Video{}).Create(&review_video).Error; err != nil {
+	if err := DB.Create(&review_video).Error; err != nil {
 		panic(err)
 	}
 
@@ -4376,7 +4366,7 @@ func SeedDB() {
 			Comment:   "ชอบที่สุดเลยค่ะ สอนสนุกกระชับเข้าใจดีมากๆเลยค่ะ เหมาะกับคนที่ไม่มีเวลาไปเรียนพิเศษข้างนอกบ้าน เรียนที่ไหนก็ได้เป็นกำลังใจให้นะคะทำต่อไปเยอะๆเลยนะคะ",
 		},
 	}
-	if err := DB.Model(&models.Review_Tutor{}).Create(&review_tutor).Error; err != nil {
+	if err := DB.Create(&review_tutor).Error; err != nil {
 		panic(err)
 	}
 

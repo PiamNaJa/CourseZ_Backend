@@ -25,7 +25,7 @@ func CreatePost(db *gorm.DB) fiber.Handler {
 			})
 		}
 
-		if err := db.Model(&models.Post{}).Create(&post).Error; err != nil {
+		if err := db.Create(&post).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
@@ -39,7 +39,9 @@ func GetAllPost(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var posts []models.Post
 
-		if err := db.Model(&models.Post{}).Preload("Subject").Preload("User").Preload("Comments").Find(&posts).Error; err != nil {
+		if err := db.Preload("Subject").Preload("User", func (tx *gorm.DB)  *gorm.DB{
+			return tx.Omit("Password")
+		}).Preload("Comments").Find(&posts).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": "record not found",
 			})
@@ -53,7 +55,9 @@ func GetPostById(db *gorm.DB) fiber.Handler {
 		var post models.Post
 		id := c.Params("post_id")
 
-		if err := db.Model(&models.Post{}).Preload("Subject").Preload("User").Preload("Comments").First(&post, id).Error; err != nil {
+		if err := db.Preload("Subject").Preload("User", func (tx *gorm.DB)  *gorm.DB{
+			return tx.Omit("Password")
+		}).Preload("Comments").First(&post, &id).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": "Post not found",
 			})
@@ -64,47 +68,37 @@ func GetPostById(db *gorm.DB) fiber.Handler {
 
 func GetPostBySubject(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var posts, postsSubject []models.Post
+		var posts []models.Post
 
-		if err := db.Model(&models.Post{}).Preload("Subject").Preload("Comments").Find(&posts).Error; err != nil {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"error": "No record",
-			})
-		}
-		subject_title, err := url.QueryUnescape(c.Params("subject_title"))
+		subject_title, err := url.QueryUnescape(c.Params("subject_title")) // decode url
 		if err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 		}
-		for _, post := range posts {
-			if post.Subject.Subject_title == subject_title {
-				postsSubject = append(postsSubject, post)
-			}
+		if err := db.Preload("Subject").Joins("join subjects on posts.subject_id = subjects.subject_id").Where("subjects.subject_title = ?", &subject_title).Preload("Comments").Preload("User", func (tx *gorm.DB)  *gorm.DB{
+			return tx.Omit("Password")
+		}).Find(&posts).Error; err != nil {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+				"error": err.Error(),
+			})
 		}
-
-		return c.Status(fiber.StatusOK).JSON(&postsSubject)
+		return c.Status(fiber.StatusOK).JSON(&posts)
 	}
 }
 
 func GetPostByClassLevel(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var posts, postClassLevel []models.Post
+		var posts []models.Post
 
-		class_level, err := c.ParamsInt("class_level")
-		if err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
-		}
+		class_level := c.Params("class_level")
 
-		if err := db.Model(&models.Post{}).Preload("Subject").Preload("Comments").Find(&posts).Error; err != nil {
+		if err := db.Joins("join subjects on posts.subject_id = subjects.subject_id").Where("subjects.class_level = ?", &class_level).Preload("Subject").Preload("Comments").Preload("User", func (tx *gorm.DB)  *gorm.DB{
+			return tx.Omit("Password")
+		}).Find(&posts).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": "No record",
 			})
 		}
-		for _, post := range posts {
-			if post.Subject.Class_level == int8(class_level) {
-				postClassLevel = append(postClassLevel, post)
-			}
-		}
-		return c.Status(fiber.StatusOK).JSON(&postClassLevel)
+		return c.Status(fiber.StatusOK).JSON(&posts)
 	}
 }
 
@@ -113,7 +107,7 @@ func DeletePostByID(db *gorm.DB) fiber.Handler {
 		var post models.Post
 		id := c.Params("post_id")
 
-		if err := db.Model(&models.Post{}).Delete(&post, id).Error; err != nil {
+		if err := db.Delete(&post, &id).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": "Post not found",
 			})
@@ -128,7 +122,7 @@ func UpdatePost(db *gorm.DB) fiber.Handler {
 		var updatePostData models.Post
 		id := c.Params("post_id")
 
-		if err := db.Model(&models.Post{}).Preload("Subject").Preload("User").Preload("Comments").First(&post, id).Error; err != nil {
+		if err := db.First(&post, &id).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": "Post not found",
 			})

@@ -25,11 +25,6 @@ func GetChat(db *gorm.DB) fiber.Handler {
 func NewConversaion(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		token := c.Get("authorization")
-		if token == "" {
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-				"error": "Unauthorized",
-			})
-		}
 		claims, err := constants.GetClaims(token)
 		if err != nil {
 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
@@ -91,11 +86,6 @@ func NewConversaion(db *gorm.DB) fiber.Handler {
 func GetInbox(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		token := c.Get("authorization")
-		if token == "" {
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-				"error": "Unauthorized",
-			})
-		}
 		claims, err := constants.GetClaims(token)
 		if err != nil {
 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
