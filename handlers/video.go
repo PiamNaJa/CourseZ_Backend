@@ -70,7 +70,7 @@ func GetVideoById(db *gorm.DB) fiber.Handler {
 		var video models.Video
 		id := c.Params("video_id")
 
-		if err := db.Preload("Reviews").Preload("Exercises").Where("course_id = ?", c.Params("course_id")).First(&video, id).Error; err != nil {
+		if err := db.Preload("Reviews").Preload("Exercises").Where("course_id = ?", c.Params("course_id")).First(&video, &id).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": "Video not found",
 			})

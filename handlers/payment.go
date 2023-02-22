@@ -80,18 +80,18 @@ func VideosPayment(db *gorm.DB) fiber.Handler {
 		}
 
 		var userInPayment models.User
-		if err := db.Preload("PaidVideos").Where("user_id = ?", user.User_id).First(&userInPayment).Error; err != nil {
+		if err := db.Preload("PaidVideos").Where("user_id = ?", &user.User_id).First(&userInPayment).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": "User not found",
 			})
 		}
 
-		var payment models.Payment
-		payment.Payee = &userInPayment
-		payment.Recipient = &teacher
-		payment.Money = totalPrice
-		payment.Text = "pay for videos"
-
+		payment := models.Payment{
+			Payee:     &userInPayment,
+			Recipient: &teacher,
+			Money:     totalPrice,
+			Text:      "pay for videos",
+		}
 		if err := db.Create(&payment).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
@@ -122,7 +122,7 @@ func GetPaidVideos(db *gorm.DB) fiber.Handler {
 		for _, video := range user.PaidVideos {
 			videosId = append(videosId, video.Video_id)
 		}
-		
+
 		return c.Status(fiber.StatusOK).JSON(&videosId)
 	}
 }

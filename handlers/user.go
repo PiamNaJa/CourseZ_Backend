@@ -152,7 +152,7 @@ func LoginUser(db *gorm.DB) fiber.Handler {
 
 		password := user.Password
 
-		if err := db.Preload("Teacher").Where("email = ?", user.Email).First(&user).Error; err != nil {
+		if err := db.Preload("Teacher").Where("email = ?", &user.Email).First(&user).Error; err != nil {
 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 				"error": err.Error(),
 			})
@@ -321,7 +321,7 @@ func GetNewToken(db *gorm.DB) fiber.Handler {
 		role := claims["role"].(string)
 		teacher_id := int32(claims["teacher_id"].(float64))
 		var user models.User
-		if err := db.Where("user_id = ?", user_id).First(&user).Error; err != nil {
+		if err := db.Where("user_id = ?", &user_id).First(&user).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": err.Error(),
 			})
