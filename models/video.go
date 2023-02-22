@@ -1,7 +1,5 @@
 package models
 
-import "time"
-
 type Video struct {
 	Video_id    int32           `json:"video_id" gorm:"primaryKey;type:int"`                                                        // Video_id is the id of the video
 	CourseID    int32           `json:"course_id" gorm:"index;type:int;not null" validate:"required,number"`                        // CourseID is the id of the course
@@ -14,6 +12,6 @@ type Video struct {
 	Sheet       string          `json:"sheet" gorm:"not null;type:varchar(5000)" validate:"max=5000"`                               // link file
 	Reviews     *[]Review_Video `json:"reviews" gorm:"foreignKey:VideoID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`            // Reviews is the reviews of the video
 	Exercises   *[]Exercise     `json:"exercises" gorm:"not null;foreignKey:VideoID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"` // Exercises is the exercises of the video
-	CreatedAt   time.Time       `json:"created_at" gorm:"not null;"`
+	CreatedAt   int64           `json:"created_at" gorm:"autoCreateTime"`
 	Like        int32           `json:"like" gorm:"not null;type:int;default:0"`
 }
