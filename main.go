@@ -1,7 +1,7 @@
 package main
 
 import (
-	"log"
+	"os"
 
 	"github.com/PiamNaJa/CourseZ_Backend/configs"
 	_ "github.com/PiamNaJa/CourseZ_Backend/docs"
@@ -62,5 +62,11 @@ func main() {
 	routes.InboxRoutes(router.Group("/inbox"), configs.DB)
 	routes.WithdrawRoutes(router.Group("/withdraw"), configs.DB)
 
-	log.Fatal(app.Listen(":5000"))
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "5000"
+	}
+	if err := app.Listen(":" + port); err != nil {
+		panic(err.Error())
+	}
 }
