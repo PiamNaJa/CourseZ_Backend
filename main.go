@@ -6,6 +6,7 @@ import (
 	"github.com/PiamNaJa/CourseZ_Backend/configs"
 	_ "github.com/PiamNaJa/CourseZ_Backend/docs"
 	"github.com/PiamNaJa/CourseZ_Backend/routes"
+	"github.com/PiamNaJa/CourseZ_Backend/socket"
 	"github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -26,7 +27,7 @@ func main() {
 			AllowMethods:     "GET,POST,PUT,DELETE",
 		},
 	))
-	app.Get("/ws/:id", websocket.New(NewServer().HandleConnection))
+	app.Get("/ws/:id", websocket.New(socket.NewServer().HandleConnection))
 	configs.Init()
 	configs.ConnectDB()
 	configs.WipeData()
