@@ -4,6 +4,7 @@ import (
 	"github.com/PiamNaJa/CourseZ_Backend/models"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 func SearchALL(db *gorm.DB) fiber.Handler {
@@ -27,7 +28,7 @@ func SearchALL(db *gorm.DB) fiber.Handler {
 			}
 		}
 
-		if err := db.Preload("Subject").Where("course_name LIKE ?", &name).Find(&courses).Error; err != nil {
+		if err := db.Preload(clause.Associations).Where("course_name LIKE ?", &name).Find(&courses).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": "Course not found",
 			})
@@ -67,7 +68,7 @@ func SearchCourse(db *gorm.DB) fiber.Handler {
 		var course []models.Course
 		var name = "%" + c.Query("name") + "%"
 
-		if err := db.Preload("Subject").Where("course_name LIKE ?", &name).Find(&course).Error; err != nil {
+		if err := db.Preload(clause.Associations).Where("course_name LIKE ?", &name).Find(&course).Error; err != nil {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": "Course not found",
 			})
