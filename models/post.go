@@ -8,6 +8,6 @@ type Post struct {
 	User         *User      `json:"user" gorm:"not null;foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`       // User is the user that made the post
 	CreatedAt     int64      `json:"created_at" gorm:"autoCreateTime"`
 	Caption      string     `json:"caption" gorm:"not null;type:text" validate:"required"`                           // Caption is the caption of the post
-	Post_picture string     `json:"post_picture" gorm:"not null;type:varchar(5000)" validate:"required,max=5000"`    // Post_picture is a link to the picture
+	Post_picture string     `json:"post_picture" gorm:"type:varchar(5000)" validate:"max=5000"`    // Post_picture is a link to the picture
 	Comments     *[]Comment `json:"comments" gorm:"foreignKey:PostID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"` // Comments is the comments of the post
 }
