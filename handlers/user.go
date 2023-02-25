@@ -34,7 +34,11 @@ func RegisterStudent(db *gorm.DB) fiber.Handler {
 		}
 
 		user.Password = string(encryptPassword)
-
+		if err := db.Exec("SELECT setval(pg_get_serial_sequence('users', 'user_id'), coalesce(max(user_id)+1, 1), false) FROM users;").Error; err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
 		if err := db.Create(&user).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
@@ -98,6 +102,11 @@ func RegisterTeacher(db *gorm.DB) fiber.Handler {
 		}
 
 		tx := db.Begin()
+		if err := tx.Exec("SELECT setval(pg_get_serial_sequence('users', 'user_id'), coalesce(max(user_id)+1, 1), false) FROM users;").Error; err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
 		if err := tx.Create(&user).Error; err != nil {
 			tx.Rollback()
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
