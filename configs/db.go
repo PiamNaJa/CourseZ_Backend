@@ -32,11 +32,12 @@ func TestChat() {
 		Picture:  "https://paradepets.com/.image/t_share/MTkxMzY1Nzg4NjczMzIwNTQ2/cutest-dog-breeds-jpg.jpg",
 	}
 	var inbox = &models.Inbox{
-		User1ID:      11,
-		User1:        user,
-		User2ID:      12,
-		User2:        user2,
-		Last_message: "Hello",
+		User1ID:           11,
+		User1:             user,
+		User2ID:           12,
+		User2:             user2,
+		LastMessageUserID: 11,
+		Last_message:      "สวัสดีค่ะ",
 	}
 	var chat = &models.ChatRoom{
 		Inbox_id: 1,
@@ -44,8 +45,8 @@ func TestChat() {
 			{
 				ChatRoom_id: 1,
 				Sender_id:   11,
-				Message:     "Hello",
-				CreatedAt:    time.Now().Unix(),
+				Message:     "สวัสดีค่ะ",
+				CreatedAt:   time.Now().Unix(),
 			}},
 	}
 	DB.Create(user)
@@ -364,7 +365,7 @@ func SeedDB() {
 			},
 		},
 		{
-			Email:    "teacher2@mail.com",
+			Email:    "teacher2@mail.com", //ครูสังคม
 			Password: "1234",
 			Fullname: "วรรณษา ทองสุก",
 			Nickname: "ครูเดือน",
@@ -477,7 +478,7 @@ func SeedDB() {
 			},
 		},
 		{
-			Email:    "teacher8@mail.com",
+			Email:    "teacher8@mail.com", //ครูเคมี
 			Password: "1234",
 			Fullname: "เเพรวา เเจ่มเเจ้ง",
 			Nickname: "ครูปลา",
@@ -593,7 +594,7 @@ func SeedDB() {
 					Exercises: &[]models.Exercise{
 						{
 							Question: "1.จงหาผลบวกของ 15 + 43",
-							Image: "https://scontent.fbkk23-1.fna.fbcdn.net/v/t31.18172-8/25438840_860387127454309_1256118397506102113_o.jpg?_nc_cat=106&ccb=1-7&_nc_sid=8bfeb9&_nc_eui2=AeGETUheAlbd9tM1-dIYsKSyru0AzM04uk6u7QDMzTi6ThSf-U4lV9zJou-6fxAmg1URNJ6aWCidqClfoEp_Y6cl&_nc_ohc=pVaa2tPiMIkAX-CAvCp&_nc_ht=scontent.fbkk23-1.fna&oh=00_AfBotnmAZbH_EbyirZOdlOUnWf_pjrWEuPCFivlSwsqMjA&oe=641DC6D9",
+							Image:    "https://scontent.fbkk23-1.fna.fbcdn.net/v/t31.18172-8/25438840_860387127454309_1256118397506102113_o.jpg?_nc_cat=106&ccb=1-7&_nc_sid=8bfeb9&_nc_eui2=AeGETUheAlbd9tM1-dIYsKSyru0AzM04uk6u7QDMzTi6ThSf-U4lV9zJou-6fxAmg1URNJ6aWCidqClfoEp_Y6cl&_nc_ohc=pVaa2tPiMIkAX-CAvCp&_nc_ht=scontent.fbkk23-1.fna&oh=00_AfBotnmAZbH_EbyirZOdlOUnWf_pjrWEuPCFivlSwsqMjA&oe=641DC6D9",
 							Choices: &[]models.Choice{
 								{
 									Title:   "55",
@@ -4180,6 +4181,696 @@ func SeedDB() {
 			Picture:     "https://panyasociety.com/pages/wp-content/uploads/2020/10/PhysicCover-01_New.png",
 			Description: "คอร์สนี้จะพาน้อง ๆ ได้รู้จักกับ ฟิสิกส์ในเรื่องต่าง ๆ เเละได้สนุกกับการเรียนรู้เเละเเบบฝึกหัดในคอร์ส มาเริ่มกันเลย!!",
 		},
+		{
+			//Course_19
+			SubjectID: 30,
+			Videos: &[]models.Video{
+				{
+					Class_level: 4,
+					Video_name:  "ความรู้พื้นฐานเกี่ยวกับกฎหมาย",
+					Picture:     "https://www.guamattorneygeneral.com/wp-content/uploads/2021/07/14.jpg",
+					Description: "สังคมศึกษา เรื่อง ความรู้พื้นฐานเกี่ยวกับกฎหมาย| แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียน",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_19%2FVideo_1%2F%E0%B8%A7%E0%B8%B4%E0%B8%8A%E0%B8%B2%E0%B8%AA%E0%B8%B1%E0%B8%87%E0%B8%84%E0%B8%A1%E0%B8%A8%E0%B8%B6%E0%B8%81%E0%B8%A9%E0%B8%B2%20_%20%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%A3%E0%B8%B9%E0%B9%89%E0%B8%9E%E0%B8%B7%E0%B9%89%E0%B8%99%E0%B8%90%E0%B8%B2%E0%B8%99%E0%B9%80%E0%B8%81%E0%B8%B5%E0%B9%88%E0%B8%A2%E0%B8%A7%E0%B8%81%E0%B8%B1%E0%B8%9A%E0%B8%81%E0%B8%8E%E0%B8%AB%E0%B8%A1%E0%B8%B2%E0%B8%A2.mp4?alt=media&token=88e29ed4-2ad7-4a0d-a232-7697aac2efa9",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_19%2FVideo_1%2F%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%A3%E0%B8%B9%E0%B9%89%E0%B9%80%E0%B8%9A%E0%B8%B7%E0%B9%89%E0%B8%AD%E0%B8%87%E0%B8%95%E0%B9%89%E0%B8%99%E0%B9%80%E0%B8%81%E0%B8%B5%E0%B9%88%E0%B8%A2%E0%B8%A7%E0%B8%81%E0%B8%B1%E0%B8%9A%E0%B8%81%E0%B8%8E%E0%B8%AB%E0%B8%A1%E0%B8%B2%E0%B8%A2.pdf?alt=media&token=109ffe57-da89-4cf5-9462-61675ff7f5a8",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "1.ข้อใดกล่าวถึงความหมายของ กฎหมาย ได้ถูกต้องที่สุด",
+							Choices: &[]models.Choice{
+								{
+									Title:   "เป็นข้อบังคับของรัฐที่ใช้ควบคุมพลเมือง",
+									Correct: true,
+								},
+								{
+									Title:   "เป็นกฎเกณฑ์ที่รัฐใช้ควบคุมพลเมือง",
+									Correct: false,
+								},
+								{
+									Title:   "เป็นคำสั่งของผู้มีอำนาจสูงสุดในรัฐ",
+									Correct: false,
+								},
+								{
+									Title:   "เป็นกฎเกณฑ์ข้อบังคับในสังคม",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "2.กฎหมายใดอยู่ในกฎหมายเอกชน",
+							Choices: &[]models.Choice{
+								{
+									Title:   "พระธรรมศาลยุติธรรม",
+									Correct: false,
+								},
+								{
+									Title:   "ประมวลกฎหมายอาญา",
+									Correct: false,
+								},
+								{
+									Title:   "ประมวลกฎหมายเเพ่งเเละพาณิชย์",
+									Correct: true,
+								},
+								{
+									Title:   "ประมวลกฎหมายวิธีพิจารณาความอาญา",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "3.กฎหมายใดที่เกี่ยวข้องกับชีวิตประจำวันมากที่สุด",
+							Choices: &[]models.Choice{
+								{
+									Title:   "กฎหมายรัฐธรรมนูญ",
+									Correct: false,
+								},
+								{
+									Title:   "ประมวลกฎหมายอาญา",
+									Correct: false,
+								},
+								{
+									Title:   "กฎหมายเเพ่งเเละกฎหมายอาญา",
+									Correct: true,
+								},
+								{
+									Title:   "กฎหมายเเพ่ง",
+									Correct: false,
+								},
+							},
+						},
+					},
+				},
+				{
+					Class_level: 4,
+					Video_name:  "ระบอบการปกครองและรูปแบบของรัฐ",
+					Picture:     "https://thaipublica.org/wp-content/uploads/2020/12/thaipublica-%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9B%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%95%E0%B8%B1%E0%B8%A7%E0%B8%97%E0%B8%A8%E0%B8%A7%E0%B8%A3%E0%B8%A3%E0%B8%A921-2-scaled.jpeg",
+					Description: "สังคมศึกษา เรื่อง ระบอบการปกครองและรูปแบบของรัฐ| แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียน",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_19%2FVideo_2%2F%E0%B8%A7%E0%B8%B4%E0%B8%8A%E0%B8%B2%E0%B8%AA%E0%B8%B1%E0%B8%87%E0%B8%84%E0%B8%A1%E0%B8%A8%E0%B8%B6%E0%B8%81%E0%B8%A9%E0%B8%B2%20_%20%E0%B8%A3%E0%B8%B0%E0%B8%9A%E0%B8%AD%E0%B8%9A%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9B%E0%B8%81%E0%B8%84%E0%B8%A3%E0%B8%AD%E0%B8%87%E0%B9%81%E0%B8%A5%E0%B8%B0%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%A3%E0%B8%B1%E0%B8%90.mp4?alt=media&token=ae9c9e5b-b465-445b-88dc-ca57bedd9ba0",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_19%2FVideo_2%2F%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B9%80%E0%B8%A1%E0%B8%B7%E0%B8%AD%E0%B8%87%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9B%E0%B8%81%E0%B8%84%E0%B8%A3%E0%B8%AD%E0%B8%87%E0%B9%84%E0%B8%97%E0%B8%A2.pdf?alt=media&token=a3828d12-a1d3-4fa5-809d-a45f7a81d3d8",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "1.ข้อใดจับคู่ระบบการเมืองการปกครองกับข้อด้อยของระบบไม่ถูกต้อง",
+							Choices: &[]models.Choice{
+								{
+									Title:   "เสรีนิยม กับ ปัญหาขาดเสถียรภาพทางการเมือง",
+									Correct: false,
+								},
+								{
+									Title:   "ประชาธิปไตย กับ ปัญหาเสียงข้างมากไม่รับฟังเสียงข้างน้อย",
+									Correct: false,
+								},
+								{
+									Title:   "อำนาจนิยม กับ ปัญหาการขาดระเบียบและกติกาในสังคม",
+									Correct: true,
+								},
+								{
+									Title:   "สังคมนิยม กับ ปัญหาการลิดรอนเสรีภาพทางเศรษฐกิจ",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "2.ระบอบเสรีประชาธิปไตยมีลักษณะสำคัญดังต่อไปนี้ ยกเว้นข้อใด",
+							Choices: &[]models.Choice{
+								{
+									Title:   "กองทัพมีบทบาทสำคัญในการประกันเสถียรภาพของรัฐบาลที่มาจากการเลือกตั้ง",
+									Correct: true,
+								},
+								{
+									Title:   "ลดอำนาจรัฐ เพิ่มอำนาจและการมีส่วนร่วมของประชาชน",
+									Correct: false,
+								},
+								{
+									Title:   "ให้เสรีภาพพลเมืองและสิทธิพลเมืองในระดับสูง",
+									Correct: false,
+								},
+								{
+									Title:   "ใช้กฎหมายเป็นเครื่องมือสำคัญในการปกครอง",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "3.ข้อใดสอดคล้องกับลักษณะการปกครองระบอบเผด็จการมากที่สุด",
+							Choices: &[]models.Choice{
+								{
+									Title:   "รัฐบาลต้องมีอำนาจมั่นคง",
+									Correct: true,
+								},
+								{
+									Title:   "พลเมืองต้องมีหน้าที่ต่อรัฐ",
+									Correct: false,
+								},
+								{
+									Title:   "ประชาชนต้องเท่าเทียม",
+									Correct: false,
+								},
+								{
+									Title:   "บ้านเมืองต้องสงบเรียบร้อย",
+									Correct: false,
+								},
+							},
+						},
+					},
+				},
+				{
+					Class_level: 4,
+					Video_name:  "สิทธิมนุษยชนคืออะไร",
+					Price:       25,
+					Picture:     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9SbSLJxDWHuA1ZSb5K2YYRC_VATS22AQZhg&usqp=CAU",
+					Description: "สังคมศึกษา เรื่อง สิทธิมนุษยชน| แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียน",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_19%2FVideo_3%2F%E0%B8%A7%E0%B8%B4%E0%B8%8A%E0%B8%B2%E0%B8%AA%E0%B8%B1%E0%B8%87%E0%B8%84%E0%B8%A1%E0%B8%A8%E0%B8%B6%E0%B8%81%E0%B8%A9%E0%B8%B2%20_%20%E0%B8%AA%E0%B8%B4%E0%B8%97%E0%B8%98%E0%B8%B4%E0%B8%A1%E0%B8%99%E0%B8%B8%E0%B8%A9%E0%B8%A2%E0%B8%8A%E0%B8%99%E0%B8%84%E0%B8%B7%E0%B8%AD%E0%B8%AD%E0%B8%B0%E0%B9%84%E0%B8%A3.mp4?alt=media&token=cd103a89-7f60-4fc7-8e9a-485fd69124d8",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_19%2FVideo_3%2F%E0%B8%AA%E0%B8%B4%E0%B8%97%E0%B8%98%E0%B8%B4%E0%B8%A1%E0%B8%99%E0%B8%B8%E0%B8%A9%E0%B8%A2%E0%B8%8A%E0%B8%99.pdf?alt=media&token=59808539-f4e8-451b-93e1-efb2167555f9",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "1.สิทธิมนุษยชน มีความหมายว่าอย่างไร",
+							Choices: &[]models.Choice{
+								{
+									Title:   "การละเมิดสิทธิมนุษยชน",
+									Correct: false,
+								},
+								{
+									Title:   "ศักดิ์ศรีความเป็นมนุษย์ สิทธิเสรีภาพ และความเสมอภาค",
+									Correct: true,
+								},
+								{
+									Title:   "สิทธิในการเรียกร้องผลประโยชน์",
+									Correct: false,
+								},
+								{
+									Title:   "การให้ความเคารพบุคคลที่มีอำนาจ",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "2.สิทธิที่ทุกคนต้องมี เป็นรากฐานแนวคิดสิทธิมนุษยชนแบบใด",
+							Choices: &[]models.Choice{
+								{
+									Title:   "สิทธิธรรมชาติ",
+									Correct: true,
+								},
+								{
+									Title:   "สิทธิทางกฎหมาย",
+									Correct: false,
+								},
+								{
+									Title:   "กฎหมายธรรมชาติ",
+									Correct: false,
+								},
+								{
+									Title:   "เสรีภาพในการดำรงชีวิต",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "3.องค์กรใดที่ประกาศใช้ปฎิญญาสากลว่าด้วยสิทธิมนุษยชน",
+							Choices: &[]models.Choice{
+								{
+									Title:   "องค์กรยูเนสโก",
+									Correct: false,
+								},
+								{
+									Title:   "องค์กรสหประชาชาติ",
+									Correct: true,
+								},
+								{
+									Title:   "องค์กรแอมเนสตี",
+									Correct: false,
+								},
+								{
+									Title:   "องค์กร Unicef",
+									Correct: false,
+								},
+							},
+						},
+					},
+				},
+			},
+			TeacherID:   2,
+			Course_name: "สังคมเเสนสนุก",
+			Picture:     "https://panyasociety.com/pages/wp-content/uploads/2020/10/Social_Cover-01_New.png",
+			Description: "คอร์สนี้จะพาน้อง ๆ ได้รู้จักกับเนื้อหาของวิชาสังคมในเรื่องต่าง ๆ เเละได้สนุกกับการเรียนรู้เเละเเบบฝึกหัดในคอร์ส มาเริ่มกันเลย!!",
+		},
+		{
+			//Course_20
+			SubjectID: 38,
+			Videos: &[]models.Video{
+				{
+					Class_level: 5,
+					Video_name:  "แก๊สและสมบัติของแก๊ส ",
+					Picture:     "https://i.ytimg.com/vi/-gsi2UhMxpE/maxresdefault.jpg",
+					Description: "สังคมศึกษา เรื่อง แก๊สและสมบัติของแก๊ส | แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียน",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_20%2FVideo_1%2F%E0%B9%81%E0%B8%81%E0%B9%8A%E0%B8%AA%E0%B9%81%E0%B8%A5%E0%B8%B0%E0%B8%AA%E0%B8%A1%E0%B8%9A%E0%B8%B1%E0%B8%95%E0%B8%B4%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%81%E0%B8%81%E0%B9%8A%E0%B8%AA%20%E0%B9%80%E0%B8%84%E0%B8%A1%E0%B8%B5%20%E0%B8%A1.5%20_%E0%B8%89%E0%B8%9A%E0%B8%B1%E0%B8%9A%E0%B8%AA%E0%B8%A3%E0%B8%B8%E0%B8%9B%E0%B9%80%E0%B8%95%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%A1%E0%B8%AA%E0%B8%AD%E0%B8%9A%20%E0%B9%80%E0%B8%84%E0%B8%A1%E0%B8%B5%20%E0%B8%A1.5%20%E0%B9%80%E0%B8%97%E0%B8%AD%E0%B8%A1%201.mp4?alt=media&token=559d6491-1b39-47e2-98cd-b4d58c52ec6c",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_20%2FVideo_1%2F%E0%B9%81%E0%B8%81%E0%B9%8A%E0%B8%AA%E0%B9%81%E0%B8%A5%E0%B8%B0%E0%B8%AA%E0%B8%A1%E0%B8%9A%E0%B8%B1%E0%B8%95%E0%B8%B4%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%81%E0%B8%81%E0%B9%8A%E0%B8%AA.pdf?alt=media&token=fc23e546-f3f8-4623-9df2-8e497a419bbb",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "1.เมื่ออุณหภูมิและจำนวนโมลของแก๊สคงที่ ปริมาตรของแก๊สจะแปรผกผันกับความดัน เป็นไปตามกฎของใคร",
+							Choices: &[]models.Choice{
+								{
+									Title:   "กฎของบอยล์",
+									Correct: true,
+								},
+								{
+									Title:   "กฎของเกย์-ลูสแซก",
+									Correct: false,
+								},
+								{
+									Title:   "กฎของชาร์ล",
+									Correct: false,
+								},
+								{
+									Title:   "กฎของอาโวกาโดร",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "2.เมื่อใดที่แก๊สจริงจะประพฤติตัวเหมือนแก๊สในอุดมคติ",
+							Choices: &[]models.Choice{
+								{
+									Title:   "อุณหภูมิต่ำ ความดันต่ำ",
+									Correct: false,
+								},
+								{
+									Title:   "อุณหภูมิสูง ความดันต่ำ",
+									Correct: true,
+								},
+								{
+									Title:   "อุณหภูมิต่ำ ความดันสูง",
+									Correct: false,
+								},
+								{
+									Title:   "อุณหภูมิสูง ความดันสูง",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "3.ข้อสรุปใดเกี่ยวกับแก๊สถูกต้อง",
+							Choices: &[]models.Choice{
+								{
+									Title:   "เมื่อ T และ n คงที่ เมื่อ V สูงขึ้น P จะสูงขึ้น",
+									Correct: false,
+								},
+								{
+									Title:   "เมื่อ V และ n คงที่ เมื่อ T สูงขึ้น P จะลดลง",
+									Correct: false,
+								},
+								{
+									Title:   "เมื่อ T และ n คงที่ เมื่อ V ต่ำลง P จะต่ำลง",
+									Correct: false,
+								},
+								{
+									Title:   "เมื่อ V และ n คงที่ เมื่อ T สูงขึ้น P จะสูงขึ้น",
+									Correct: true,
+								},
+							},
+						},
+					},
+				},
+				{
+					Class_level: 5,
+					Video_name:  "สารละลายกรดและเบส ทฤษฎีกรด-เบส",
+					Picture:     "https://i.ytimg.com/vi/GMemgCvBQMw/maxresdefault.jpg",
+					Description: "เคมี เรื่อง สารละลายกรดและเบส| แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียน",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_20%2FVideo_2%2F%E0%B8%81%E0%B8%A3%E0%B8%94%20%E0%B9%80%E0%B8%9A%E0%B8%AA%20%E0%B9%80%E0%B8%84%E0%B8%A1%E0%B8%B5%20%E0%B8%A1.5%20_%20%E0%B8%97%E0%B8%A4%E0%B8%A9%E0%B8%8E%E0%B8%B5%E0%B8%81%E0%B8%A3%E0%B8%94-%E0%B9%80%E0%B8%9A%E0%B8%AA.mp4?alt=media&token=8546f85a-b467-4728-9ca6-d564f35d4470",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_20%2FVideo_2%2F%E0%B8%81%E0%B8%A3%E0%B8%94%E0%B9%80%E0%B8%9A%E0%B8%AA%20%E0%B9%80%E0%B8%84%E0%B8%A1%E0%B8%B5%E0%B8%A1.5.pdf?alt=media&token=0679815f-3406-4abc-a890-85b396a282b8",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "1.ข้อใดไม่ใช่ สมบัติของสารละลายที่เป็นกรด",
+							Choices: &[]models.Choice{
+								{
+									Title:   "เป็นสารละลายกรดทำปฏิกิริยากับโลหะ",
+									Correct: false,
+								},
+								{
+									Title:   "เป็นสารละลายกรดทำปฏิกิริยากับหินปูน",
+									Correct: false,
+								},
+								{
+									Title:   "เปลี่ยนสีกระดาษลิตมัสจากสีแดงเป็นสีน้ำเงิน",
+									Correct: true,
+								},
+								{
+									Title:   "เป็นสารละลายกรดมีรสเปรี้ยว",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "2.สารละลายชนิดหนึ่งสามารถเปลี่ยนสีของกระดาษลิตมัสจากสีแดงเป็นสีน้ำเงิน แสดงว่าสารละลายนั้นมีสมบัติตามข้อใด",
+							Choices: &[]models.Choice{
+								{
+									Title:   "เป็นกรด",
+									Correct: false,
+								},
+								{
+									Title:   "เป็นกลาง",
+									Correct: false,
+								},
+								{
+									Title:   "เป็นเบส",
+									Correct: true,
+								},
+								{
+									Title:   "ยังสรุปไม่ได้",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "3.ข้อใดต่อไปนี้มีสมบัติต่างจากพวก",
+							Choices: &[]models.Choice{
+								{
+									Title:   "น้ำยาล้างห้องน้ำ",
+									Correct: false,
+								},
+								{
+									Title:   "น้ำมะขาม",
+									Correct: false,
+								},
+								{
+									Title:   "น้ำส้มสายชู",
+									Correct: false,
+								},
+								{
+									Title:   "น้ำสบู่",
+									Correct: true,
+								},
+							},
+						},
+					},
+				},
+				{
+					Class_level: 5,
+					Video_name:  "อัตราการเกิดปฏิกิริยาเคมี",
+					Price:       25,
+					Picture:     "https://i.ytimg.com/vi/YlYxyymXhlU/mqdefault.jpg",
+					Description: "เคมี เรื่อง อัตราการเกิดปฏิกิริยาเคมี| แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียน",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_20%2FVideo_3%2F%E0%B8%AD%E0%B8%B1%E0%B8%95%E0%B8%A3%E0%B8%B2%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B9%80%E0%B8%81%E0%B8%B4%E0%B8%94%E0%B8%9B%E0%B8%8F%E0%B8%B4%E0%B8%81%E0%B8%B4%E0%B8%A3%E0%B8%B4%E0%B8%A2%E0%B8%B2%E0%B9%80%E0%B8%84%E0%B8%A1%E0%B8%B5%20%E0%B9%80%E0%B8%84%E0%B8%A1%E0%B8%B5%20%E0%B8%A1.5%20ep.1.mp4?alt=media&token=4a4960f8-b2ac-4ccc-bba3-0e233564947d",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_20%2FVideo_3%2F%E0%B8%AD%E0%B8%B1%E0%B8%95%E0%B8%A3%E0%B8%B2%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B9%80%E0%B8%81%E0%B8%B4%E0%B8%94%E0%B8%9B%E0%B8%8F%E0%B8%B4%E0%B8%81%E0%B8%B4%E0%B8%A3%E0%B8%B4%E0%B8%A2%E0%B8%B2%E0%B9%80%E0%B8%84%E0%B8%A1%E0%B8%B5.pdf?alt=media&token=7e9a95d0-2b47-475a-ac63-a2ea1378e5ce",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "1.ทฤษฎีใดที่สามารถใช้อธิบายความแตกต่างของอัตราการเกิดปฏิกิริยาเคมี",
+							Choices: &[]models.Choice{
+								{
+									Title:   "ทฤษฎีจลน์ของแก๊ส (kinetic theory of gases)",
+									Correct: false,
+								},
+								{
+									Title:   "ทฤษฎีสนามผลึก (Crystal Field Theory)",
+									Correct: false,
+								},
+								{
+									Title:   "ทฤษฎีออร์บิทัลเชิงโมเลกุล (molecular orbital)",
+									Correct: false,
+								},
+								{
+									Title:   "ทฤษฎีการชน (Collision Theory)",
+									Correct: true,
+								},
+							},
+						},
+						{
+							Question: "2.อัตราการเกิดปฏิกิริยาเคมีเป็นสัดส่วนโดยตรงกับอะไร",
+							Choices: &[]models.Choice{
+								{
+									Title:   "เปอร์เซ็นต์ในการชนกันของอนุภาคที่เป็นผลสำเร็จ",
+									Correct: true,
+								},
+								{
+									Title:   "ความถี่ในการชนกันของอนุภาค",
+									Correct: true,
+								},
+								{
+									Title:   "อุณหภูมิ",
+									Correct: false,
+								},
+								{
+									Title:   "พลังงานศักย์",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "3.พลังงานก่อกัมมันต์ (Activation Energy) คืออะไร",
+							Choices: &[]models.Choice{
+								{
+									Title:   "พลังงานที่น้อยที่สุดที่จะทำให้อิเล็กตรอนหลุดออก",
+									Correct: false,
+								},
+								{
+									Title:   "พลังงานที่น้อยที่สุดที่จะทำให้การชนกันแล้วไม่เกิดปฏิกิริยาเคมี",
+									Correct: false,
+								},
+								{
+									Title:   "พลังงานที่น้อยที่สุดที่จะทำให้อะตอมหลุดออก",
+									Correct: false,
+								},
+								{
+									Title:   "พลังงานจำนวนน้อยที่สุดที่เกิดจากการชนของอนุภาคของสารตั้งต้นแล้วทำปฏิกิริยาเคมี",
+									Correct: true,
+								},
+							},
+						},
+					},
+				},
+			},
+			TeacherID:   8,
+			Course_name: "เคมีหรรษา",
+			Picture:     "https://scit.surat.psu.ac.th/chem/media/k2/items/cache/7293a47c0f4cdddd46ff10bcf3d23287_XL.jpg",
+			Description: "คอร์สนี้จะพาน้อง ๆ ได้รู้จักกับเนื้อหาของวิชาเคมีในเรื่องต่าง ๆ เเละได้สนุกกับการเรียนรู้เเละเเบบฝึกหัดในคอร์ส มาเริ่มกันเลย!!",
+		},
+		{
+			//Course_21
+			SubjectID: 43,
+			Videos: &[]models.Video{
+				{
+					Class_level: 6,
+					Video_name:  "ความหลากหลายทางชีวภาพ (อาณาจักรสัตว์) ",
+					Picture:     "https://i.ytimg.com/vi/mnN7S8VRwwA/maxresdefault.jpg",
+					Description: "ชีวะวิทยา เรื่อง ความหลากหลายทางชีวภาพ | แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียน",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_21%2FVideo_1%2F%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%AB%E0%B8%A5%E0%B8%B2%E0%B8%81%E0%B8%AB%E0%B8%A5%E0%B8%B2%E0%B8%A2%E0%B8%97%E0%B8%B2%E0%B8%87%E0%B8%8A%E0%B8%B5%E0%B8%A7%E0%B8%A0%E0%B8%B2%E0%B8%9E.pdf?alt=media&token=df47f647-04b5-4057-b5c4-bac731855be4",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_21%2FVideo_1%2F%E0%B8%AA%E0%B8%A3%E0%B8%B8%E0%B8%9B%E0%B8%8A%E0%B8%B5%E0%B8%A7%E0%B8%B0%20%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%AB%E0%B8%A5%E0%B8%B2%E0%B8%81%E0%B8%AB%E0%B8%A5%E0%B8%B2%E0%B8%A2%E0%B8%97%E0%B8%B2%E0%B8%87%E0%B8%8A%E0%B8%B5%E0%B8%A7%E0%B8%A0%E0%B8%B2%E0%B8%9E%20(%E0%B8%AD%E0%B8%B2%E0%B8%93%E0%B8%B2%E0%B8%88%E0%B8%B1%E0%B8%81%E0%B8%A3%E0%B8%AA%E0%B8%B1%E0%B8%95%E0%B8%A7%E0%B9%8C).mp4?alt=media&token=49b4df96-fbde-4ab8-8922-a99b58a16d6e",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "1.การจัดหมวดหมู่ของสิ่งมีชีวิตระดับใดอยู่สูงที่สุด",
+							Choices: &[]models.Choice{
+								{
+									Title:   "super order",
+									Correct: false,
+								},
+								{
+									Title:   "order",
+									Correct: false,
+								},
+								{
+									Title:   "sub class",
+									Correct: true,
+								},
+								{
+									Title:   "super family",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "2.ข้อใดเป็นวิธีการระบุชนิดของสิ่งมีชีวิตที่น่าเชื่อถือน้อยที่สุด",
+							Choices: &[]models.Choice{
+								{
+									Title:   "เปรียบเทียบจากภาพถ่ายในอินเทอเน็ต",
+									Correct: true,
+								},
+								{
+									Title:   "สอบถามผู้เชี่ยวชาญเฉพาะ",
+									Correct: false,
+								},
+								{
+									Title:   "เปรียบเทียบจากตัวอย่างในพิพิธภัณฑ์",
+									Correct: false,
+								},
+								{
+									Title:   "ใช้ไดโคโตมัสคีย์",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "3.ข้อใดไม่จัดเป็นกระบวนการของ Taxonomy",
+							Choices: &[]models.Choice{
+								{
+									Title:   "natural selection",
+									Correct: true,
+								},
+								{
+									Title:   "classification",
+									Correct: false,
+								},
+								{
+									Title:   "nomenclature",
+									Correct: false,
+								},
+								{
+									Title:   "identification",
+									Correct: false,
+								},
+							},
+						},
+					},
+				},
+				{
+					Class_level: 6,
+					Video_name:  "ระบบขับถ่าย",
+					Picture:     "https://i.ytimg.com/vi/jSOeIrhJjQo/maxresdefault.jpg",
+					Description: "ชีวะวิทยา เรื่อง ระบบขับถ่าย| แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียน",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_21%2FVideo_2%2F%E0%B8%AA%E0%B8%A3%E0%B8%B8%E0%B8%9B%E0%B8%8A%E0%B8%B5%E0%B8%A7%E0%B8%B0%20%E0%B8%A3%E0%B8%B0%E0%B8%9A%E0%B8%9A%E0%B8%82%E0%B8%B1%E0%B8%9A%E0%B8%96%E0%B9%88%E0%B8%B2%E0%B8%A2.mp4?alt=media&token=a31cea78-90ff-4d03-a80d-c4132c50e705",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_21%2FVideo_2%2F%E0%B8%A3%E0%B8%B0%E0%B8%9A%E0%B8%9A%E0%B8%82%E0%B8%B1%E0%B8%9A%E0%B8%96%E0%B9%88%E0%B8%B2%E0%B8%A2.pdf?alt=media&token=d35d7725-316c-46a3-b7a4-981ee5204056",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "1.ส่วนใดทำหน้าที่เป็นตัวกรองของเสียจำพวกปัสสาวะ",
+							Choices: &[]models.Choice{
+								{
+									Title:   "หน่วยไต",
+									Correct: true,
+								},
+								{
+									Title:   "ท่อไต",
+									Correct: false,
+								},
+								{
+									Title:   "หลอดไต",
+									Correct: false,
+								},
+								{
+									Title:   "ถูกทุกข้อ",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "2.สารใดที่มีการดูดกลับที่บริเวณท่อของหน่วยไต",
+							Choices: &[]models.Choice{
+								{
+									Title:   "เม็ดเลือดแดง",
+									Correct: false,
+								},
+								{
+									Title:   "กลูโคส",
+									Correct: true,
+								},
+								{
+									Title:   "ยูเรีย",
+									Correct: false,
+								},
+								{
+									Title:   "ถูกทั้ง3ข้อ",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "3.การทำงานของระบบขับถ่ายปัสสาวะในข้อใดถูกต้อง",
+							Choices: &[]models.Choice{
+								{
+									Title:   "เลือด --> หน่วยไต --> ท่อปัสสาวะ --> กระเพาะปัสสาวะ",
+									Correct: false,
+								},
+								{
+									Title:   "เลือด --> หน่วยไต --> ท่อไต --> กระเพาะปัสสาวะ --> ท่อปัสสาวะ",
+									Correct: true,
+								},
+								{
+									Title:   "เลือด --> ท่อไต --> หน่วยไต --> กระเพาะปัสสาวะ --> ท่อปัสสาวะ",
+									Correct: false,
+								},
+								{
+									Title:   "เลือด --> กรวยไต --> หน่วยไต --> กระเพาะปัสสาวะ --> ท่อปัสสาวะ",
+									Correct: false,
+								},
+							},
+						},
+					},
+				},
+				{
+					Class_level: 6,
+					Video_name:  "ระบบหมุนเวียนเลือด",
+					Price:       25,
+					Picture:     "https://i.ytimg.com/vi/v9cqFR7fWBY/maxresdefault.jpg",
+					Description: "ชีวะวิทยา เรื่อง ระบบหมุนเวียนเลือด| แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียน",
+					Url:         "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_21%2FVideo_3%2F%E0%B8%AA%E0%B8%A3%E0%B8%B8%E0%B8%9B%E0%B8%8A%E0%B8%B5%E0%B8%A7%E0%B8%B0%20%E0%B8%A3%E0%B8%B0%E0%B8%9A%E0%B8%9A%E0%B8%AB%E0%B8%A1%E0%B8%B8%E0%B8%99%E0%B9%80%E0%B8%A7%E0%B8%B5%E0%B8%A2%E0%B8%99%E0%B9%80%E0%B8%A5%E0%B8%B7%E0%B8%AD%E0%B8%94.mp4?alt=media&token=022fa670-187b-45bd-85ec-0f7f43be3c6b",
+					Sheet:       "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Course%2FCourse_21%2FVideo_3%2F%E0%B8%A3%E0%B8%B0%E0%B8%9A%E0%B8%9A%E0%B8%AB%E0%B8%A1%E0%B8%B8%E0%B8%99%E0%B9%80%E0%B8%A7%E0%B8%B5%E0%B8%A2%E0%B8%99%E0%B9%80%E0%B8%A5%E0%B8%B7%E0%B8%AD%E0%B8%94.pdf?alt=media&token=c8dba11d-2cb2-41ce-8b00-27afec16be42",
+					Exercises: &[]models.Exercise{
+						{
+							Question: "1.ระบบหมุนเวียนเลือดสามารถแบ่งได้กี่ระบบ",
+							Choices: &[]models.Choice{
+								{
+									Title:   "5 ระบบ",
+									Correct: false,
+								},
+								{
+									Title:   "2 ระบบ",
+									Correct: true,
+								},
+								{
+									Title:   "4 ระบบ",
+									Correct: false,
+								},
+								{
+									Title:   "10 ระบบ",
+									Correct: false,
+								},
+							},
+						},
+						{
+							Question: "2.ระบบไหลหมุนเวียนเลือดประกอบด้วยอะไรบ้าง",
+							Choices: &[]models.Choice{
+								{
+									Title:   "ระบบหลอดเลือด และระบบหัวใจ",
+									Correct: false,
+								},
+								{
+									Title:   "ระบบ เลือดเสียและเลือดดี ระบบน้ำเหลือง",
+									Correct: false,
+								},
+								{
+									Title:   "ระบบหัวใจหลอดเลือด",
+									Correct: false,
+								},
+								{
+									Title:   "ระบบหัวใจหลอดเลือด และระบบน้ำเหลือง",
+									Correct: true,
+								},
+							},
+						},
+						{
+							Question: "3.หัวใจห้องใดที่ทำหน้าที่สูบฉีดเลือดไปยังส่วนต่างๆ ของร่างกาย",
+							Choices: &[]models.Choice{
+								{
+									Title:   "ห้องบนซ้าย",
+									Correct: false,
+								},
+								{
+									Title:   "ห้องล่างซ้าย",
+									Correct: true,
+								},
+								{
+									Title:   "ห้องบนขวา",
+									Correct: false,
+								},
+								{
+									Title:   "ห้องล่างขวา",
+									Correct: false,
+								},
+							},
+						},
+					},
+				},
+			},
+			TeacherID:   9,
+			Course_name: "สนุกกับชีวะพื้นฐาน",
+			Picture:     "https://scontent.fbkk29-1.fna.fbcdn.net/v/t1.6435-9/78382520_2856500057728351_2706662134804119552_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=8631f5&_nc_eui2=AeGzQ38hcWMKBDCD_VG8KD20OTtbRaWp0uE5O1tFpanS4Xh4bhpYkrPSHOIqbGGg2_6X29bKZKBY1jHj4BC3j3yz&_nc_ohc=NoBE8ZrfglkAX_4_RPZ&tn=AEAjCUeqGuWrocKm&_nc_ht=scontent.fbkk29-1.fna&oh=00_AfDFI4s-5v17bALoeLmn-l5lmfpYxF1YzO_E0Fzf4dv1_w&oe=64218770",
+			Description: "คอร์สนี้จะพาน้อง ๆ ได้รู้จักกับเนื้อหาของวิชาชีวะในเรื่องต่าง ๆ เเละได้สนุกกับการเรียนรู้เเละเเบบฝึกหัดในคอร์ส มาเริ่มกันเลย!!",
+		},
 	}
 	if err := DB.Create(&course).Error; err != nil {
 		panic(err)
@@ -4366,12 +5057,219 @@ func SeedDB() {
 			Rating:    4,
 			Comment:   "ชอบที่สุดเลยค่ะ สอนสนุกกระชับเข้าใจดีมากๆเลยค่ะ เหมาะกับคนที่ไม่มีเวลาไปเรียนพิเศษข้างนอกบ้าน เรียนที่ไหนก็ได้เป็นกำลังใจให้นะคะทำต่อไปเยอะๆเลยนะคะ",
 		},
+		{
+			TeacherID: 2,
+			Rating:    3,
+			Comment:   "ดูคลิปที่คุณครูสอนเเล้ว ก็มีงง ๆ บ้าง เเต่ก็เข้าใจมากขึ้นค่ะ อยากให้สอนให้สนุกกว่านี้อีกหน่อยจะทำให้การเรียนสนุกเเละน่าสนใจขึ้นค่ะ เป็นกำลังใจให้นะคะ",
+		},
+		{
+			TeacherID: 2,
+			Rating:    3,
+			Comment:   "เสียงคุณครูเบาไปหน่อยครับ การพูดก็เนือยๆ ไม่น่าฟัง ปรับวิธีการพูดหน่อยจะดีขึ้นครับ เเต่เนื้อหาที่นำมาสอนดีครับ สู้ๆครับครู",
+		},
+		{
+			TeacherID: 2,
+			Rating:    2,
+			Comment:   "ตอนดูคลิปที่คุณครูสอน เเรกๆก็ตั้งใจฟังอยู่ครับ เเต่หลังจากนั้นเกือบหลับ เสียงเบามากครับ",
+		},
+		{
+			TeacherID: 3,
+			Rating:    5,
+			Comment:   "ใครมีคุณครูที่สอนดีแบบนี้ โชคดีมากๆเลย ขอบคุณมากๆนะคะคุณครู เป็นกำลังในการทำคลิปต่อๆไปนะคะ",
+		},
+		{
+			TeacherID: 3,
+			Rating:    5,
+			Comment:   "สอนเข้าใจมากค่ะ ชอบมากค่ะ คือหนูดูมาหลายๆคลิปละไม่เข้าใจ  พอมาดูของครูเเล้วเข้าใจแบบมากๆเลยค่าาา  พี่สอนละเอียด รู้ที่มาของแต่ละตัวมากค่ะ",
+		},
+		{
+			TeacherID: 3,
+			Rating:    4,
+			Comment:   "คลิปขอบคุณครูเป็นประโยชน์มากๆๆเลยครับผม สุดยอดครับ เป็นกำลังใจให้กันครับผม",
+		},
+		{
+			TeacherID: 4,
+			Rating:    5,
+			Comment:   "ชอบครูดาวมากๆ ค่ะ เป็นติวเตอร์ที่สอนเข้าใจ สอนสนุกไม่ง่วงด้วย กำลังสนใจจะซื้อคอร์สอยู่เลยค่ะ เกรดเทอมนี้ต้องดีขึ้นเเน่ๆ มีคอร์สดีๆเเบบนี้ไปเรื่อยๆนะคะ",
+		},
+		{
+			TeacherID: 4,
+			Rating:    5,
+			Comment:   "หนูดูคลิปของคุณครูแล้วเข้าใจขึ้นมากเลยค่ะ สอนแล้วเข้าใจง่ายกว่าอาจารย์สอนที่โรงเรียนขึ้นอีก ขอบคุณนะคะ ชอบมากๆค่า",
+		},
+		{
+			TeacherID: 4,
+			Rating:    5,
+			Comment:   "เข้าใจขึ้นเยอะเลยครับครู ตอนเด็กชอบดื้อเรียนเลข ม.ปลายหนีไปศิลป​ภาษา แต่ต้องใช้เลขในการสอบเลื่อนชั้น ได้ครูช่วยได้เยอะเลย",
+		},
+		{
+			TeacherID: 5,
+			Rating:    4,
+			Comment:   "ขอบคุณมากเลยครับ เมื่อก่อนไม่เอาคณิตเลย พอมาดูคลิปของคุณครู ทำให้ผมเปิดใจกับวิชาคณิตทันทีเลย",
+		},
+		{
+			TeacherID: 5,
+			Rating:    4,
+			Comment:   "ชอบครูมากๆเลยค่ะ สอนสนุก แล้วก็สอนตั้งแต่พื้นฐานจริงๆ ทำให้คนพื้นไม่แน่นไปต่อในคณิตได้ง่ายขึ้นมากเลยค่ะ ขอบคุณมากๆนะคะ",
+		},
+		{
+			TeacherID: 5,
+			Rating:    4,
+			Comment:   "สอนเข้าใจง่ายครับ ชัดเจน​ ให้สังเกตุอะไร​ มีลำดับการคิดเป็นอย่างไร​ เยี่ยมเลยครับ​ คุณครูครับ",
+		},
+		{
+			TeacherID: 6,
+			Rating:    5,
+			Comment:   "คุณครูสอนดีมากเลยค่ะ หนูไม่หลับเลยยย>< เข้าใจมากกว่าครูที่โรงเรียนสอนอีก ขอบคุณมากนะคะ",
+		},
+		{
+			TeacherID: 6,
+			Rating:    4,
+			Comment:   "สอนเข้าใจมากเลยค่ะ ไม่น่าเบื่อด้วย ขอบคุณมากๆนะคะ",
+		},
+		{
+			TeacherID: 6,
+			Rating:    3,
+			Comment:   "สอนเข้าใจง่ายครับ ชัดเจน​ ให้สังเกตุอะไร​ มีลำดับการคิดเป็นอย่างไร​ เยี่ยมเลยครับ​ คุณครูครับ",
+		},
+		{
+			TeacherID: 7,
+			Rating:    4,
+			Comment:   "หนูฟังครูที่โรงเรียนไม่เข้าใจ หนูจะเข้าดูคลิปคุณครูตลอดเลยค่ะ เข้าใจมากๆพูดเข้าใจง่ายชอบมากเลยคะขอบคุณสำหรับความรู้นะคะพี่",
+		},
+		{
+			TeacherID: 7,
+			Rating:    4,
+			Comment:   "สอนเข้าใจมากเลยค่ะ ไม่น่าเบื่อด้วย ขอบคุณมากๆนะคะ",
+		},
+		{
+			TeacherID: 7,
+			Rating:    4,
+			Comment:   "คลิปขอบคุณครูเป็นประโยชน์มากๆๆเลยครับผม สุดยอดครับ เป็นกำลังใจให้กันครับผม",
+		},
+		{
+			TeacherID: 8,
+			Rating:    2,
+			Comment:   "ดูคลิปของคุณครูเเล้วไม่ค่อยเข้าใจเลยค่ะ งงมากกว่าเดิม เเต่เป็นกำลังใจให้นะคะ",
+		},
+		{
+			TeacherID: 8,
+			Rating:    3,
+			Comment:   "จากที่งงอยู่เเล้ว พอดูคลิปของครูเเล้วงงมากกว่าเดิมอีกครับ เเต่ก็เป็นกำลังใจให้นะครับ",
+		},
+		{
+			TeacherID: 8,
+			Rating:    3,
+			Comment:   "อาจจะเพิ่งหัดสอน เเต่ยังไงก็สู้ๆนะครับ ขอให้คุณครูสำเร็จในการสอนครับ",
+		},
+		{
+			TeacherID: 9,
+			Rating:    4,
+			Comment:   "ดูคลิปของคุณครูเเล้วไม่ค่อยเข้าใจเท่าไหร่ เเต่รู้สึกว่าครูตั้งใจสอนดีครับ สู้ๆครับ",
+		},
+		{
+			TeacherID: 9,
+			Rating:    3,
+			Comment:   "สอนเข้าใจบ้าง ไม่เข้าใจบ้าง เเต่ก็เป็นกำลังใจให้นะครับ",
+		},
+		{
+			TeacherID: 9,
+			Rating:    2,
+			Comment:   "หนูดูคลิปของคุณครูเเล้วไม่เข้าใจเลยค่ะ ขอโทษนะคะ เเต่ก็เป็นกำลังใจให้นะคะ",
+		},
+		{
+			TeacherID: 10,
+			Rating:    4,
+			Comment:   "ชอบเทคนิคการติวของครูมากๆเลยค่ะ มันทำให้อยากเรียนเรื่อยๆ ไม่เบื่อเลย",
+		},
+		{
+			TeacherID: 10,
+			Rating:    3,
+			Comment:   "ขอบคุณมากค่ะกำลังจะสอบพอให้เพื่อนที่ไม่เข้าใจดู เค้าเข้าใจเลยค่ะ ทำผลงานดีๆอย่างนี้ต่อไปนะคะ",
+		},
+		{
+			TeacherID: 10,
+			Rating:    4,
+			Comment:   "หนูเรียนกับครูที่โรงเรียนไม่รู้เรื่องเลย แถมสอบพรุ่งนี้ด้วย แต่มาเจอคลิปของพี่ หนูเข้าใจเกือบหมดทุกอย่างเลยค่ะ ขอบคุณพี่มาก ๆ นะคะ",
+		},
 	}
-	if err := DB.Create(&review_tutor).Error; err != nil {
+	if err := DB.Create(&review_tutor).Error; err != nil { // 2 8 9
 		panic(err)
 	}
 
 	fmt.Println("Reviews Tutor created")
+
+	var inbox = &[]models.Inbox{
+		{
+			User1ID:           1,
+			User2ID:           11,
+			Last_message:      "สวัสดีค่ะ สงสัยตรงไหน สามารถสอบถามครูได้เลยนะคะ",
+			LastMessageUserID: 1,
+		},
+		{
+			User1ID:           2,
+			User2ID:           12,
+			Last_message:      "สวัสดีค่ะ หากสงสัยเนื้อหาที่คุณครูสอน ถามได้เลยค่ะ",
+			LastMessageUserID: 2,
+		},
+		{
+			User1ID:           11,
+			User2ID:           5,
+			Last_message:      "สวัสดรค่ะคุณครู หนูมีเรื่องอยากสอบถามค่ะ",
+			LastMessageUserID: 11,
+		},
+		{
+			User1ID:           12,
+			User2ID:           10,
+			Last_message:      "สวัสดรค่ะคุณครู เนื้อหาที่คุณครูสอน มีบางช่วงที่หนูยังไม่ค่อยเข้าใจ อยากจะถามเพิ่มเติมค่ะ",
+			LastMessageUserID: 12,
+		},
+	}
+	if err := DB.Create(&inbox).Error; err != nil {
+		panic(err)
+	}
+
+	var chatroom = &[]models.ChatRoom{
+		{
+			Inbox_id: 2,
+			Conversations: []*models.Conversation{
+				{
+					Sender_id: 1,
+					Message:   "สวัสดีค่ะ สงสัยตรงไหน สามารถสอบถามครูได้เลยนะคะ",
+					CreatedAt: time.Now().Unix(),
+				}},
+		},
+		{
+			Inbox_id: 3,
+			Conversations: []*models.Conversation{
+				{
+					Sender_id: 2,
+					Message:   "สวัสดีค่ะ หากสงสัยเนื้อหาที่คุณครูสอน ถามได้เลยค่ะ",
+					CreatedAt: time.Now().Unix(),
+				}},
+		},
+		{
+			Inbox_id: 4,
+			Conversations: []*models.Conversation{
+				{
+					Sender_id: 11,
+					Message:   "สวัสดรค่ะคุณครู หนูมีเรื่องอยากสอบถามค่ะ",
+					CreatedAt: time.Now().Unix(),
+				}},
+		},
+		{
+			Inbox_id: 5,
+			Conversations: []*models.Conversation{
+				{
+					Sender_id: 12,
+					Message:   "สวัสดรค่ะคุณครู เนื้อหาที่คุณครูสอน มีบางช่วงที่หนูยังไม่ค่อยเข้าใจ อยากจะถามเพิ่มเติมค่ะ",
+					CreatedAt: time.Now().Unix(),
+				}},
+		},
+	}
+	if err := DB.Create(&chatroom).Error; err != nil {
+		panic(err)
+	}
 }
 
 func WipeData() {
