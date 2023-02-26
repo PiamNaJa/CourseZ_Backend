@@ -15,6 +15,7 @@ func CreatePost(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		token := c.Get("authorization")
 		claims, err := utils.GetClaims(token)
+    
 		if err != nil {
 			return utils.Unauthorized(err.Error())
 		}
@@ -29,6 +30,7 @@ func CreatePost(db *gorm.DB) fiber.Handler {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return utils.NotFound(err.Error())
 		}
+
 		if err != nil {
 			return utils.Unexpected(err.Error())
 		}
