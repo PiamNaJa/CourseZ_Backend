@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"errors"
 	"strconv"
 
 	"github.com/PiamNaJa/CourseZ_Backend/models"
@@ -42,12 +41,8 @@ func GetAllExercise(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var exercise []models.Exercise
 
-		err := db.Where("video_id = ?", c.Params("video_id")).Preload("Choices").Find(&exercise).Error
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return utils.NotFound(err.Error())
-		}
-		if err != nil {
-			return utils.Unexpected(err.Error())
+		if err := db.Where("video_id = ?", c.Params("video_id")).Preload("Choices").Find(&exercise).Error; err != nil {
+			return utils.HandleRecordNotFoundErr(err)
 		}
 		return c.Status(fiber.StatusOK).JSON(&exercise)
 	}
@@ -57,12 +52,8 @@ func GetExerciseById(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var exercise models.Exercise
 
-		err := db.Where("video_id = ?", c.Params("video_id")).Preload("Choices").First(&exercise, c.Params("exercise_id")).Error
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return utils.NotFound(err.Error())
-		}
-		if err != nil {
-			return utils.Unexpected(err.Error())
+		if err := db.Where("video_id = ?", c.Params("video_id")).Preload("Choices").First(&exercise, c.Params("exercise_id")).Error; err != nil {
+			return utils.HandleRecordNotFoundErr(err)
 		}
 		return c.Status(fiber.StatusOK).JSON(&exercise)
 	}
@@ -85,16 +76,12 @@ func UpdateExercise(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var exercise models.Exercise
 		var updateExercise models.Exercise
-		
+
 		if err := c.BodyParser(&updateExercise); err != nil {
 			return utils.BadRequest(err.Error())
 		}
-		err := db.Where("video_id = ?", c.Params("video_id")).First(&exercise, c.Params("exercise_id")).Error
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return utils.NotFound(err.Error())
-		}
-		if err != nil {
-			return utils.Unexpected(err.Error())
+		if err := db.Where("video_id = ?", c.Params("video_id")).First(&exercise, c.Params("exercise_id")).Error; err != nil {
+			return utils.HandleRecordNotFoundErr(err)
 		}
 
 		updateExercise.VideoID = exercise.VideoID

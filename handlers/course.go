@@ -2,8 +2,6 @@ package handlers
 
 //CompileDaemon -command="./CourseZ_Backend"
 import (
-	"errors"
-
 	"github.com/PiamNaJa/CourseZ_Backend/models"
 	"github.com/PiamNaJa/CourseZ_Backend/utils"
 	"github.com/gofiber/fiber/v2"
@@ -22,14 +20,9 @@ func CreateCourse(db *gorm.DB) fiber.Handler {
 			return utils.BadRequest(err.Error())
 		}
 
-		err := db.Create(&course).Error
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return utils.NotFound(err.Error())
+		if err := db.Create(&course).Error; err != nil {
+			return utils.HandleRecordNotFoundErr(err)
 		}
-		if err != nil {
-			return utils.Unexpected(err.Error())
-		}
-
 		return c.Status(fiber.StatusCreated).JSON(&course)
 	}
 }
@@ -39,10 +32,7 @@ func GetAllCourse(db *gorm.DB) fiber.Handler {
 		var course []models.Course
 
 		if err := db.Preload("Subject").Preload("Videos").Preload("Videos.Reviews").Find(&course).Error; err != nil {
-			if errors.Is(err, gorm.ErrRecordNotFound) {
-				return utils.NotFound(err.Error())
-			}
-			return utils.Unexpected(err.Error())
+			return utils.HandleRecordNotFoundErr(err)
 		}
 		return c.Status(fiber.StatusOK).JSON(&course)
 	}
@@ -53,12 +43,8 @@ func GetCourseById(db *gorm.DB) fiber.Handler {
 		var course models.Course
 		id := c.Params("course_id")
 
-		err := db.Preload("Subject").Preload("Videos").Preload("Videos.Reviews").First(&course, &id).Error
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return utils.NotFound(err.Error())
-		}
-		if err != nil {
-			return utils.Unexpected(err.Error())
+		if err := db.Preload("Subject").Preload("Videos").Preload("Videos.Reviews").First(&course, &id).Error; err != nil {
+			return utils.HandleRecordNotFoundErr(err)
 		}
 		return c.Status(fiber.StatusOK).JSON(&course)
 	}
@@ -69,12 +55,8 @@ func DeleteCourseByID(db *gorm.DB) fiber.Handler {
 		var course models.Course
 		id := c.Params("course_id")
 
-		err := db.Delete(&course, &id).Error
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return utils.NotFound(err.Error())
-		}
-		if err != nil {
-			return utils.Unexpected(err.Error())
+		if err := db.Delete(&course, &id).Error; err != nil {
+			return utils.HandleRecordNotFoundErr(err)
 		}
 		return c.Status(fiber.StatusNoContent).JSON("Deleted")
 	}
@@ -90,14 +72,9 @@ func UpdateCourse(db *gorm.DB) fiber.Handler {
 			return utils.BadRequest(err.Error())
 		}
 
-		err := db.Preload("Subject").First(&course, &id).Error
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return utils.NotFound(err.Error())
+		if err := db.Preload("Subject").First(&course, &id).Error; err != nil {
+			return utils.HandleRecordNotFoundErr(err)
 		}
-		if err != nil {
-			return utils.Unexpected(err.Error())
-		}
-
 		course.SubjectID = updateCourseData.SubjectID
 		course.Course_name = updateCourseData.Course_name
 		course.Picture = updateCourseData.Picture
@@ -120,13 +97,13 @@ func LikeCourse(db *gorm.DB) fiber.Handler {
 		}
 		var user models.User
 		if err := db.Preload("LikeCourses").First(&user, claims["user_id"]).Error; err != nil {
-			return utils.Unexpected(err.Error())
+			return utils.HandleRecordNotFoundErr(err)
 		}
 		var course models.Course
 		id := c.Params("course_id")
 
 		if err := db.First(&course, &id).Error; err != nil {
-			return utils.Unexpected(err.Error())
+			return utils.HandleRecordNotFoundErr(err)
 		}
 		isLike := checkIsLikeCourse(course, user.LikeCourses)
 
@@ -163,20 +140,12 @@ func IsLikeCourse(db *gorm.DB) fiber.Handler {
 			return utils.Unauthorized(err.Error())
 		}
 		var user models.User
-		err = db.Preload("LikeCourses").First(&user, claims["user_id"]).Error
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return utils.NotFound(err.Error())
-		}
-		if err != nil {
-			return utils.Unexpected(err.Error())
+		if err := db.Preload("LikeCourses").First(&user, claims["user_id"]).Error; err != nil {
+			return utils.HandleRecordNotFoundErr(err)
 		}
 		var course models.Course
-		err = db.First(&course, c.Params("course_id")).Error
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return utils.NotFound(err.Error())
-		}
-		if err != nil {
-			return utils.Unexpected(err.Error())
+		if err := db.First(&course, c.Params("course_id")).Error; err != nil {
+			return utils.HandleRecordNotFoundErr(err)
 		}
 		userLike := user.LikeCourses
 		isLike := checkIsLikeCourse(course, userLike)

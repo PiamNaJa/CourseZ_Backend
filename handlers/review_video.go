@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"errors"
 	"strconv"
 
 	"github.com/PiamNaJa/CourseZ_Backend/models"
@@ -20,7 +19,7 @@ func CreateReviewVideo(db *gorm.DB) fiber.Handler {
 
 		video_id, err := strconv.ParseInt(c.Params("video_id"), 10, 64)
 		review.VideoID = int32(video_id)
-		
+
 		if err != nil {
 			return utils.BadRequest(err.Error())
 		}
@@ -41,10 +40,7 @@ func GetReviewVideoByFilter(db *gorm.DB) fiber.Handler {
 		var review []models.Review_Video
 
 		if err := db.Where("video_id = ?", c.Params("video_id")).Find(&review).Error; err != nil {
-			if errors.Is(err, gorm.ErrRecordNotFound) {
-				return utils.NotFound(err.Error())
-			}
-			return utils.Unexpected(err.Error())
+			return utils.HandleRecordNotFoundErr(err)
 		}
 		return c.Status(fiber.StatusOK).JSON(&review)
 	}

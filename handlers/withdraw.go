@@ -1,8 +1,6 @@
 package handlers
 
 import (
-	"errors"
-
 	"github.com/PiamNaJa/CourseZ_Backend/models"
 	"github.com/PiamNaJa/CourseZ_Backend/utils"
 	"github.com/gofiber/fiber/v2"
@@ -26,10 +24,7 @@ func WithdrawMoney(db *gorm.DB) fiber.Handler {
 		tx := db.Begin()
 		var teacher models.UserTeacher
 		if err := tx.Where("teacher_id = ?", claims["teacher_id"]).First(&teacher).Error; err != nil {
-			if errors.Is(err, gorm.ErrRecordNotFound) {
-				return utils.NotFound(err.Error())
-			}
-			return utils.Unexpected(err.Error())
+			return utils.HandleRecordNotFoundErr(err)
 		}
 
 		teacher.Money -= money

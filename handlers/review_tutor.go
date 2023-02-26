@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"errors"
 	"strconv"
 
 	"github.com/PiamNaJa/CourseZ_Backend/models"
@@ -42,10 +41,7 @@ func GetReviewTutorByFilter(db *gorm.DB) fiber.Handler {
 		var review []models.Review_Tutor
 
 		if err := db.Where("teacher_id = ?", c.Params("teacher_id")).Find(&review).Error; err != nil {
-			if errors.Is(err, gorm.ErrRecordNotFound) {
-				return utils.NotFound(err.Error())
-			}
-			return utils.Unexpected(err.Error())
+			return utils.HandleRecordNotFoundErr(err)
 		}
 		return c.Status(fiber.StatusOK).JSON(&review)
 	}

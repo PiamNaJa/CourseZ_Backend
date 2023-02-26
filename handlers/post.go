@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"errors"
 	"net/url"
 
 	"github.com/PiamNaJa/CourseZ_Backend/models"
@@ -15,7 +14,7 @@ func CreatePost(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		token := c.Get("authorization")
 		claims, err := utils.GetClaims(token)
-    
+
 		if err != nil {
 			return utils.Unauthorized(err.Error())
 		}
@@ -25,14 +24,8 @@ func CreatePost(db *gorm.DB) fiber.Handler {
 			return utils.BadRequest(err.Error())
 		}
 		var user models.User
-		err = db.Select("user_id", "role").Where("user_id = ?", claims["user_id"]).First(&user).Error
-
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return utils.NotFound(err.Error())
-		}
-
-		if err != nil {
-			return utils.Unexpected(err.Error())
+		if err := db.Select("user_id", "role").Where("user_id = ?", claims["user_id"]).First(&user).Error; err != nil {
+			return utils.HandleRecordNotFoundErr(err)
 		}
 		post.UserID = user.User_id
 
@@ -41,12 +34,8 @@ func CreatePost(db *gorm.DB) fiber.Handler {
 			return utils.BadRequest(err.Error())
 		}
 
-		err = db.Where("subject_title = ? AND class_level = ?", subject.Subject_title, subject.Class_level).First(&subject).Error
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return utils.NotFound(err.Error())
-		}
-		if err != nil {
-			return utils.Unexpected(err.Error())
+		if err := db.Where("subject_title = ? AND class_level = ?", subject.Subject_title, subject.Class_level).First(&subject).Error; err != nil {
+			return utils.HandleRecordNotFoundErr(err)
 		}
 
 		post.SubjectID = subject.Subject_id
@@ -88,10 +77,7 @@ func GetPostById(db *gorm.DB) fiber.Handler {
 		}).Preload(clause.Associations, func(tx *gorm.DB) *gorm.DB {
 			return tx.Omit("Password", "Email")
 		}).First(&post, &id).Error; err != nil {
-			if errors.Is(err, gorm.ErrRecordNotFound) {
-				return utils.NotFound(err.Error())
-			}
-			return utils.Unexpected(err.Error())
+			return utils.HandleRecordNotFoundErr(err)
 		}
 		return c.Status(fiber.StatusOK).JSON(&post)
 	}
@@ -110,10 +96,7 @@ func GetPostBySubject(db *gorm.DB) fiber.Handler {
 		}).Preload(clause.Associations, func(tx *gorm.DB) *gorm.DB {
 			return tx.Omit("Password", "Email")
 		}).Find(&posts).Error; err != nil {
-			if errors.Is(err, gorm.ErrRecordNotFound) {
-				return utils.NotFound(err.Error())
-			}
-			return utils.Unexpected(err.Error())
+			return utils.HandleRecordNotFoundErr(err)
 		}
 		return c.Status(fiber.StatusOK).JSON(&posts)
 	}
@@ -130,10 +113,7 @@ func GetPostByClassLevel(db *gorm.DB) fiber.Handler {
 		}).Preload(clause.Associations, func(tx *gorm.DB) *gorm.DB {
 			return tx.Omit("Password", "Email")
 		}).Find(&posts).Error; err != nil {
-			if errors.Is(err, gorm.ErrRecordNotFound) {
-				return utils.NotFound(err.Error())
-			}
-			return utils.Unexpected(err.Error())
+			return utils.HandleRecordNotFoundErr(err)
 		}
 		return c.Status(fiber.StatusOK).JSON(&posts)
 	}
@@ -145,10 +125,7 @@ func DeletePostByID(db *gorm.DB) fiber.Handler {
 		id := c.Params("post_id")
 
 		if err := db.Delete(&post, &id).Error; err != nil {
-			if errors.Is(err, gorm.ErrRecordNotFound) {
-				return utils.NotFound(err.Error())
-			}
-			return utils.Unexpected(err.Error())
+			return utils.HandleRecordNotFoundErr(err)
 		}
 		return c.Status(fiber.StatusNoContent).JSON("Deleted")
 	}
@@ -161,10 +138,7 @@ func UpdatePost(db *gorm.DB) fiber.Handler {
 		id := c.Params("post_id")
 
 		if err := db.First(&post, &id).Error; err != nil {
-			if errors.Is(err, gorm.ErrRecordNotFound) {
-				return utils.NotFound(err.Error())
-			}
-			return utils.Unexpected(err.Error())
+			return utils.HandleRecordNotFoundErr(err)
 		}
 
 		if err := c.BodyParser(&updatePostData); err != nil {
@@ -196,18 +170,12 @@ func CreatePostComment(db *gorm.DB) fiber.Handler {
 		}
 		var user models.User
 		if err := db.Select("user_id", "role").Where("user_id = ?", claims["user_id"]).First(&user).Error; err != nil {
-			if errors.Is(err, gorm.ErrRecordNotFound) {
-				return utils.NotFound(err.Error())
-			}
-			return utils.Unexpected(err.Error())
+			return utils.HandleRecordNotFoundErr(err)
 		}
 
 		var post models.Post
 		if err := db.Select("post_id").Where("post_id = ?", c.Params("post_id")).First(&post).Error; err != nil {
-			if errors.Is(err, gorm.ErrRecordNotFound) {
-				return utils.NotFound(err.Error())
-			}
-			return utils.Unexpected(err.Error())
+			return utils.HandleRecordNotFoundErr(err)
 		}
 		comment.PostID = post.Post_id
 		comment.UserID = user.User_id

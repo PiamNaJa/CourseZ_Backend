@@ -1,8 +1,6 @@
 package handlers
 
 import (
-	"errors"
-
 	"github.com/PiamNaJa/CourseZ_Backend/models"
 	"github.com/PiamNaJa/CourseZ_Backend/utils"
 	"github.com/gofiber/fiber/v2"
@@ -20,10 +18,7 @@ func SearchALL(db *gorm.DB) fiber.Handler {
 			return tx.Where("video_name LIKE ?", &name)
 		}).Preload("Subject").Preload("Videos.Reviews").
 			Find(&courses).Error; err != nil {
-			if errors.Is(err, gorm.ErrRecordNotFound) {
-				return utils.NotFound(err.Error())
-			}
-			return utils.Unexpected(err.Error())
+			return utils.HandleRecordNotFoundErr(err)
 		}
 
 		for _, course := range courses {
@@ -33,10 +28,7 @@ func SearchALL(db *gorm.DB) fiber.Handler {
 		}
 
 		if err := db.Preload(clause.Associations).Preload("Videos.Reviews").Where("course_name LIKE ?", &name).Find(&courses).Error; err != nil {
-			if errors.Is(err, gorm.ErrRecordNotFound) {
-				return utils.NotFound(err.Error())
-			}
-			return utils.Unexpected(err.Error())
+			return utils.HandleRecordNotFoundErr(err)
 		} //Search course
 
 		var teachers []map[string]interface{}
@@ -52,10 +44,7 @@ func SearchALL(db *gorm.DB) fiber.Handler {
 			Having("nickname LIKE ?", name).
 			Order("rating DESC").
 			Find(&teachers).Error; err != nil {
-			if errors.Is(err, gorm.ErrRecordNotFound) {
-				return utils.NotFound(err.Error())
-			}
-			return utils.Unexpected(err.Error())
+			return utils.HandleRecordNotFoundErr(err)
 		}
 		if teachers == nil {
 			teachers = []map[string]interface{}{}
@@ -75,10 +64,7 @@ func SearchCourse(db *gorm.DB) fiber.Handler {
 		var name = "%" + c.Query("name") + "%"
 
 		if err := db.Preload(clause.Associations).Preload("Videos.Reviews").Where("course_name LIKE ?", &name).Find(&course).Error; err != nil {
-			if errors.Is(err, gorm.ErrRecordNotFound) {
-				return utils.NotFound(err.Error())
-			}
-			return utils.Unexpected(err.Error())
+			return utils.HandleRecordNotFoundErr(err)
 		}
 		return c.Status(fiber.StatusOK).JSON(&course)
 	}
@@ -99,10 +85,7 @@ func SearchTutor(db *gorm.DB) fiber.Handler {
 			Having("nickname LIKE ?", name).
 			Order("rating DESC").
 			Find(&result).Error; err != nil {
-			if errors.Is(err, gorm.ErrRecordNotFound) {
-				return utils.NotFound(err.Error())
-			}
-			return utils.Unexpected(err.Error())
+			return utils.HandleRecordNotFoundErr(err)
 		}
 		if result == nil {
 			result = []map[string]interface{}{}
@@ -120,10 +103,7 @@ func SearchVideo(db *gorm.DB) fiber.Handler {
 			return tx.Where("video_name LIKE ?", &name)
 		}).Preload("Subject").Preload("Videos.Reviews").
 			Find(&courses).Error; err != nil {
-			if errors.Is(err, gorm.ErrRecordNotFound) {
-				return utils.NotFound(err.Error())
-			}
-			return utils.Unexpected(err.Error())
+			return utils.HandleRecordNotFoundErr(err)
 		}
 
 		for _, course := range courses {

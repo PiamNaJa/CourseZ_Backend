@@ -1,8 +1,6 @@
 package handlers
 
 import (
-	"errors"
-
 	"github.com/PiamNaJa/CourseZ_Backend/models"
 	"github.com/PiamNaJa/CourseZ_Backend/utils"
 	"github.com/gofiber/fiber/v2"
@@ -22,24 +20,15 @@ func VideosPayment(db *gorm.DB) fiber.Handler {
 		}
 
 		var user models.User
-		err = db.Select("user_id", "role").Where("user_id = ?", claims["user_id"]).First(&user).Error
-
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return utils.NotFound(err.Error())
-		}
-		if err != nil {
-			return utils.Unexpected(err.Error())
+		if err = db.Select("user_id", "role").Where("user_id = ?", claims["user_id"]).First(&user).Error; err != nil {
+			return utils.HandleRecordNotFoundErr(err)
 		}
 
 		var videos []*models.Video
 		for _, video_id := range request["video_id"].([]interface{}) {
 			var video *models.Video
-			err := db.Select("video_id", "price").Where("video_id = ?", video_id).First(&video).Error
-			if errors.Is(err, gorm.ErrRecordNotFound) {
-				return utils.NotFound(err.Error())
-			}
-			if err != nil {
-				return utils.Unexpected(err.Error())
+			if err := db.Select("video_id", "price").Where("video_id = ?", video_id).First(&video).Error; err != nil {
+				return utils.HandleRecordNotFoundErr(err)
 			}
 			videos = append(videos, video)
 		}
@@ -50,8 +39,7 @@ func VideosPayment(db *gorm.DB) fiber.Handler {
 		}
 
 		var courses []models.Course
-		err = db.Preload("Videos", "video_id IN ?", request["video_id"]).Find(&courses).Error
-		if err != nil {
+		if err := db.Preload("Videos", "video_id IN ?", request["video_id"]).Find(&courses).Error; err != nil {
 			return utils.Unexpected(err.Error())
 		}
 
@@ -68,13 +56,8 @@ func VideosPayment(db *gorm.DB) fiber.Handler {
 			}
 		}
 		var teacher models.UserTeacher
-		err = db.First(&teacher, &course.TeacherID).Error
-
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return utils.NotFound(err.Error())
-		}
-		if err != nil {
-			return utils.Unexpected(err.Error())
+		if err := db.First(&teacher, &course.TeacherID).Error; err != nil {
+			return utils.HandleRecordNotFoundErr(err)
 		}
 
 		teacher.Money += totalPrice
@@ -83,13 +66,8 @@ func VideosPayment(db *gorm.DB) fiber.Handler {
 		}
 
 		var userInPayment models.User
-		err = db.Preload("PaidVideos").Where("user_id = ?", &user.User_id).First(&userInPayment).Error
-
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return utils.NotFound(err.Error())
-		}
-		if err != nil {
-			return utils.Unexpected(err.Error())
+		if err := db.Preload("PaidVideos").Where("user_id = ?", &user.User_id).First(&userInPayment).Error; err != nil {
+			return utils.HandleRecordNotFoundErr(err)
 		}
 
 		payment := models.Payment{
@@ -114,14 +92,8 @@ func GetPaidVideos(db *gorm.DB) fiber.Handler {
 			return utils.Unauthorized(err.Error())
 		}
 		var user models.User
-		err = db.Preload("PaidVideos").Select("user_id", "role").Where("user_id = ?", claims["user_id"]).First(&user).Error
-
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return utils.NotFound(err.Error())
-		}
-
-		if err != nil {
-			return utils.Unexpected(err.Error())
+		if err = db.Preload("PaidVideos").Select("user_id", "role").Where("user_id = ?", claims["user_id"]).First(&user).Error; err != nil {
+			return utils.HandleRecordNotFoundErr(err)
 		}
 
 		var videosId []int32 = []int32{}

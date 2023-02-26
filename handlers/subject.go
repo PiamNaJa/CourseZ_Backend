@@ -31,9 +31,7 @@ func GetAllSubject(db *gorm.DB) fiber.Handler {
 		var subject []models.Subject
 
 		if err := db.Find(&subject).Error; err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.Unexpected(err.Error())
 		}
 		return c.Status(fiber.StatusOK).JSON(&subject)
 	}

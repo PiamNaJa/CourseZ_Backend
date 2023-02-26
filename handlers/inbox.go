@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"errors"
 
 	"github.com/PiamNaJa/CourseZ_Backend/models"
 	"github.com/PiamNaJa/CourseZ_Backend/utils"
@@ -33,13 +32,8 @@ func NewConversaion(db *gorm.DB) fiber.Handler {
 		}
 		conversation.Sender_id = int32(claims["user_id"].(float64))
 		var chat models.ChatRoom
-		err = db.Where("inbox_id = ?", c.Params("inbox_id")).Preload("Conversations").First(&chat).Error
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return utils.NotFound(err.Error())
-		}
-
-		if err != nil {
-			return utils.BadRequest(err.Error())
+		if err = db.Where("inbox_id = ?", c.Params("inbox_id")).Preload("Conversations").First(&chat).Error; err != nil {
+			return utils.HandleRecordNotFoundErr(err)
 		}
 
 		var inbox models.Inbox
@@ -79,18 +73,12 @@ func GetInbox(db *gorm.DB) fiber.Handler {
 			return utils.Unauthorized(err.Error())
 		}
 		var inbox []models.Inbox
-		err = db.Where("user1_id = ? OR user2_id = ?", claims["user_id"], claims["user_id"]).Preload("User1", func(db *gorm.DB) *gorm.DB {
+		if err = db.Where("user1_id = ? OR user2_id = ?", claims["user_id"], claims["user_id"]).Preload("User1", func(db *gorm.DB) *gorm.DB {
 			return db.Select("user_id, nickname, picture")
 		}).Preload("User2", func(db *gorm.DB) *gorm.DB {
 			return db.Select("user_id, nickname, picture")
-		}).Find(&inbox).Error 
-		
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return utils.NotFound(err.Error())
-		}
-
-		if err != nil {
-			return utils.Unexpected(err.Error())
+		}).Find(&inbox).Error; err != nil {
+			return utils.HandleRecordNotFoundErr(err)
 		}
 		return c.Status(fiber.StatusOK).JSON(&inbox)
 	}
