@@ -25,7 +25,7 @@ func CreatePost(db *gorm.DB) fiber.Handler {
 		}
 		var user models.User
 		if err := db.Select("user_id", "role").Where("user_id = ?", claims["user_id"]).First(&user).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 		post.UserID = user.User_id
 
@@ -35,7 +35,7 @@ func CreatePost(db *gorm.DB) fiber.Handler {
 		}
 
 		if err := db.Where("subject_title = ? AND class_level = ?", subject.Subject_title, subject.Class_level).First(&subject).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 
 		post.SubjectID = subject.Subject_id
@@ -77,7 +77,7 @@ func GetPostById(db *gorm.DB) fiber.Handler {
 		}).Preload(clause.Associations, func(tx *gorm.DB) *gorm.DB {
 			return tx.Omit("Password", "Email")
 		}).First(&post, &id).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 		return c.Status(fiber.StatusOK).JSON(&post)
 	}
@@ -96,7 +96,7 @@ func GetPostBySubject(db *gorm.DB) fiber.Handler {
 		}).Preload(clause.Associations, func(tx *gorm.DB) *gorm.DB {
 			return tx.Omit("Password", "Email")
 		}).Find(&posts).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 		return c.Status(fiber.StatusOK).JSON(&posts)
 	}
@@ -113,7 +113,7 @@ func GetPostByClassLevel(db *gorm.DB) fiber.Handler {
 		}).Preload(clause.Associations, func(tx *gorm.DB) *gorm.DB {
 			return tx.Omit("Password", "Email")
 		}).Find(&posts).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 		return c.Status(fiber.StatusOK).JSON(&posts)
 	}
@@ -125,7 +125,7 @@ func DeletePostByID(db *gorm.DB) fiber.Handler {
 		id := c.Params("post_id")
 
 		if err := db.Delete(&post, &id).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 		return c.Status(fiber.StatusNoContent).JSON("Deleted")
 	}
@@ -138,7 +138,7 @@ func UpdatePost(db *gorm.DB) fiber.Handler {
 		id := c.Params("post_id")
 
 		if err := db.First(&post, &id).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 
 		if err := c.BodyParser(&updatePostData); err != nil {
@@ -170,12 +170,12 @@ func CreatePostComment(db *gorm.DB) fiber.Handler {
 		}
 		var user models.User
 		if err := db.Select("user_id", "role").Where("user_id = ?", claims["user_id"]).First(&user).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 
 		var post models.Post
 		if err := db.Select("post_id").Where("post_id = ?", c.Params("post_id")).First(&post).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 		comment.PostID = post.Post_id
 		comment.UserID = user.User_id

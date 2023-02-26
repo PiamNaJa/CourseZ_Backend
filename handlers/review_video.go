@@ -40,7 +40,7 @@ func GetReviewVideoByFilter(db *gorm.DB) fiber.Handler {
 		var review []models.Review_Video
 
 		if err := db.Where("video_id = ?", c.Params("video_id")).Find(&review).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 		return c.Status(fiber.StatusOK).JSON(&review)
 	}

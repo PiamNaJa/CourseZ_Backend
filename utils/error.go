@@ -39,7 +39,7 @@ func Unauthorized(message string) *Error {
 	return NewError(fiber.StatusUnauthorized, message)
 }
 
-func HandleRecordNotFoundErr(err error) *Error {
+func HandleFindError(err error) *Error {
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return NotFound(err.Error())
 	}

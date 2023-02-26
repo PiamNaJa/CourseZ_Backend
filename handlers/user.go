@@ -132,7 +132,7 @@ func LoginUser(db *gorm.DB) fiber.Handler {
 		password := user.Password
 
 		if err := db.Preload("Teacher").Where("email = ?", &user.Email).First(&user).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 
 		err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
@@ -187,7 +187,7 @@ func Update(db *gorm.DB) fiber.Handler {
 		}
 
 		if err := db.Where("user_id = ?", c.Params("user_id")).Updates(&user).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 
 		return c.Status(fiber.StatusOK).JSON("Updated")
@@ -198,7 +198,7 @@ func GetProfile(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var user models.User
 		if err := db.Omit("password").Preload(clause.Associations).Preload("Teacher.Courses").Preload("Teacher.Tracsaction").Preload("History.Video").Where("user_id = ?", c.Params("user_id")).First(&user).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 		return c.Status(fiber.StatusOK).JSON(&user)
 	}
@@ -232,7 +232,7 @@ func GetTeacherByClassLevel(db *gorm.DB) fiber.Handler {
 			Having("subjects.class_level = ?", c.Params("class_level")).
 			Order("rating DESC").
 			Find(&result).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 		if result == nil {
 			result = []map[string]interface{}{}
@@ -271,7 +271,7 @@ func GetNewToken(db *gorm.DB) fiber.Handler {
 		teacher_id := int32(claims["teacher_id"].(float64))
 		var user models.User
 		if err := db.Where("user_id = ?", &user_id).First(&user).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 		tokenString, err := utils.GenerateToken(&user_id, &role, &teacher_id)
 		if err != nil {
@@ -293,7 +293,7 @@ func GetTeacherById(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var user models.User
 		if err := db.Omit("password").Preload("Teacher").Preload("Teacher.Reviews").Joins("join user_teachers on users.user_id = user_teachers.user_id").Where("teacher_id = ?", c.Params("teacher_id")).First(&user).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 		return c.Status(fiber.StatusOK).JSON(&user)
 	}

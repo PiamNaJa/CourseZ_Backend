@@ -42,7 +42,7 @@ func GetAllExercise(db *gorm.DB) fiber.Handler {
 		var exercise []models.Exercise
 
 		if err := db.Where("video_id = ?", c.Params("video_id")).Preload("Choices").Find(&exercise).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 		return c.Status(fiber.StatusOK).JSON(&exercise)
 	}
@@ -53,7 +53,7 @@ func GetExerciseById(db *gorm.DB) fiber.Handler {
 		var exercise models.Exercise
 
 		if err := db.Where("video_id = ?", c.Params("video_id")).Preload("Choices").First(&exercise, c.Params("exercise_id")).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 		return c.Status(fiber.StatusOK).JSON(&exercise)
 	}
@@ -81,7 +81,7 @@ func UpdateExercise(db *gorm.DB) fiber.Handler {
 			return utils.BadRequest(err.Error())
 		}
 		if err := db.Where("video_id = ?", c.Params("video_id")).First(&exercise, c.Params("exercise_id")).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 
 		updateExercise.VideoID = exercise.VideoID

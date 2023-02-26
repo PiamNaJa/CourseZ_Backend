@@ -33,7 +33,7 @@ func NewConversaion(db *gorm.DB) fiber.Handler {
 		conversation.Sender_id = int32(claims["user_id"].(float64))
 		var chat models.ChatRoom
 		if err = db.Where("inbox_id = ?", c.Params("inbox_id")).Preload("Conversations").First(&chat).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 
 		var inbox models.Inbox
@@ -78,7 +78,7 @@ func GetInbox(db *gorm.DB) fiber.Handler {
 		}).Preload("User2", func(db *gorm.DB) *gorm.DB {
 			return db.Select("user_id, nickname, picture")
 		}).Find(&inbox).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 		return c.Status(fiber.StatusOK).JSON(&inbox)
 	}

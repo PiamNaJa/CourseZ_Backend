@@ -41,7 +41,7 @@ func GetReviewTutorByFilter(db *gorm.DB) fiber.Handler {
 		var review []models.Review_Tutor
 
 		if err := db.Where("teacher_id = ?", c.Params("teacher_id")).Find(&review).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 		return c.Status(fiber.StatusOK).JSON(&review)
 	}

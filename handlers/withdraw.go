@@ -24,7 +24,7 @@ func WithdrawMoney(db *gorm.DB) fiber.Handler {
 		tx := db.Begin()
 		var teacher models.UserTeacher
 		if err := tx.Where("teacher_id = ?", claims["teacher_id"]).First(&teacher).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 
 		teacher.Money -= money

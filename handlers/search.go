@@ -18,7 +18,7 @@ func SearchALL(db *gorm.DB) fiber.Handler {
 			return tx.Where("video_name LIKE ?", &name)
 		}).Preload("Subject").Preload("Videos.Reviews").
 			Find(&courses).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 
 		for _, course := range courses {
@@ -28,7 +28,7 @@ func SearchALL(db *gorm.DB) fiber.Handler {
 		}
 
 		if err := db.Preload(clause.Associations).Preload("Videos.Reviews").Where("course_name LIKE ?", &name).Find(&courses).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		} //Search course
 
 		var teachers []map[string]interface{}
@@ -44,7 +44,7 @@ func SearchALL(db *gorm.DB) fiber.Handler {
 			Having("nickname LIKE ?", name).
 			Order("rating DESC").
 			Find(&teachers).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 		if teachers == nil {
 			teachers = []map[string]interface{}{}
@@ -64,7 +64,7 @@ func SearchCourse(db *gorm.DB) fiber.Handler {
 		var name = "%" + c.Query("name") + "%"
 
 		if err := db.Preload(clause.Associations).Preload("Videos.Reviews").Where("course_name LIKE ?", &name).Find(&course).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 		return c.Status(fiber.StatusOK).JSON(&course)
 	}
@@ -85,7 +85,7 @@ func SearchTutor(db *gorm.DB) fiber.Handler {
 			Having("nickname LIKE ?", name).
 			Order("rating DESC").
 			Find(&result).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 		if result == nil {
 			result = []map[string]interface{}{}
@@ -103,7 +103,7 @@ func SearchVideo(db *gorm.DB) fiber.Handler {
 			return tx.Where("video_name LIKE ?", &name)
 		}).Preload("Subject").Preload("Videos.Reviews").
 			Find(&courses).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 
 		for _, course := range courses {

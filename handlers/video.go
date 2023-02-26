@@ -18,7 +18,7 @@ func CreateVideo(db *gorm.DB) fiber.Handler {
 		}
 
 		if err := db.Preload("Subject").Where("course_id = ?", c.Params("course_id")).First(&course).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 		video.CourseID = course.Course_id
 		video.Class_level = course.Subject.Class_level
@@ -39,7 +39,7 @@ func GetAllVideo(db *gorm.DB) fiber.Handler {
 		var videos []models.Video
 
 		if err := db.Preload(clause.Associations).Where("course_id = ?", c.Params("course_id")).Find(&videos).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 		return c.Status(fiber.StatusOK).JSON(&videos)
 	}
@@ -50,7 +50,7 @@ func GetVideoByFilter(db *gorm.DB) fiber.Handler {
 		var videos []models.Video
 
 		if err := db.Where("class_level = ?", c.Params("class_level")).Find(&videos).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 		return c.Status(fiber.StatusOK).JSON(&videos)
 	}
@@ -62,7 +62,7 @@ func GetVideoById(db *gorm.DB) fiber.Handler {
 		id := c.Params("video_id")
 
 		if err := db.Preload(clause.Associations).Where("course_id = ?", c.Params("course_id")).First(&video, &id).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 		return c.Status(fiber.StatusOK).JSON(&video)
 	}
@@ -76,7 +76,7 @@ func DeleteVideoByID(db *gorm.DB) fiber.Handler {
 		r := db.Where("course_id = ?", c.Params("course_id")).Delete(&video, id)
 
 		if r.Error != nil {
-			return utils.HandleRecordNotFoundErr(r.Error)
+			return utils.HandleFindError(r.Error)
 		}
 		if r.RowsAffected == 0 {
 			return utils.NotFound("record not found")
@@ -92,7 +92,7 @@ func UpdateVideo(db *gorm.DB) fiber.Handler {
 		id := c.Params("video_id")
 
 		if err := db.Preload(clause.Associations).Where("course_id = ?", c.Params("course_id")).First(&video, id).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 
 		if err := c.BodyParser(&updateVideoData); err != nil {
@@ -122,13 +122,13 @@ func LikeVideo(db *gorm.DB) fiber.Handler {
 		}
 		var user models.User
 		if err := db.Preload("LikeVideos").First(&user, claims["user_id"]).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 		var video models.Video
 		id := c.Params("video_id")
 
 		if err := db.Where("course_id = ?", c.Params("course_id")).First(&video, &id).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 		isLike := checkIsLikeVideo(video, user.LikeVideos)
 		var resMessage string
@@ -165,13 +165,13 @@ func IsLikeVideo(db *gorm.DB) fiber.Handler {
 		}
 		var user models.User
 		if err := db.Preload("LikeVideos").First(&user, claims["user_id"]).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 		var video models.Video
 		id := c.Params("video_id")
 
 		if err := db.Where("course_id = ?", c.Params("course_id")).First(&video, &id).Error; err != nil {
-			return utils.HandleRecordNotFoundErr(err)
+			return utils.HandleFindError(err)
 		}
 		isLike := checkIsLikeVideo(video, user.LikeVideos)
 		return c.Status(fiber.StatusOK).JSON(isLike)
