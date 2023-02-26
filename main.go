@@ -9,8 +9,8 @@ import (
 func main() {
 	app := server.Create()
 	server.SetupRoute(app)
-	// server.WipeDatabaseData()
-	// server.PrintRoutes(app)
+	server.WipeAndSeedDatabaseData()
+	server.PrintRoutes(app)
 	defer server.Shutdown(app)
 	if err := server.Listen(app); err != nil {
 		fmt.Print(err)

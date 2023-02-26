@@ -70,7 +70,7 @@ func Shutdown(app *fiber.App) {
 	app.Shutdown()
 }
 
-func WipeDatabaseData() {
+func WipeAndSeedDatabaseData() {
 	configs.WipeData()
 	configs.MigrateData()
 	configs.SeedDB()
