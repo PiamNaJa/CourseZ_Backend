@@ -1,13 +1,16 @@
 package middleware
 
 import (
+	"errors"
 	"os"
 	"time"
 
 	"github.com/PiamNaJa/CourseZ_Backend/configs"
 	"github.com/PiamNaJa/CourseZ_Backend/models"
+	"github.com/PiamNaJa/CourseZ_Backend/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"
+	"gorm.io/gorm"
 )
 
 func IsCourseOwner(c *fiber.Ctx) error {
@@ -16,30 +19,25 @@ func IsCourseOwner(c *fiber.Ctx) error {
 		return []byte(os.Getenv("JWT_Secret")), nil
 	})
 	if err != nil {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"error": "Unauthorized",
-		})
+		return utils.Unauthorized(err.Error())
 	}
 	exp := claims["exp"].(float64)
 	if int64(exp) < time.Now().Unix() {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"error": "Token Expired",
-		})
+		return utils.Unauthorized("Token Expired")
 	}
 
 	var course models.Course
 	if err := configs.DB.Where("course_id = ?", c.Params("course_id")).First(&course).Error; err != nil {
-		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-			"error": "Course not found",
-		})
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return utils.NotFound("Course not found")
+		}
+		return utils.Unexpected(err.Error())
 	}
 	courseOwner := course.TeacherID
 
 	owner := claims["teacher_id"].(float64)
 	if owner != float64(courseOwner) {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"error": "Unauthorized",
-		})
+		return utils.Unauthorized("You are not the owner of this course")
 	}
 	return c.Next()
 }

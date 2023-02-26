@@ -4,8 +4,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/PiamNaJa/CourseZ_Backend/constants"
 	"github.com/PiamNaJa/CourseZ_Backend/models"
+	"github.com/PiamNaJa/CourseZ_Backend/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"
 	"golang.org/x/crypto/bcrypt"
@@ -17,48 +17,36 @@ func RegisterStudent(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var user models.User
 		if err := c.BodyParser(&user); err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.BadRequest(err.Error())
 		}
 
-		if err := constants.Validate.Struct(user); err != nil {
-			return c.Status(fiber.StatusBadRequest).JSON(err.Error())
+		if err := utils.Validate.Struct(user); err != nil {
+			return utils.BadRequest(err.Error())
 		}
 
 		encryptPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 10)
 		if err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.Unexpected(err.Error())
 		}
 
 		user.Password = string(encryptPassword)
 		if err := db.Exec("SELECT setval(pg_get_serial_sequence('users', 'user_id'), coalesce(max(user_id)+1, 1), false) FROM users;").Error; err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.Unexpected(err.Error())
 		}
 		if err := db.Create(&user).Error; err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.Unexpected(err.Error())
 		}
 
 		var no_id int32 = -1
-		tokenString, err := constants.GenerateToken(&user.User_id, &user.Role, &no_id)
+		tokenString, err := utils.GenerateToken(&user.User_id, &user.Role, &no_id)
 
 		if err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.BadRequest(err.Error())
 		}
 
-		refeshTokenString, err := constants.GenerateRefreshToken(&user.User_id, &user.Role, &no_id)
+		refeshTokenString, err := utils.GenerateRefreshToken(&user.User_id, &user.Role, &no_id)
 		if err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.BadRequest(err.Error())
 		}
 
 		c.Set("authorization", tokenString)
@@ -74,69 +62,53 @@ func RegisterTeacher(db *gorm.DB) fiber.Handler {
 		var user models.User
 		var userTeacher models.UserTeacher
 		if err := c.BodyParser(&user); err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.BadRequest(err.Error())
 		}
 
-		if err := constants.Validate.Struct(user); err != nil {
-			return c.Status(fiber.StatusBadRequest).JSON(err.Error())
+		if err := utils.Validate.Struct(user); err != nil {
+			return utils.BadRequest(err.Error())
 		}
 
 		if err := c.BodyParser(&userTeacher); err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.BadRequest(err.Error())
 		}
 
-		if err := constants.Validate.Struct(userTeacher); err != nil {
-			return c.Status(fiber.StatusBadRequest).JSON(err.Error())
+		if err := utils.Validate.Struct(userTeacher); err != nil {
+			return utils.BadRequest(err.Error())
 		}
 
 		encryptPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 10)
 		user.Password = string(encryptPassword)
 		if err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.Unexpected(err.Error())
 		}
 
 		tx := db.Begin()
 		if err := tx.Exec("SELECT setval(pg_get_serial_sequence('users', 'user_id'), coalesce(max(user_id)+1, 1), false) FROM users;").Error; err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.Unexpected(err.Error())
 		}
 		if err := tx.Create(&user).Error; err != nil {
 			tx.Rollback()
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.Unexpected(err.Error())
 		}
 
 		userTeacher.UserID = user.User_id
 
 		if err := tx.Create(&userTeacher).Error; err != nil {
 			tx.Rollback()
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.Unexpected(err.Error())
 		}
 
-		tokenString, err := constants.GenerateToken(&user.User_id, &user.Role, &userTeacher.Teacher_id)
+		tokenString, err := utils.GenerateToken(&user.User_id, &user.Role, &userTeacher.Teacher_id)
 		if err != nil {
 			tx.Rollback()
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.Unexpected(err.Error())
 		}
 
-		refeshTokenString, err := constants.GenerateRefreshToken(&user.User_id, &user.Role, &userTeacher.Teacher_id)
+		refeshTokenString, err := utils.GenerateRefreshToken(&user.User_id, &user.Role, &userTeacher.Teacher_id)
 		if err != nil {
 			tx.Rollback()
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.Unexpected(err.Error())
 		}
 
 		tx.Commit()
@@ -154,53 +126,46 @@ func LoginUser(db *gorm.DB) fiber.Handler {
 		var err error
 
 		if err := c.BodyParser(&user); err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.BadRequest(err.Error())
 		}
 
 		password := user.Password
 
 		if err := db.Preload("Teacher").Where("email = ?", &user.Email).First(&user).Error; err != nil {
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			if err == gorm.ErrRecordNotFound {
+				return utils.NotFound("User not found")
+			}
+			return utils.Unexpected(err.Error())
 		}
 
 		err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 		if err != nil {
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.Unexpected(err.Error())
 		}
 
 		var tokenString string
 		var no_id int32 = 0
 
 		if user.Role == "teacher" || user.Role == "Teacher" || user.Role == "tutor" || user.Role == "Tutor" {
-			tokenString, err = constants.GenerateToken(&user.User_id, &user.Role, &user.Teacher.Teacher_id)
+			tokenString, err = utils.GenerateToken(&user.User_id, &user.Role, &user.Teacher.Teacher_id)
 		} else {
-			tokenString, err = constants.GenerateToken(&user.User_id, &user.Role, &no_id)
+			tokenString, err = utils.GenerateToken(&user.User_id, &user.Role, &no_id)
 		}
 
 		if err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.Unexpected(err.Error())
 		}
 
 		var refeshTokenString string
 
 		if user.Role == "teacher" || user.Role == "Teacher" || user.Role == "tutor" || user.Role == "Tutor" {
-			refeshTokenString, err = constants.GenerateRefreshToken(&user.User_id, &user.Role, &user.Teacher.Teacher_id)
+			refeshTokenString, err = utils.GenerateRefreshToken(&user.User_id, &user.Role, &user.Teacher.Teacher_id)
 		} else {
-			refeshTokenString, err = constants.GenerateRefreshToken(&user.User_id, &user.Role, &no_id)
+			refeshTokenString, err = utils.GenerateRefreshToken(&user.User_id, &user.Role, &no_id)
 		}
 
 		if err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.Unexpected(err.Error())
 		}
 
 		c.Set("authorization", tokenString)
@@ -215,30 +180,23 @@ func Update(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var user models.User
 		if err := c.BodyParser(&user); err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.BadRequest(err.Error())
 		}
 
 		if user.Password != "" {
 			encryptPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 10)
 			user.Password = string(encryptPassword)
-			if err != nil {
-				return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-					"error": err.Error(),
-				})
-			}
+			return utils.Unexpected(err.Error())
 		}
 
 		if err := db.Where("user_id = ?", c.Params("user_id")).Updates(&user).Error; err != nil {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			if err == gorm.ErrRecordNotFound {
+				return utils.NotFound("User not found")
+			}
+			return utils.Unexpected(err.Error())
 		}
 
-		return c.Status(fiber.StatusOK).JSON(fiber.Map{
-			"message": "Update Success",
-		})
+		return c.Status(fiber.StatusOK).JSON("Updated")
 	}
 }
 
@@ -246,9 +204,10 @@ func GetProfile(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var user models.User
 		if err := db.Omit("password").Preload(clause.Associations).Preload("Teacher.Courses").Preload("Teacher.Tracsaction").Preload("History.Video").Where("user_id = ?", c.Params("user_id")).First(&user).Error; err != nil {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			if err == gorm.ErrRecordNotFound {
+				return utils.NotFound("User not found")
+			}
+			return utils.Unexpected(err.Error())
 		}
 		return c.Status(fiber.StatusOK).JSON(&user)
 	}
@@ -282,9 +241,10 @@ func GetTeacherByClassLevel(db *gorm.DB) fiber.Handler {
 			Having("subjects.class_level = ?", c.Params("class_level")).
 			Order("rating DESC").
 			Find(&result).Error; err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			if err == gorm.ErrRecordNotFound {
+				return utils.NotFound("User not found")
+			}
+			return utils.Unexpected(err.Error())
 		}
 		if result == nil {
 			result = []map[string]interface{}{}
@@ -297,9 +257,7 @@ func GetNewToken(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var rT map[string]string
 		if err := c.BodyParser(&rT); err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.BadRequest(err.Error())
 		}
 		refreshToken := rT["token"]
 		claims := jwt.MapClaims{}
@@ -308,22 +266,16 @@ func GetNewToken(db *gorm.DB) fiber.Handler {
 		},
 		)
 		if err != nil {
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.Unauthorized(err.Error())
 		}
 		if !tkn.Valid {
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-				"error": "Invalid Token",
-			})
+			return utils.Unauthorized("Token is not valid")
 		}
 
 		// Check if the token has expired
 		exp := claims["exp"].(float64)
 		if int64(exp) < time.Now().Unix() {
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-				"error": "Token Expired",
-			})
+			return utils.Unauthorized("Token is expired")
 		}
 
 		user_id := int32(claims["user_id"].(float64))
@@ -331,21 +283,18 @@ func GetNewToken(db *gorm.DB) fiber.Handler {
 		teacher_id := int32(claims["teacher_id"].(float64))
 		var user models.User
 		if err := db.Where("user_id = ?", &user_id).First(&user).Error; err != nil {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			if err == gorm.ErrRecordNotFound {
+				return utils.NotFound("User not found")
+			}
+			return utils.Unexpected(err.Error())
 		}
-		tokenString, err := constants.GenerateToken(&user_id, &role, &teacher_id)
+		tokenString, err := utils.GenerateToken(&user_id, &role, &teacher_id)
 		if err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.Unexpected(err.Error())
 		}
-		refeshTokenString, err := constants.GenerateRefreshToken(&user_id, &role, &teacher_id)
+		refeshTokenString, err := utils.GenerateRefreshToken(&user_id, &role, &teacher_id)
 		if err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.Unexpected(err.Error())
 		}
 
 		return c.Status(fiber.StatusOK).JSON(fiber.Map{
@@ -359,9 +308,10 @@ func GetTeacherById(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var user models.User
 		if err := db.Omit("password").Preload("Teacher").Preload("Teacher.Reviews").Joins("join user_teachers on users.user_id = user_teachers.user_id").Where("teacher_id = ?", c.Params("teacher_id")).First(&user).Error; err != nil {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			if err == gorm.ErrRecordNotFound {
+				return utils.NotFound("User not found")
+			}
+			return utils.Unexpected(err.Error())
 		}
 		return c.Status(fiber.StatusOK).JSON(&user)
 	}

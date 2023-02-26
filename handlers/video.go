@@ -2,10 +2,13 @@ package handlers
 
 //CompileDaemon -command="./CourseZ_Backend"
 import (
-	"github.com/PiamNaJa/CourseZ_Backend/constants"
+	"errors"
+
 	"github.com/PiamNaJa/CourseZ_Backend/models"
+	"github.com/PiamNaJa/CourseZ_Backend/utils"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 func CreateVideo(db *gorm.DB) fiber.Handler {
@@ -13,26 +16,23 @@ func CreateVideo(db *gorm.DB) fiber.Handler {
 		var video models.Video
 		var course models.Course
 		if err := c.BodyParser(&video); err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.BadRequest(err.Error())
 		}
 
 		if err := db.Preload("Subject").Where("course_id = ?", c.Params("course_id")).First(&course).Error; err != nil {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"error": "Video not found",
-			})
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return utils.NotFound(err.Error())
+			}
+			return utils.Unexpected(err.Error())
 		}
 		video.CourseID = course.Course_id
 		video.Class_level = course.Subject.Class_level
-		if err := constants.Validate.Struct(video); err != nil {
-			return c.Status(fiber.StatusBadRequest).JSON(err.Error())
+		if err := utils.Validate.Struct(video); err != nil {
+			return utils.BadRequest(err.Error())
 		}
 
 		if err := db.Create(&video).Error; err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.Unexpected(err.Error())
 		}
 
 		return c.Status(fiber.StatusCreated).JSON(&video)
@@ -43,10 +43,11 @@ func GetAllVideo(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var videos []models.Video
 
-		if err := db.Preload("Reviews").Preload("Exercises").Where("course_id = ?", c.Params("course_id")).Find(&videos).Error; err != nil {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"error": "No record",
-			})
+		if err := db.Preload(clause.Associations).Where("course_id = ?", c.Params("course_id")).Find(&videos).Error; err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return utils.NotFound(err.Error())
+			}
+			return utils.Unexpected(err.Error())
 		}
 		return c.Status(fiber.StatusOK).JSON(&videos)
 	}
@@ -57,9 +58,10 @@ func GetVideoByFilter(db *gorm.DB) fiber.Handler {
 		var videos []models.Video
 
 		if err := db.Where("class_level = ?", c.Params("class_level")).Find(&videos).Error; err != nil {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"error": "No record",
-			})
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return utils.NotFound(err.Error())
+			}
+			return utils.Unexpected(err.Error())
 		}
 		return c.Status(fiber.StatusOK).JSON(&videos)
 	}
@@ -70,10 +72,11 @@ func GetVideoById(db *gorm.DB) fiber.Handler {
 		var video models.Video
 		id := c.Params("video_id")
 
-		if err := db.Preload("Reviews").Preload("Exercises").Where("course_id = ?", c.Params("course_id")).First(&video, &id).Error; err != nil {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"error": "Video not found",
-			})
+		if err := db.Preload(clause.Associations).Where("course_id = ?", c.Params("course_id")).First(&video, &id).Error; err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return utils.NotFound(err.Error())
+			}
+			return utils.Unexpected(err.Error())
 		}
 		return c.Status(fiber.StatusOK).JSON(&video)
 	}
@@ -87,14 +90,15 @@ func DeleteVideoByID(db *gorm.DB) fiber.Handler {
 		r := db.Where("course_id = ?", c.Params("course_id")).Delete(&video, id)
 
 		if r.Error != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": "Video not found",
-			})
+			if errors.Is(r.Error, gorm.ErrRecordNotFound) {
+				return utils.NotFound(r.Error.Error())
+			}
+			return utils.Unexpected(r.Error.Error())
 		}
 		if r.RowsAffected == 0 {
-			return c.SendStatus(fiber.StatusNotFound)
+			return utils.NotFound(r.Error.Error())
 		}
-		return c.Status(fiber.StatusOK).JSON("Deleted")
+		return c.Status(fiber.StatusNoContent).JSON("Deleted")
 	}
 }
 
@@ -104,16 +108,15 @@ func UpdateVideo(db *gorm.DB) fiber.Handler {
 		var updateVideoData models.Video
 		id := c.Params("video_id")
 
-		if err := db.Preload("Reviews").Preload("Exercises").Where("course_id = ?", c.Params("course_id")).First(&video, id).Error; err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+		if err := db.Preload(clause.Associations).Where("course_id = ?", c.Params("course_id")).First(&video, id).Error; err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return utils.NotFound(err.Error())
+			}
+			return utils.Unexpected(err.Error())
 		}
 
 		if err := c.BodyParser(&updateVideoData); err != nil {
-			return c.Status(fiber.StatusNotAcceptable).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.BadRequest(err.Error())
 		}
 
 		video.Video_name = updateVideoData.Video_name
@@ -123,9 +126,7 @@ func UpdateVideo(db *gorm.DB) fiber.Handler {
 		video.Url = updateVideoData.Url
 
 		if err := db.Save(&video).Error; err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.Unexpected(err.Error())
 		}
 
 		return c.Status(fiber.StatusOK).JSON("Updated")
@@ -135,25 +136,25 @@ func UpdateVideo(db *gorm.DB) fiber.Handler {
 func LikeVideo(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		token := c.Get("authorization")
-		claims, err := constants.GetClaims(token)
+		claims, err := utils.GetClaims(token)
 		if err != nil {
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-				"error": "Unauthorized",
-			})
+			return utils.Unauthorized(err.Error())
 		}
 		var user models.User
 		if err := db.Preload("LikeVideos").First(&user, claims["user_id"]).Error; err != nil {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"error": "User not found",
-			})
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return utils.NotFound(err.Error())
+			}
+			return utils.Unexpected(err.Error())
 		}
 		var video models.Video
 		id := c.Params("video_id")
 
 		if err := db.Where("course_id = ?", c.Params("course_id")).First(&video, &id).Error; err != nil {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"error": "video not found",
-			})
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return utils.NotFound(err.Error())
+			}
+			return utils.Unexpected(err.Error())
 		}
 		isLike := checkIsLikeVideo(video, user.LikeVideos)
 		var resMessage string
@@ -163,25 +164,19 @@ func LikeVideo(db *gorm.DB) fiber.Handler {
 			user.LikeVideos = append(user.LikeVideos, &video)
 			if err := tx.Save(&user).Error; err != nil {
 				tx.Rollback()
-				return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-					"error": err.Error(),
-				})
+				return utils.Unexpected(err.Error())
 			}
 			resMessage = "Like Success"
 		} else {
 			video.Like -= 1
 			if err := tx.Model(&user).Where("video_video_id = ?", video.Video_id).Association("LikeVideos").Clear(); err != nil {
-				return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-					"error": err.Error(),
-				})
+				return utils.Unexpected(err.Error())
 			}
 			resMessage = "Unlike Success"
 		}
 		if err := tx.Save(&video).Error; err != nil {
 			tx.Rollback()
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.Unexpected(err.Error())
 		}
 		tx.Commit()
 		return c.Status(fiber.StatusOK).SendString(resMessage)
@@ -190,25 +185,25 @@ func LikeVideo(db *gorm.DB) fiber.Handler {
 func IsLikeVideo(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		token := c.Get("authorization")
-		claims, err := constants.GetClaims(token)
+		claims, err := utils.GetClaims(token)
 		if err != nil {
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-				"error": "Unauthorized",
-			})
+			return utils.Unauthorized(err.Error())
 		}
 		var user models.User
 		if err := db.Preload("LikeVideos").First(&user, claims["user_id"]).Error; err != nil {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"error": "User not found",
-			})
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return utils.NotFound(err.Error())
+			}
+			return utils.Unexpected(err.Error())
 		}
 		var video models.Video
 		id := c.Params("video_id")
 
 		if err := db.Where("course_id = ?", c.Params("course_id")).First(&video, &id).Error; err != nil {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"error": "video not found",
-			})
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return utils.NotFound(err.Error())
+			}
+			return utils.Unexpected(err.Error())
 		}
 		isLike := checkIsLikeVideo(video, user.LikeVideos)
 		return c.Status(fiber.StatusOK).JSON(isLike)
