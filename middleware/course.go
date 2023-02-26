@@ -29,7 +29,7 @@ func IsCourseOwner(c *fiber.Ctx) error {
 	var course models.Course
 	if err := configs.DB.Where("course_id = ?", c.Params("course_id")).First(&course).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return utils.NotFound("Course not found")
+			return utils.NotFound(err.Error())
 		}
 		return utils.Unexpected(err.Error())
 	}

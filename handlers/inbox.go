@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/PiamNaJa/CourseZ_Backend/models"
 	"github.com/PiamNaJa/CourseZ_Backend/utils"
@@ -14,10 +13,7 @@ func GetChat(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var chat models.ChatRoom
 		if err := db.Where("inbox_id = ?", c.Params("inbox_id")).Preload("Conversations").First(&chat).Error; err != nil {
-			fmt.Println(err)
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"err": "Record not found",
-			})
+			return utils.NotFound(err.Error())
 		}
 		return c.Status(fiber.StatusOK).JSON(&chat)
 	}

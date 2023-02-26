@@ -133,7 +133,7 @@ func LoginUser(db *gorm.DB) fiber.Handler {
 
 		if err := db.Preload("Teacher").Where("email = ?", &user.Email).First(&user).Error; err != nil {
 			if err == gorm.ErrRecordNotFound {
-				return utils.NotFound("User not found")
+				return utils.NotFound(err.Error())
 			}
 			return utils.Unexpected(err.Error())
 		}
@@ -191,7 +191,7 @@ func Update(db *gorm.DB) fiber.Handler {
 
 		if err := db.Where("user_id = ?", c.Params("user_id")).Updates(&user).Error; err != nil {
 			if err == gorm.ErrRecordNotFound {
-				return utils.NotFound("User not found")
+				return utils.NotFound(err.Error())
 			}
 			return utils.Unexpected(err.Error())
 		}
@@ -205,7 +205,7 @@ func GetProfile(db *gorm.DB) fiber.Handler {
 		var user models.User
 		if err := db.Omit("password").Preload(clause.Associations).Preload("Teacher.Courses").Preload("Teacher.Tracsaction").Preload("History.Video").Where("user_id = ?", c.Params("user_id")).First(&user).Error; err != nil {
 			if err == gorm.ErrRecordNotFound {
-				return utils.NotFound("User not found")
+				return utils.NotFound(err.Error())
 			}
 			return utils.Unexpected(err.Error())
 		}
@@ -242,7 +242,7 @@ func GetTeacherByClassLevel(db *gorm.DB) fiber.Handler {
 			Order("rating DESC").
 			Find(&result).Error; err != nil {
 			if err == gorm.ErrRecordNotFound {
-				return utils.NotFound("User not found")
+				return utils.NotFound(err.Error())
 			}
 			return utils.Unexpected(err.Error())
 		}
@@ -284,7 +284,7 @@ func GetNewToken(db *gorm.DB) fiber.Handler {
 		var user models.User
 		if err := db.Where("user_id = ?", &user_id).First(&user).Error; err != nil {
 			if err == gorm.ErrRecordNotFound {
-				return utils.NotFound("User not found")
+				return utils.NotFound(err.Error())
 			}
 			return utils.Unexpected(err.Error())
 		}
@@ -309,7 +309,7 @@ func GetTeacherById(db *gorm.DB) fiber.Handler {
 		var user models.User
 		if err := db.Omit("password").Preload("Teacher").Preload("Teacher.Reviews").Joins("join user_teachers on users.user_id = user_teachers.user_id").Where("teacher_id = ?", c.Params("teacher_id")).First(&user).Error; err != nil {
 			if err == gorm.ErrRecordNotFound {
-				return utils.NotFound("User not found")
+				return utils.NotFound(err.Error())
 			}
 			return utils.Unexpected(err.Error())
 		}

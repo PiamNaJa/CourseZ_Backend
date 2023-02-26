@@ -75,7 +75,7 @@ func DeleteExerciseID(db *gorm.DB) fiber.Handler {
 			utils.Unexpected(r.Error.Error())
 		}
 		if r.RowsAffected == 0 {
-			return utils.BadRequest("Exercise not found")
+			return utils.NotFound("record not found")
 		}
 		return c.Status(fiber.StatusNoContent).JSON("Deleted")
 	}
