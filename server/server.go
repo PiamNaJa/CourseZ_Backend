@@ -73,8 +73,8 @@ func Shutdown(app *fiber.App) {
 func WipeAndSeedDatabaseData() {
 	configs.WipeData()
 	configs.MigrateData()
-	configs.SeedDB()
 	configs.TestChat()
+	configs.SeedDB()
 }
 
 func PrintRoutes(app *fiber.App) {
