@@ -29,7 +29,7 @@ func TestChat() {
 		Nickname: "AAA",
 		Role:     "Student",
 		Password: "$2a$10$cm2Krm4dyA2Xu.qY705/EO96ZudVKv.YLpZDQMBAW2wWNEWOWQ6Ou",
-		Picture:  "https://paradepets.com/.image/t_share/MTkxMzY1Nzg4NjczMzIwNTQ2/cutest-dog-breeds-jpg.jpg",
+		Picture:  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQj8Sn1pPGFGCvIWyxRnWdpfHCRbg-VL7Lomg&usqp=CAU",
 	}
 	var inbox = &models.Inbox{
 		User1ID:           11,
@@ -5268,6 +5268,92 @@ func SeedDB() {
 		},
 	}
 	if err := DB.Create(&chatroom).Error; err != nil {
+		panic(err)
+	}
+
+	var post = &[]models.Post{
+		{
+			SubjectID:    1,
+			UserID:       11,
+			CreatedAt:    time.Now().Unix(),
+			Caption:      "ข้อไหนง่ายสุดหรอครับ อาจารย์ให้เลือก1ข้อ",
+			Post_picture: "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Images%2Fpost_image_2.jpg?alt=media&token=a126d2a4-4702-4851-976f-42b5dfe5ccbd",
+			Comments: &[]models.Comment{
+				{
+					PostID:      1,
+					UserID:      1,
+					Description: "1-10ง่ายนะ แนะนำว่าทำ1-17 แล้วจับสลากเอาว่าจะได้ข้อไหนไปส่งครูเลยจ้าา",
+					CreatedAt:   time.Now().Unix(),
+				}},
+		},
+		{
+			SubjectID:    1,
+			UserID:       11,
+			CreatedAt:    time.Now().Unix(),
+			Caption:      "ข้อนี้มีวิธีคิดยังไงเหรอครับ",
+			Post_picture: "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Images%2Fpost_image_1.jpg?alt=media&token=d8ea6945-e695-4a66-8a88-04a0d7009c26",
+			Comments: &[]models.Comment{
+				{
+					PostID:      2,
+					UserID:      1,
+					Description: "ข้อนี้ N_2 เป็นจำนวนเต็มบวก แปลว่า 11 ต้องหาร 2N_1-1 ลงตัวค่ะ",
+					CreatedAt:   time.Now().Unix(),
+				}},
+		},
+		{
+			SubjectID: 8,
+			UserID:    12,
+			CreatedAt: time.Now().Unix(),
+			Caption:   "เอลนีโญ เเละ ลานีญา คืออะไรหรอคะ",
+			Comments: &[]models.Comment{
+				{
+					PostID:      3,
+					UserID:      5,
+					Description: "ปรากฏการณ์ลานีญาและเอลนีโญ เป็นปรากฏการณ์ธรรมชาติที่เกิดขึ้นจากความผกผันของสภาวะอากาศบริเวณแถบเส้นศูนย์สูตร เหนือมหาสมุทรแปซิฟิก ทำให้การไหลเวียนของน้ำและกระแสลมเกิดความแปรปรวน ซึ่งจะส่งผลกระทบต่อการเปลี่ยนแปลงสภาพอากาศของโลกอย่างรุนแรง สำหรับประเทศไทย ผลกระทบจากปรากฏการณ์ลานีญาอาจทำให้เกิดการสูญเสียในด้านต่างๆ",
+					CreatedAt:   time.Now().Unix(),
+				}},
+		},
+		{
+			SubjectID: 8,
+			UserID:    12,
+			CreatedAt: time.Now().Unix(),
+			Caption:   "โลกหมุนรอบตัวเองเป็นเวลาเท่าไหร่หรอคะ และ โลกหมุนรอบดวงอาทิตย์เป็นเวลาเท่าไหร่คะ",
+			Comments: &[]models.Comment{
+				{
+					PostID:      4,
+					UserID:      5,
+					Description: "โลกหมุนรอบตัวเอง ใช้เวลาประมาณ 24 ชั่วโมงค่ะ เเละ โลกหมุนรอบดวงอาทิตย์ ใช้เวลาประมาณ 365 วันค่ะ",
+					CreatedAt:   time.Now().Unix(),
+				}},
+		},
+		{
+			SubjectID: 14,
+			UserID:    11,
+			CreatedAt: time.Now().Unix(),
+			Caption:   "คำขยาย คืออะไรหรอคะ",
+			Comments: &[]models.Comment{
+				{
+					PostID:      5,
+					UserID:      5,
+					Description: "คำขยาย คือ คำที่ทำหน้าที่ขยายนาม เป็นคำชนิดต่าง ๆ เช่น คำนาม คำสรรพนาม คำลักษณนาม คำบอกจำนวน เป็นต้น และเมื่อขยายแล้วจะเกิดเป็นกลุ่มคำนามหรือนามวลี",
+					CreatedAt:   time.Now().Unix(),
+				}},
+		},
+		{
+			SubjectID: 14,
+			UserID:    11,
+			CreatedAt: time.Now().Unix(),
+			Caption:   "1.สระใดที่มีเสียงเหมือนกับสระอี , 2.กลุ่มคำใดต่อไปนี้เป็นคำขยาย? , คำว่า ขวาง เป็นคำในกลุ่มคำใด? ช่วยหน่อยนะคะ ",
+			Comments: &[]models.Comment{
+				{
+					PostID:      6,
+					UserID:      5,
+					Description: "1. สระวี , 2.กำลัง, จัก, เคย , 3.คำนาม",
+					CreatedAt:   time.Now().Unix(),
+				}},
+		},
+	}
+	if err := DB.Create(&post).Error; err != nil {
 		panic(err)
 	}
 }
