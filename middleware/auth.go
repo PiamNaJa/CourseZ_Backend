@@ -1,13 +1,11 @@
 package middleware
 
 import (
-	"os"
 	"strconv"
 	"time"
 
 	"github.com/PiamNaJa/CourseZ_Backend/utils"
 	"github.com/gofiber/fiber/v2"
-	"github.com/golang-jwt/jwt/v4"
 )
 
 func IsLogin(c *fiber.Ctx) error {
@@ -18,10 +16,7 @@ func IsLogin(c *fiber.Ctx) error {
 }
 
 func IsUser(c *fiber.Ctx) error {
-	claims := jwt.MapClaims{}
-	_, err := jwt.ParseWithClaims(c.Get("authorization"), &claims, func(token *jwt.Token) (interface{}, error) {
-		return []byte(os.Getenv("JWT_Secret")), nil
-	})
+	claims, err := utils.GetClaims(c.Get("authorization"))
 	if err != nil {
 		return utils.Unauthorized(err.Error())
 	}
@@ -42,10 +37,7 @@ func IsUser(c *fiber.Ctx) error {
 }
 
 func IsTeacher(c *fiber.Ctx) error {
-	claims := jwt.MapClaims{}
-	_, err := jwt.ParseWithClaims(c.Get("authorization"), &claims, func(token *jwt.Token) (interface{}, error) {
-		return []byte(os.Getenv("JWT_Secret")), nil
-	})
+	claims, err := utils.GetClaims(c.Get("authorization"))
 	if err != nil {
 		return utils.Unauthorized(err.Error())
 	}

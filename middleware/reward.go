@@ -2,22 +2,17 @@ package middleware
 
 import (
 	"errors"
-	"os"
 	"time"
 
 	"github.com/PiamNaJa/CourseZ_Backend/configs"
 	"github.com/PiamNaJa/CourseZ_Backend/models"
 	"github.com/PiamNaJa/CourseZ_Backend/utils"
 	"github.com/gofiber/fiber/v2"
-	"github.com/golang-jwt/jwt/v4"
 	"gorm.io/gorm"
 )
 
 func IsRewardOwner(c *fiber.Ctx) error {
-	claims := jwt.MapClaims{}
-	_, err := jwt.ParseWithClaims(c.Get("authorization"), &claims, func(token *jwt.Token) (interface{}, error) {
-		return []byte(os.Getenv("JWT_Secret")), nil
-	})
+	claims, err := utils.GetClaims(c.Get("authorization"))
 	if err != nil {
 		return utils.Unauthorized(err.Error())
 	}
