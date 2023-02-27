@@ -82,6 +82,6 @@ func PrintRoutes(app *fiber.App) {
 	var result []map[string]interface{}
 	json.Unmarshal(data, &result)
 	for _, route := range result {
-		fmt.Println(route["path"])
+		fmt.Println(route["method"], route["path"])
 	}
 }

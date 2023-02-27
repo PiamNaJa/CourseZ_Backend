@@ -292,7 +292,7 @@ func GetNewToken(db *gorm.DB) fiber.Handler {
 func GetTeacherById(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var user models.User
-		if err := db.Omit("password").Preload("Teacher").Preload("Teacher.Reviews").Joins("join user_teachers on users.user_id = user_teachers.user_id").Where("teacher_id = ?", c.Params("teacher_id")).First(&user).Error; err != nil {
+		if err := db.Omit("password").Preload("Teacher").Preload("Teacher.Reviews").Preload("Teacher.Courses").Joins("join user_teachers on users.user_id = user_teachers.user_id").Where("teacher_id = ?", c.Params("teacher_id")).First(&user).Error; err != nil {
 			return utils.HandleFindError(err)
 		}
 		return c.Status(fiber.StatusOK).JSON(&user)
