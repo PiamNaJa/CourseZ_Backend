@@ -99,3 +99,66 @@ func UpdateExercise(db *gorm.DB) fiber.Handler {
 		return c.Status(fiber.StatusOK).JSON("Updated")
 	}
 }
+
+func AddPointAndDoneExercise(db *gorm.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		token := c.Get("authorization")
+		claims, err := utils.GetClaims(token)
+
+		if err != nil {
+			return utils.Unauthorized(err.Error())
+		}
+
+		var point map[string]int32
+		if err := c.BodyParser(&point); err != nil {
+			return utils.BadRequest(err.Error())
+		}
+
+		var user models.User
+		if err := db.Where("user_id = ?", claims["user_id"]).First(&user).Error; err != nil {
+			return utils.HandleFindError(err)
+		}
+
+		var video models.Video
+		if err := db.Where("video_id = ?", c.Params("video_id")).First(&video).Error; err != nil {
+			return utils.HandleFindError(err)
+		}
+
+		user.Point += point["point"]
+		user.DoneExercise = append(user.DoneExercise, &video)
+
+		if err := db.Save(&user).Error; err != nil {
+			return utils.Unexpected(err.Error())
+		}
+
+		return c.Status(fiber.StatusOK).JSON("Point added")
+	}
+}
+
+func IsDoneExercise(db *gorm.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		token := c.Get("authorization")
+		claims, err := utils.GetClaims(token)
+
+		if err != nil {
+			return utils.Unauthorized(err.Error())
+		}
+
+		var user models.User
+		if err := db.Where("user_id = ?", claims["user_id"]).Preload("DoneExercise").First(&user).Error; err != nil {
+			return utils.HandleFindError(err)
+		}
+
+		videoID, err := c.ParamsInt("video_id")
+		if err != nil {
+			return utils.BadRequest(err.Error())
+		}
+
+		for _, video := range user.DoneExercise {
+			if int(video.Video_id) == videoID {
+				return c.Status(fiber.StatusOK).JSON(true)
+			}
+		}
+		return c.Status(fiber.StatusOK).JSON(false)
+	}
+}

@@ -5359,10 +5359,12 @@ func SeedDB() {
 }
 
 func WipeData() {
-	DB.Migrator().DropTable("user_paidvideos")
-	DB.Migrator().DropTable("user_likevideos")
-	DB.Migrator().DropTable("user_likecourses")
-	DB.Migrator().DropTable(&models.User{}, &models.UserTeacher{}, &models.Experience{}, &models.Comment{}, &models.Course{}, &models.History{}, &models.Post{}, &models.Review_Video{}, &models.Review_Tutor{}, &models.Reward_Info{}, &models.Reward_Item{}, &models.Subject{}, &models.Video{}, &models.Exercise{}, &models.Choice{}, &models.Payment{}, &models.Withdraw{}, &models.Inbox{}, &models.ChatRoom{}, &models.Conversation{})
+	dbMigrator := DB.Migrator()
+	dbMigrator.DropTable("user_paidvideos")
+	dbMigrator.DropTable("user_likevideos")
+	dbMigrator.DropTable("user_likecourses")
+	dbMigrator.DropTable("user_doneexercise")
+	dbMigrator.DropTable(&models.User{}, &models.UserTeacher{}, &models.Experience{}, &models.Comment{}, &models.Course{}, &models.History{}, &models.Post{}, &models.Review_Video{}, &models.Review_Tutor{}, &models.Reward_Info{}, &models.Reward_Item{}, &models.Subject{}, &models.Video{}, &models.Exercise{}, &models.Choice{}, &models.Payment{}, &models.Withdraw{}, &models.Inbox{}, &models.ChatRoom{}, &models.Conversation{})
 }
 
 func MigrateData() {
