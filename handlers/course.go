@@ -2,8 +2,8 @@ package handlers
 
 //CompileDaemon -command="./CourseZ_Backend"
 import (
-	"github.com/PiamNaJa/CourseZ_Backend/constants"
 	"github.com/PiamNaJa/CourseZ_Backend/models"
+	"github.com/PiamNaJa/CourseZ_Backend/utils"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
@@ -13,21 +13,16 @@ func CreateCourse(db *gorm.DB) fiber.Handler {
 		var course models.Course
 
 		if err := c.BodyParser(&course); err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.BadRequest(err.Error())
 		}
 
-		if err := constants.Validate.Struct(course); err != nil {
-			return c.Status(fiber.StatusBadRequest).JSON(err.Error())
+		if err := utils.Validate.Struct(course); err != nil {
+			return utils.BadRequest(err.Error())
 		}
 
 		if err := db.Create(&course).Error; err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.HandleFindError(err)
 		}
-
 		return c.Status(fiber.StatusCreated).JSON(&course)
 	}
 }
@@ -37,9 +32,7 @@ func GetAllCourse(db *gorm.DB) fiber.Handler {
 		var course []models.Course
 
 		if err := db.Preload("Subject").Preload("Videos").Preload("Videos.Reviews").Find(&course).Error; err != nil {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"error": "record not found",
-			})
+			return utils.HandleFindError(err)
 		}
 		return c.Status(fiber.StatusOK).JSON(&course)
 	}
@@ -50,10 +43,8 @@ func GetCourseById(db *gorm.DB) fiber.Handler {
 		var course models.Course
 		id := c.Params("course_id")
 
-		if err := db.Preload("Subject").Preload("Videos").Preload("Videos.Reviews").First(&course, id).Error; err != nil {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"error": "Course not found",
-			})
+		if err := db.Preload("Subject").Preload("Videos").Preload("Videos.Reviews").First(&course, &id).Error; err != nil {
+			return utils.HandleFindError(err)
 		}
 		return c.Status(fiber.StatusOK).JSON(&course)
 	}
@@ -65,11 +56,9 @@ func DeleteCourseByID(db *gorm.DB) fiber.Handler {
 		id := c.Params("course_id")
 
 		if err := db.Delete(&course, &id).Error; err != nil {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"error": "Course not found",
-			})
+			return utils.HandleFindError(err)
 		}
-		return c.Status(fiber.StatusOK).JSON("Deleted")
+		return c.Status(fiber.StatusNoContent).JSON("Deleted")
 	}
 }
 
@@ -79,27 +68,20 @@ func UpdateCourse(db *gorm.DB) fiber.Handler {
 		var updateCourseData models.Course
 		id := c.Params("course_id")
 
-		if err := db.Preload("Subject").First(&course, &id).Error; err != nil {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"error": "Course not found",
-			})
-		}
-
 		if err := c.BodyParser(&updateCourseData); err != nil {
-			return c.Status(fiber.StatusNotAcceptable).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.BadRequest(err.Error())
 		}
 
+		if err := db.Preload("Subject").First(&course, &id).Error; err != nil {
+			return utils.HandleFindError(err)
+		}
 		course.SubjectID = updateCourseData.SubjectID
 		course.Course_name = updateCourseData.Course_name
 		course.Picture = updateCourseData.Picture
 		course.Description = updateCourseData.Description
 
 		if err := db.Save(&course).Error; err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.Unexpected(err.Error())
 		}
 
 		return c.Status(fiber.StatusOK).JSON("Update Success")
@@ -109,25 +91,19 @@ func UpdateCourse(db *gorm.DB) fiber.Handler {
 func LikeCourse(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		token := c.Get("authorization")
-		claims, err := constants.GetClaims(token)
+		claims, err := utils.GetClaims(token)
 		if err != nil {
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-				"error": "Unauthorized",
-			})
+			return utils.Unauthorized(err.Error())
 		}
 		var user models.User
 		if err := db.Preload("LikeCourses").First(&user, claims["user_id"]).Error; err != nil {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"error": "User not found",
-			})
+			return utils.HandleFindError(err)
 		}
 		var course models.Course
 		id := c.Params("course_id")
 
 		if err := db.First(&course, &id).Error; err != nil {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"error": "Course not found",
-			})
+			return utils.HandleFindError(err)
 		}
 		isLike := checkIsLikeCourse(course, user.LikeCourses)
 
@@ -137,26 +113,19 @@ func LikeCourse(db *gorm.DB) fiber.Handler {
 			course.Like += 1
 			user.LikeCourses = append(user.LikeCourses, &course)
 			resMessage = "Like Success"
-			if err := tx.Save(&user).Error; err != nil {
-				tx.Rollback()
-				return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-					"error": err.Error(),
-				})
-			}
+			err = tx.Save(&user).Error
 		} else {
 			course.Like -= 1
-			if err := tx.Model(&user).Where("course_course_id = ?", course.Course_id).Association("LikeCourses").Clear(); err != nil {
-				return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-					"error": err.Error(),
-				})
-			}
 			resMessage = "Unlike Success"
+			err = tx.Model(&user).Where("course_course_id = ?", &course.Course_id).Association("LikeCourses").Clear()
 		}
-		if err := tx.Save(&course).Error; err != nil {
+		if err != nil {
 			tx.Rollback()
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			return utils.Unexpected(err.Error())
+		}
+		if err = tx.Save(&course).Error; err != nil {
+			tx.Rollback()
+			return utils.Unexpected(err.Error())
 		}
 		tx.Commit()
 		return c.Status(fiber.StatusOK).SendString(resMessage)
@@ -166,23 +135,17 @@ func LikeCourse(db *gorm.DB) fiber.Handler {
 func IsLikeCourse(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		token := c.Get("authorization")
-		claims, err := constants.GetClaims(token)
+		claims, err := utils.GetClaims(token)
 		if err != nil {
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-				"error": "Unauthorized",
-			})
+			return utils.Unauthorized(err.Error())
 		}
 		var user models.User
 		if err := db.Preload("LikeCourses").First(&user, claims["user_id"]).Error; err != nil {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"error": "User not found",
-			})
+			return utils.HandleFindError(err)
 		}
 		var course models.Course
 		if err := db.First(&course, c.Params("course_id")).Error; err != nil {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"error": "Course not found",
-			})
+			return utils.HandleFindError(err)
 		}
 		userLike := user.LikeCourses
 		isLike := checkIsLikeCourse(course, userLike)
