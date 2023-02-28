@@ -5229,47 +5229,47 @@ func SeedDB() {
 		panic(err)
 	}
 
-	// var chatroom = &[]models.ChatRoom{
-	// 	{
-	// 		Inbox_id: 2,
-	// 		Conversations: []*models.Conversation{
-	// 			{
-	// 				Sender_id: 1,
-	// 				Message:   "สวัสดีค่ะ สงสัยตรงไหน สามารถสอบถามครูได้เลยนะคะ",
-	// 				CreatedAt: time.Now().Unix(),
-	// 			}},
-	// 	},
-	// 	{
-	// 		Inbox_id: 3,
-	// 		Conversations: []*models.Conversation{
-	// 			{
-	// 				Sender_id: 2,
-	// 				Message:   "สวัสดีค่ะ หากสงสัยเนื้อหาที่คุณครูสอน ถามได้เลยค่ะ",
-	// 				CreatedAt: time.Now().Unix(),
-	// 			}},
-	// 	},
-	// 	{
-	// 		Inbox_id: 4,
-	// 		Conversations: []*models.Conversation{
-	// 			{
-	// 				Sender_id: 11,
-	// 				Message:   "สวัสดรค่ะคุณครู หนูมีเรื่องอยากสอบถามค่ะ",
-	// 				CreatedAt: time.Now().Unix(),
-	// 			}},
-	// 	},
-	// 	{
-	// 		Inbox_id: 5,
-	// 		Conversations: []*models.Conversation{
-	// 			{
-	// 				Sender_id: 12,
-	// 				Message:   "สวัสดรค่ะคุณครู เนื้อหาที่คุณครูสอน มีบางช่วงที่หนูยังไม่ค่อยเข้าใจ อยากจะถามเพิ่มเติมค่ะ",
-	// 				CreatedAt: time.Now().Unix(),
-	// 			}},
-	// 	},
-	// }
-	// if err := DB.Create(&chatroom).Error; err != nil {
-	// 	panic(err)
-	// }
+	var chatroom = &[]models.ChatRoom{
+		{
+			Inbox_id: 2,
+			Conversations: []*models.Conversation{
+				{
+					Sender_id: 1,
+					Message:   "สวัสดีค่ะ สงสัยตรงไหน สามารถสอบถามครูได้เลยนะคะ",
+					CreatedAt: time.Now().Unix(),
+				}},
+		},
+		{
+			Inbox_id: 3,
+			Conversations: []*models.Conversation{
+				{
+					Sender_id: 2,
+					Message:   "สวัสดีค่ะ หากสงสัยเนื้อหาที่คุณครูสอน ถามได้เลยค่ะ",
+					CreatedAt: time.Now().Unix(),
+				}},
+		},
+		{
+			Inbox_id: 4,
+			Conversations: []*models.Conversation{
+				{
+					Sender_id: 11,
+					Message:   "สวัสดรค่ะคุณครู หนูมีเรื่องอยากสอบถามค่ะ",
+					CreatedAt: time.Now().Unix(),
+				}},
+		},
+		{
+			Inbox_id: 5,
+			Conversations: []*models.Conversation{
+				{
+					Sender_id: 12,
+					Message:   "สวัสดรค่ะคุณครู เนื้อหาที่คุณครูสอน มีบางช่วงที่หนูยังไม่ค่อยเข้าใจ อยากจะถามเพิ่มเติมค่ะ",
+					CreatedAt: time.Now().Unix(),
+				}},
+		},
+	}
+	if err := DB.Create(&chatroom).Error; err != nil {
+		panic(err)
+	}
 
 	var post = &[]models.Post{
 		{

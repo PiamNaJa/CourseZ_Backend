@@ -83,3 +83,33 @@ func GetInbox(db *gorm.DB) fiber.Handler {
 		return c.Status(fiber.StatusOK).JSON(&inbox)
 	}
 }
+
+func CreateInbox(db *gorm.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		token := c.Get("authorization")
+		claims, err := utils.GetClaims(token)
+		if err != nil {
+			return utils.Unauthorized(err.Error())
+		}
+
+		var inbox models.Inbox
+		if err := c.BodyParser(&inbox); err != nil {
+			return utils.BadRequest(err.Error())
+		}
+		inbox.User1ID = int32(claims["user_id"].(float64))
+		tx := db.Begin()
+		if err := tx.Create(&inbox).Error; err != nil {
+			tx.Rollback()
+			return utils.Unexpected(err.Error())
+		}
+		var chat models.ChatRoom
+		chat.Inbox_id = inbox.Inbox_id
+
+		if err := tx.Create(&chat).Error; err != nil {
+			tx.Rollback()
+			return utils.Unexpected(err.Error())
+		}
+		tx.Commit()
+		return c.Status(fiber.StatusCreated).JSON(&inbox)
+	}
+}
