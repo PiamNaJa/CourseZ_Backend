@@ -347,7 +347,7 @@ func SeedDB() {
 	var teacher = &[]models.User{
 		{
 			Email:    "teacher1@mail.com", //ครูคณิต
-			Password: "1234",
+			Password: "$2a$10$cm2Krm4dyA2Xu.qY705/EO96ZudVKv.YLpZDQMBAW2wWNEWOWQ6Ou",
 			Fullname: "สุนีย์ คิดดี",
 			Nickname: "ครูกุ๊กไก่",
 			Role:     "Teacher",
@@ -366,7 +366,7 @@ func SeedDB() {
 		},
 		{
 			Email:    "teacher2@mail.com", //ครูสังคม
-			Password: "1234",
+			Password: "$2a$10$cm2Krm4dyA2Xu.qY705/EO96ZudVKv.YLpZDQMBAW2wWNEWOWQ6Ou",
 			Fullname: "วรรณษา ทองสุก",
 			Nickname: "ครูเดือน",
 			Role:     "Tutor",
@@ -384,7 +384,7 @@ func SeedDB() {
 		},
 		{
 			Email:    "teacher3@mail.com", //ครูฟิสิก
-			Password: "1234",
+			Password: "$2a$10$cm2Krm4dyA2Xu.qY705/EO96ZudVKv.YLpZDQMBAW2wWNEWOWQ6Ou",
 			Fullname: "สุชาติ ม่วงดี",
 			Nickname: "ครูเมฆ",
 			Role:     "Teacher",
@@ -403,7 +403,7 @@ func SeedDB() {
 		},
 		{
 			Email:    "teacher4@mail.com", //ครูคณิต
-			Password: "1234",
+			Password: "$2a$10$cm2Krm4dyA2Xu.qY705/EO96ZudVKv.YLpZDQMBAW2wWNEWOWQ6Ou",
 			Fullname: "สิริยากร ผ่องพันธ์",
 			Nickname: "ครูดาว",
 			Role:     "Teacher",
@@ -422,7 +422,7 @@ func SeedDB() {
 		},
 		{
 			Email:    "teacher5@mail.com", //ครูคณิต
-			Password: "1234",
+			Password: "$2a$10$cm2Krm4dyA2Xu.qY705/EO96ZudVKv.YLpZDQMBAW2wWNEWOWQ6Ou",
 			Fullname: "นนทการ ศรีสุข",
 			Nickname: "ครูสิงโต",
 			Role:     "Teacher",
@@ -441,7 +441,7 @@ func SeedDB() {
 		},
 		{
 			Email:    "teacher6@mail.com", //ครูอังกฤษ
-			Password: "1234",
+			Password: "$2a$10$cm2Krm4dyA2Xu.qY705/EO96ZudVKv.YLpZDQMBAW2wWNEWOWQ6Ou",
 			Fullname: "นาตาชา เเจ่มใส",
 			Nickname: "ครูข้าวต้ม",
 			Role:     "Teacher",
@@ -460,7 +460,7 @@ func SeedDB() {
 		},
 		{
 			Email:    "teacher7@mail.com", //ครูภาษาไทย
-			Password: "1234",
+			Password: "$2a$10$cm2Krm4dyA2Xu.qY705/EO96ZudVKv.YLpZDQMBAW2wWNEWOWQ6Ou",
 			Fullname: "สมเกียรติ มั่งมี",
 			Nickname: "ครูเฟียส",
 			Role:     "Teacher",
@@ -479,7 +479,7 @@ func SeedDB() {
 		},
 		{
 			Email:    "teacher8@mail.com", //ครูเคมี
-			Password: "1234",
+			Password: "$2a$10$cm2Krm4dyA2Xu.qY705/EO96ZudVKv.YLpZDQMBAW2wWNEWOWQ6Ou",
 			Fullname: "เเพรวา เเจ่มเเจ้ง",
 			Nickname: "ครูปลา",
 			Role:     "Teacher",
@@ -498,7 +498,7 @@ func SeedDB() {
 		},
 		{
 			Email:    "teacher9@mail.com",
-			Password: "1234",
+			Password: "$2a$10$cm2Krm4dyA2Xu.qY705/EO96ZudVKv.YLpZDQMBAW2wWNEWOWQ6Ou",
 			Fullname: "ภูวินทร์ สีม่วง",
 			Nickname: "ครูติ๊ก",
 			Role:     "Teacher",
@@ -517,7 +517,7 @@ func SeedDB() {
 		},
 		{
 			Email:    "teacher10@mail.com", //ครูอังกฤษ
-			Password: "1234",
+			Password: "$2a$10$cm2Krm4dyA2Xu.qY705/EO96ZudVKv.YLpZDQMBAW2wWNEWOWQ6Ou",
 			Fullname: "ฟ้าใส ชื่นมื่น",
 			Nickname: "ครูฟ้า",
 			Role:     "Teacher",
@@ -5229,47 +5229,47 @@ func SeedDB() {
 		panic(err)
 	}
 
-	// var chatroom = &[]models.ChatRoom{
-	// 	{
-	// 		Inbox_id: 2,
-	// 		Conversations: []*models.Conversation{
-	// 			{
-	// 				Sender_id: 1,
-	// 				Message:   "สวัสดีค่ะ สงสัยตรงไหน สามารถสอบถามครูได้เลยนะคะ",
-	// 				CreatedAt: time.Now().Unix(),
-	// 			}},
-	// 	},
-	// 	{
-	// 		Inbox_id: 3,
-	// 		Conversations: []*models.Conversation{
-	// 			{
-	// 				Sender_id: 2,
-	// 				Message:   "สวัสดีค่ะ หากสงสัยเนื้อหาที่คุณครูสอน ถามได้เลยค่ะ",
-	// 				CreatedAt: time.Now().Unix(),
-	// 			}},
-	// 	},
-	// 	{
-	// 		Inbox_id: 4,
-	// 		Conversations: []*models.Conversation{
-	// 			{
-	// 				Sender_id: 11,
-	// 				Message:   "สวัสดรค่ะคุณครู หนูมีเรื่องอยากสอบถามค่ะ",
-	// 				CreatedAt: time.Now().Unix(),
-	// 			}},
-	// 	},
-	// 	{
-	// 		Inbox_id: 5,
-	// 		Conversations: []*models.Conversation{
-	// 			{
-	// 				Sender_id: 12,
-	// 				Message:   "สวัสดรค่ะคุณครู เนื้อหาที่คุณครูสอน มีบางช่วงที่หนูยังไม่ค่อยเข้าใจ อยากจะถามเพิ่มเติมค่ะ",
-	// 				CreatedAt: time.Now().Unix(),
-	// 			}},
-	// 	},
-	// }
-	// if err := DB.Create(&chatroom).Error; err != nil {
-	// 	panic(err)
-	// }
+	var chatroom = &[]models.ChatRoom{
+		{
+			Inbox_id: 2,
+			Conversations: []*models.Conversation{
+				{
+					Sender_id: 1,
+					Message:   "สวัสดีค่ะ สงสัยตรงไหน สามารถสอบถามครูได้เลยนะคะ",
+					CreatedAt: time.Now().Unix(),
+				}},
+		},
+		{
+			Inbox_id: 3,
+			Conversations: []*models.Conversation{
+				{
+					Sender_id: 2,
+					Message:   "สวัสดีค่ะ หากสงสัยเนื้อหาที่คุณครูสอน ถามได้เลยค่ะ",
+					CreatedAt: time.Now().Unix(),
+				}},
+		},
+		{
+			Inbox_id: 4,
+			Conversations: []*models.Conversation{
+				{
+					Sender_id: 11,
+					Message:   "สวัสดรค่ะคุณครู หนูมีเรื่องอยากสอบถามค่ะ",
+					CreatedAt: time.Now().Unix(),
+				}},
+		},
+		{
+			Inbox_id: 5,
+			Conversations: []*models.Conversation{
+				{
+					Sender_id: 12,
+					Message:   "สวัสดรค่ะคุณครู เนื้อหาที่คุณครูสอน มีบางช่วงที่หนูยังไม่ค่อยเข้าใจ อยากจะถามเพิ่มเติมค่ะ",
+					CreatedAt: time.Now().Unix(),
+				}},
+		},
+	}
+	if err := DB.Create(&chatroom).Error; err != nil {
+		panic(err)
+	}
 
 	var post = &[]models.Post{
 		{
@@ -5284,7 +5284,20 @@ func SeedDB() {
 					UserID:      1,
 					Description: "1-10ง่ายนะ แนะนำว่าทำ1-17 แล้วจับสลากเอาว่าจะได้ข้อไหนไปส่งครูเลยจ้าา",
 					CreatedAt:   time.Now().Unix(),
-				}},
+				},
+				{
+					PostID:      1,
+					UserID:      2,
+					Description: "ข้อง่ายเยอะนะ เลือกเอาได้เลย ได้ฝึกตัวเองด้วยค่ะ",
+					CreatedAt:   time.Now().Unix(),
+				},
+				{
+					PostID:      1,
+					UserID:      3,
+					Description: "ข้อ 1-10 ข้อไหนก็ได้ คิดว่าง่ายกว่าข้อหลังๆนะ ",
+					CreatedAt:   time.Now().Unix(),
+				},
+			},
 		},
 		{
 			SubjectID:    1,
@@ -5295,10 +5308,23 @@ func SeedDB() {
 			Comments: &[]models.Comment{
 				{
 					PostID:      2,
-					UserID:      1,
+					UserID:      4,
 					Description: "ข้อนี้ N_2 เป็นจำนวนเต็มบวก แปลว่า 11 ต้องหาร 2N_1-1 ลงตัวค่ะ",
 					CreatedAt:   time.Now().Unix(),
-				}},
+				},
+				{
+					PostID:      2,
+					UserID:      5,
+					Description: "เอาตัวเลือกหาร 11 แล้วได้เศษ 9 ค่ะ",
+					CreatedAt:   time.Now().Unix(),
+				},
+				{
+					PostID:      2,
+					UserID:      6,
+					Description: "ตามที่ทดมาเลยค่ะ จริง ๆ ข้อนี้มี choice เดียวที่หารด้วย 3 ลงตัว ไม่ต้องใช้เงื่อนไขอื่นคิดเลย",
+					CreatedAt:   time.Now().Unix(),
+				},
+			},
 		},
 		{
 			SubjectID: 8,
@@ -5308,10 +5334,23 @@ func SeedDB() {
 			Comments: &[]models.Comment{
 				{
 					PostID:      3,
-					UserID:      5,
+					UserID:      7,
 					Description: "ปรากฏการณ์ลานีญาและเอลนีโญ เป็นปรากฏการณ์ธรรมชาติที่เกิดขึ้นจากความผกผันของสภาวะอากาศบริเวณแถบเส้นศูนย์สูตร เหนือมหาสมุทรแปซิฟิก ทำให้การไหลเวียนของน้ำและกระแสลมเกิดความแปรปรวน ซึ่งจะส่งผลกระทบต่อการเปลี่ยนแปลงสภาพอากาศของโลกอย่างรุนแรง สำหรับประเทศไทย ผลกระทบจากปรากฏการณ์ลานีญาอาจทำให้เกิดการสูญเสียในด้านต่างๆ",
 					CreatedAt:   time.Now().Unix(),
-				}},
+				},
+				{
+					PostID:      3,
+					UserID:      8,
+					Description: "ปรากฏการณ์ เอลนีโญ เกิดจากกระแสลมมีกำลังอ่อนและเปลี่ยนทิศทางพัดจากด้านตะวันออกของมหาสมุทรแปฟิซิกไปด้านตะวันตกของมหาสมุทรแปฟิซิก ทำให้กระแสน้ำอุ่นไหล ไปยังทวีปอเมริกาใต้แทน ด้วยเหตุนี้ภูมิภาคเอเชียตะวันออกเฉียงใต้และออสเตรเลียขาดฝนและเกิดความแห้งแล้ง แต่ชายฝั่งของทวีปอเมริกาใต้กลับมีฝนตกเพิ่มมากขึ้น",
+					CreatedAt:   time.Now().Unix(),
+				},
+				{
+					PostID:      3,
+					UserID:      8,
+					Description: "ปรากฏการณ์ ลานีญา เกิดจากกระแสลมพัดจากด้านตะวันออกของมหาสมุทรแปซิฟิกมายังด้านตะวันตกของมหาสมุทรแปซิฟิกตามเดิม แต่กระแสลมมีความรุนแรงมากกว่าปกติ ทำให้กระแสน้ำอุ่นไหลมายังภูมิภาคเอเชียตะวันออกเฉียงใต้มากขึ้น ส่งผลให้ภูมิภาคเอเชียตะวันออกเฉียงใต้และออสเตรเลียมีระดับน้ำทะเลสูงขึ้นและฝนตกหนักมากกว่าปกติ ในทางตรงข้ามก็เกิดภาวะความแห้งแล้งตามแนวชายฝั่งทวีปอเมริกาใต้",
+					CreatedAt:   time.Now().Unix(),
+				},
+			},
 		},
 		{
 			SubjectID: 8,
@@ -5321,10 +5360,23 @@ func SeedDB() {
 			Comments: &[]models.Comment{
 				{
 					PostID:      4,
-					UserID:      5,
+					UserID:      8,
 					Description: "โลกหมุนรอบตัวเอง ใช้เวลาประมาณ 24 ชั่วโมงค่ะ เเละ โลกหมุนรอบดวงอาทิตย์ ใช้เวลาประมาณ 365 วันค่ะ",
 					CreatedAt:   time.Now().Unix(),
-				}},
+				},
+				{
+					PostID:      4,
+					UserID:      9,
+					Description: "โลกหมุนรอบตัวเองใช้เวลาประมาณ 23 ชั่วโมง 56 นาที 4 วินาที",
+					CreatedAt:   time.Now().Unix(),
+				},
+				{
+					PostID:      4,
+					UserID:      9,
+					Description: "โลกหมุนโคจรรอบดวงอาทิตย์ใช้เวลา 365 วัน 5 ชั่วโมง 49 นาที 12 วินาที หรือ 365.2425 วัน",
+					CreatedAt:   time.Now().Unix(),
+				},
+			},
 		},
 		{
 			SubjectID: 14,
@@ -5337,7 +5389,20 @@ func SeedDB() {
 					UserID:      5,
 					Description: "คำขยาย คือ คำที่ทำหน้าที่ขยายนาม เป็นคำชนิดต่าง ๆ เช่น คำนาม คำสรรพนาม คำลักษณนาม คำบอกจำนวน เป็นต้น และเมื่อขยายแล้วจะเกิดเป็นกลุ่มคำนามหรือนามวลี",
 					CreatedAt:   time.Now().Unix(),
-				}},
+				},
+				{
+					PostID:      5,
+					UserID:      5,
+					Description: "คำขยาย คือ คำที่ทำหน้าที่ขยายนาม เช่น นักเรียนที่เรียนเก่งได้รับรางวัล",
+					CreatedAt:   time.Now().Unix(),
+				},
+				{
+					PostID:      5,
+					UserID:      5,
+					Description: "ยกตัวอย่างคำขยายเพิ่มให้นะคะ เช่น ครูชมเชยนักเรียนที่ตั้งใจเรียน เขาเรียนโรงเรียนที่มีชื่อเสียง",
+					CreatedAt:   time.Now().Unix(),
+				},
+			},
 		},
 		{
 			SubjectID: 14,
@@ -5350,7 +5415,20 @@ func SeedDB() {
 					UserID:      5,
 					Description: "1. สระวี , 2.กำลัง, จัก, เคย , 3.คำนาม",
 					CreatedAt:   time.Now().Unix(),
-				}},
+				},
+				{
+					PostID:      6,
+					UserID:      5,
+					Description: "ข้อ 1 ตอบว่า สระวี ค่ะ ข้อ 2 ตอบว่า กำลัง จัก เคย ค่ะ ข้อ 3 ตอบว่า คำนาม ค่ะ",
+					CreatedAt:   time.Now().Unix(),
+				},
+				{
+					PostID:      6,
+					UserID:      5,
+					Description: "คำตอบตามความคิดเห็นด้านบนเลยค่ะ",
+					CreatedAt:   time.Now().Unix(),
+				},
+			},
 		},
 	}
 	if err := DB.Create(&post).Error; err != nil {
@@ -5370,172 +5448,3 @@ func WipeData() {
 func MigrateData() {
 	DB.AutoMigrate(&models.User{}, &models.UserTeacher{}, &models.Experience{}, &models.Comment{}, &models.Course{}, &models.History{}, &models.Post{}, &models.Review_Video{}, &models.Review_Tutor{}, &models.Reward_Info{}, &models.Reward_Item{}, &models.Subject{}, &models.Video{}, &models.Exercise{}, &models.Choice{}, &models.Payment{}, &models.Withdraw{}, &models.Inbox{}, &models.ChatRoom{}, &models.Conversation{})
 }
-
-// {
-// 	//Course_
-// 	SubjectID: 7,
-// 	Videos: &[]models.Video{
-// 		{
-// 			Class_level: 7,
-// 			Video_name:  "#1",
-// 			Picture:     "",
-// 			Description: "แคลคูลัสเบื้องต้น เรื่อง ลิมิตของฟังก์ชัน| แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียน",
-// 			Url:         "",
-// 			Sheet:       "",
-// 			Exercises: &[]models.Exercise{
-// 				{
-// 					Question: "",
-// 					Image:    "",
-// 					Choices: &[]models.Choice{
-// 						{
-// 							Title:   "",
-// 							Correct: true,
-// 						},
-// 						{
-// 							Title:   "",
-// 							Correct: false,
-// 						},
-// 						{
-// 							Title:   "",
-// 							Correct: false,
-// 						},
-// 						{
-// 							Title:   "",
-// 							Correct: false,
-// 						},
-// 					},
-// 				},
-// 				{
-// 					Question: "จงหาค่าลิมิตต่อไปน",
-// 					Choices: &[]models.Choice{
-// 						{
-// 							Title:   "",
-// 							Correct: false,
-// 						},
-// 						{
-// 							Title:   "",
-// 							Correct: false,
-// 						},
-// 						{
-// 							Title:   "",
-// 							Correct: true,
-// 						},
-// 						{
-// 							Title:   "",
-// 							Correct: false,
-// 						},
-// 					},
-// 				},
-// 			},
-// 		},
-// 		{
-// 			Class_level: 7,
-// 			Video_name:  "#2",
-// 			Picture:     "",
-// 			Description: "แคลคูลัสเบื้องต้น เรื่อง ลิมิตของฟังก์ชัน| แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียน",
-// 			Url:         "",
-// 			Sheet:       "",
-// 			Exercises: &[]models.Exercise{
-// 				{
-// 					Question: "1.",
-// 					Choices: &[]models.Choice{
-// 						{
-// 							Title:   "",
-// 							Correct: true,
-// 						},
-// 						{
-// 							Title:   "",
-// 							Correct: false,
-// 						},
-// 						{
-// 							Title:   "",
-// 							Correct: false,
-// 						},
-// 						{
-// 							Title:   "",
-// 							Correct: false,
-// 						},
-// 					},
-// 				},
-// 				{
-// 					Question: "2.",
-// 					Choices: &[]models.Choice{
-// 						{
-// 							Title:   "",
-// 							Correct: true,
-// 						},
-// 						{
-// 							Title:   "",
-// 							Correct: false,
-// 						},
-// 						{
-// 							Title:   "",
-// 							Correct: false,
-// 						},
-// 						{
-// 							Title:   "",
-// 							Correct: false,
-// 						},
-// 					},
-// 				},
-// 			},
-// 		},
-// 		{
-// 			Class_level: 7,
-// 			Video_name:  "",
-// 			Price:       25,
-// 			Picture:     "",
-// 			Description: "สำหรับคลิปนี้ เป็นคลิปสอน ลิมิตอนันต์ แบบละเอียด เข้าใจง่าย",
-// 			Url:         "",
-// 			Sheet:       "",
-// 			Exercises: &[]models.Exercise{
-// 				{
-// 					Question: "",
-// 					Choices: &[]models.Choice{
-// 						{
-// 							Title:   "",
-// 							Correct: true,
-// 						},
-// 						{
-// 							Title:   "",
-// 							Correct: false,
-// 						},
-// 						{
-// 							Title:   "",
-// 							Correct: false,
-// 						},
-// 						{
-// 							Title:   "",
-// 							Correct: false,
-// 						},
-// 					},
-// 				},
-// 				{
-// 					Question: "",
-// 					Choices: &[]models.Choice{
-// 						{
-// 							Title:   "",
-// 							Correct: false,
-// 						},
-// 						{
-// 							Title:   "",
-// 							Correct: true,
-// 						},
-// 						{
-// 							Title:   "",
-// 							Correct: false,
-// 						},
-// 						{
-// 							Title:   "",
-// 							Correct: false,
-// 						},
-// 					},
-// 				},
-// 			},
-// 		},
-// 	},
-// 	TeacherID:   4,
-// 	Course_name: "",
-// 	Picture:     "",
-// 	Description: "คอร์สนี้จะพาน้อง ๆ ได้รู้จักกับ แคลคูลัสเบื้องต้นในเรื่องต่าง ๆ เเละได้สนุกกับการเรียนรู้เเละเเบบฝึกหัดในคอร์ส มาเริ่มกันเลย!!",
-// },
