@@ -594,7 +594,6 @@ func SeedDB() {
 					Exercises: &[]models.Exercise{
 						{
 							Question: "1.จงหาผลบวกของ 15 + 43",
-							Image:    "https://scontent.fbkk23-1.fna.fbcdn.net/v/t31.18172-8/25438840_860387127454309_1256118397506102113_o.jpg?_nc_cat=106&ccb=1-7&_nc_sid=8bfeb9&_nc_eui2=AeGETUheAlbd9tM1-dIYsKSyru0AzM04uk6u7QDMzTi6ThSf-U4lV9zJou-6fxAmg1URNJ6aWCidqClfoEp_Y6cl&_nc_ohc=pVaa2tPiMIkAX-CAvCp&_nc_ht=scontent.fbkk23-1.fna&oh=00_AfBotnmAZbH_EbyirZOdlOUnWf_pjrWEuPCFivlSwsqMjA&oe=641DC6D9",
 							Choices: &[]models.Choice{
 								{
 									Title:   "55",
@@ -880,7 +879,7 @@ func SeedDB() {
 			Videos: &[]models.Video{
 				{
 					Class_level: 2,
-					Price:       500,
+					Price:       29,
 					Video_name:  "การแยกตัวประกอบของพหุนามดีกรีสอง (พหุนามดีกรีสองตัวแปรเดียว)",
 					Picture:     "https://www.tertututor.com/images/cover/factorize-degree-2.png",
 					Description: "การเเยกตัวประกอบ ม.2 | ทบทวนการแยกตัวประกอบของพหุนามดีกรีสอง (พหุนามดีกรีสองตัวแปรเดียว) แบบละเอียดเเบบเข้าใจง่ายเเละสนุกกับการเรียนคณิตศาสตร์ ",
