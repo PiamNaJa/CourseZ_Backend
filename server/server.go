@@ -10,6 +10,7 @@ import (
 	"github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/monitor"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/websocket/v2"
 )
@@ -46,6 +47,7 @@ func Listen(app *fiber.App) error {
 }
 
 func SetupRoute(app *fiber.App) {
+	app.Get("/metrics", monitor.New())
 	app.Get("/ws/:id", websocket.New(socket.NewServer().HandleConnection))
 	router := app.Group("/api")
 	routes.UserRoutes(router.Group("/user"), configs.DB)
