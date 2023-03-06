@@ -40,7 +40,7 @@ func Listen(app *fiber.App) error {
 
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "5000"
+		port = "6000"
 	}
 
 	return app.Listen("0.0.0.0:" + port)
