@@ -61,6 +61,7 @@ func SetupRoute(app *fiber.App) {
 	routes.PaymentRoutes(router.Group("/payment"), configs.DB)
 	routes.InboxRoutes(router.Group("/inbox"), configs.DB)
 	routes.WithdrawRoutes(router.Group("/withdraw"), configs.DB)
+	routes.HistoryRoutes(router.Group("/history"), configs.DB)
 }
 
 func Shutdown(app *fiber.App) {
