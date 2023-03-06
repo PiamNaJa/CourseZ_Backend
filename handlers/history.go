@@ -34,11 +34,19 @@ func AddVideoHistory(db *gorm.DB) fiber.Handler {
 		if err := c.BodyParser(&history); err != nil {
 			return utils.BadRequest(err.Error())
 		}
+		videoDuration := history.Duration
 
 		history.UserID = int32(claims["user_id"].(float64))
-		if err := db.Create(&history).Error; err != nil {
-			return utils.Unexpected(err.Error())
+		result := db.FirstOrCreate(&history, models.History{UserID: history.UserID, VideoID: history.VideoID})
+		if result.Error != nil {
+			return utils.BadRequest(result.Error.Error())
 		}
-		return c.Status(fiber.StatusCreated).JSON("Created")
+		if result.RowsAffected == 0 {
+			history.Duration = videoDuration
+			if err := db.Save(&history).Error; err != nil {
+				return utils.BadRequest(err.Error())
+			}
+		}
+		return c.Status(fiber.StatusCreated).JSON(history)
 	}
 }
