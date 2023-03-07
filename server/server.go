@@ -10,6 +10,7 @@ import (
 	"github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/monitor"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/websocket/v2"
 )
@@ -39,13 +40,14 @@ func Listen(app *fiber.App) error {
 
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "5000"
+		port = "6000"
 	}
 
 	return app.Listen("0.0.0.0:" + port)
 }
 
 func SetupRoute(app *fiber.App) {
+	app.Get("/metrics", monitor.New())
 	app.Get("/ws/:id", websocket.New(socket.NewServer().HandleConnection))
 	router := app.Group("/api")
 	routes.UserRoutes(router.Group("/user"), configs.DB)
@@ -61,6 +63,7 @@ func SetupRoute(app *fiber.App) {
 	routes.PaymentRoutes(router.Group("/payment"), configs.DB)
 	routes.InboxRoutes(router.Group("/inbox"), configs.DB)
 	routes.WithdrawRoutes(router.Group("/withdraw"), configs.DB)
+	routes.HistoryRoutes(router.Group("/history"), configs.DB)
 }
 
 func Shutdown(app *fiber.App) {
