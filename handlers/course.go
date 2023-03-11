@@ -2,6 +2,8 @@ package handlers
 
 //CompileDaemon -command="./CourseZ_Backend"
 import (
+	"strconv"
+
 	"github.com/PiamNaJa/CourseZ_Backend/models"
 	"github.com/PiamNaJa/CourseZ_Backend/utils"
 	"github.com/gofiber/fiber/v2"
@@ -15,7 +17,18 @@ func CreateCourse(db *gorm.DB) fiber.Handler {
 		if err := c.BodyParser(&course); err != nil {
 			return utils.BadRequest(err.Error())
 		}
+		var subject models.Subject
+		if err := c.BodyParser(&subject); err != nil {
+			return utils.BadRequest(err.Error())
+		}
 
+		if err := db.Where("subject_title = ? AND class_level = ?", subject.Subject_title, subject.Class_level).First(&subject).Error; err != nil {
+			return utils.HandleFindError(err)
+		}
+		course.SubjectID = subject.Subject_id
+		course.Subject = &subject
+		course.Category = strconv.Itoa(int(subject.Class_level)) + subject.Subject_title
+		
 		if err := utils.Validate.Struct(course); err != nil {
 			return utils.BadRequest(err.Error())
 		}
