@@ -5441,9 +5441,9 @@ func WipeData() {
 	dbMigrator.DropTable("user_likevideos")
 	dbMigrator.DropTable("user_likecourses")
 	dbMigrator.DropTable("user_doneexercise")
-	dbMigrator.DropTable(&models.User{}, &models.UserTeacher{}, &models.Experience{}, &models.Comment{}, &models.Course{}, &models.History{}, &models.Post{}, &models.Review_Video{}, &models.Review_Tutor{}, &models.Reward_Info{}, &models.Reward_Item{}, &models.Subject{}, &models.Video{}, &models.Exercise{}, &models.Choice{}, &models.Payment{}, &models.Withdraw{}, &models.Inbox{}, &models.ChatRoom{}, &models.Conversation{})
+	dbMigrator.DropTable(&models.User{}, &models.UserTeacher{}, &models.Experience{}, &models.Comment{}, &models.Course{}, &models.VideoHistory{}, &models.CourseHistory{}, &models.Post{}, &models.Review_Video{}, &models.Review_Tutor{}, &models.Reward_Info{}, &models.Reward_Item{}, &models.Subject{}, &models.Video{}, &models.Exercise{}, &models.Choice{}, &models.Payment{}, &models.Withdraw{}, &models.Inbox{}, &models.ChatRoom{}, &models.Conversation{})
 }
 
 func MigrateData() {
-	DB.AutoMigrate(&models.User{}, &models.UserTeacher{}, &models.Experience{}, &models.Comment{}, &models.Course{}, &models.History{}, &models.Post{}, &models.Review_Video{}, &models.Review_Tutor{}, &models.Reward_Info{}, &models.Reward_Item{}, &models.Subject{}, &models.Video{}, &models.Exercise{}, &models.Choice{}, &models.Payment{}, &models.Withdraw{}, &models.Inbox{}, &models.ChatRoom{}, &models.Conversation{})
+	DB.AutoMigrate(&models.User{}, &models.UserTeacher{}, &models.Experience{}, &models.Comment{}, &models.Course{}, &models.VideoHistory{}, &models.CourseHistory{}, &models.Post{}, &models.Review_Video{}, &models.Review_Tutor{}, &models.Reward_Info{}, &models.Reward_Item{}, &models.Subject{}, &models.Video{}, &models.Exercise{}, &models.Choice{}, &models.Payment{}, &models.Withdraw{}, &models.Inbox{}, &models.ChatRoom{}, &models.Conversation{})
 }

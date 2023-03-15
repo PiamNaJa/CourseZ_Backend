@@ -10,4 +10,5 @@ import (
 func HistoryRoutes(app fiber.Router, db *gorm.DB) {
 	app.Get("/:video_id", m.IsLogin, handlers.CheckUserVideoHistory(db))
 	app.Post("/", m.IsLogin, handlers.AddVideoHistory(db))
+	
 }
