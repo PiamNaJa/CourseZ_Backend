@@ -13,6 +13,8 @@ require (
 	gorm.io/gorm v1.24.5
 )
 
+require github.com/lib/pq v1.10.7 // indirect
+
 require (
 	github.com/fasthttp/websocket v1.5.1 // indirect
 	github.com/githubnemo/CompileDaemon v1.4.0 // indirect
