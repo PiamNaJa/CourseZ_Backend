@@ -1,5 +1,7 @@
 package models
 
+import "github.com/lib/pq"
+
 type User struct {
 	User_id       int32            `json:"user_id" gorm:"primaryKey;type:int"`                                                                                                                                                                              // User_id is the id of the user
 	Email         string           `json:"email" gorm:"unique;not null;type:varchar(100);" validate:"required,email"`                                                                                                                                       // Email is the email of the user
