@@ -3,6 +3,7 @@ package configs
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/PiamNaJa/CourseZ_Backend/models"
@@ -4874,7 +4875,17 @@ func SeedDB() {
 	if err := DB.Create(&course).Error; err != nil {
 		panic(err)
 	}
-
+	course = nil
+	var c []models.Course
+	if err:= DB.Preload("Subject").Find(&c).Error; err != nil {
+		panic(err)
+	}
+	for i := 0; i < len(c); i++ {
+		c[i].Category = strconv.Itoa(int(c[i].Subject.Class_level)) + c[i].Subject.Subject_title
+	}
+	if err := DB.Save(&c).Error; err != nil {
+		panic(err)
+	}
 	fmt.Println("Course created")
 
 	var review_video = &[]models.Review_Video{

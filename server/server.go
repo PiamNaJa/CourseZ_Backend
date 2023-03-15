@@ -16,9 +16,6 @@ import (
 )
 
 func Create() *fiber.App {
-	configs.Init()
-	configs.ConnectDB()
-
 	app := fiber.New(fiber.Config{JSONEncoder: json.Marshal, JSONDecoder: json.Unmarshal, ErrorHandler: configs.CustomErrorHandler})
 
 	app.Use(recover.New())

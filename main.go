@@ -3,10 +3,13 @@ package main
 import (
 	"fmt"
 
+	"github.com/PiamNaJa/CourseZ_Backend/configs"
 	"github.com/PiamNaJa/CourseZ_Backend/server"
 )
 
 func main() {
+	configs.Init()
+	configs.ConnectDB()
 	app := server.Create()
 	server.SetupRoute(app)
 	server.WipeAndSeedDatabaseData()
