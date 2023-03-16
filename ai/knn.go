@@ -11,7 +11,7 @@ import (
 
 func K_cluster(db *gorm.DB, k int) {
 	var users []models.User
-	db.Preload("History").Preload("PaidVideos").Preload("LikeVideos").Preload("LikeCourses").Preload("LikeCourses.Subject").Find(&users)
+	db.Preload("CourseHistory").Preload("PaidVideos").Preload("LikeVideos").Preload("LikeCourses").Preload("LikeCourses.Subject").Find(&users)
 	var courses = make([][]models.Course, len(users))
 	for i := 0; i < len(users); i++ {
 		for j := 0; j < len(users[i].LikeCourses); j++ {
@@ -27,19 +27,15 @@ func K_cluster(db *gorm.DB, k int) {
 			db.Preload("Subject").First(&course, users[i].PaidVideos[j].CourseID)
 			courses[i] = append(courses[i], course)
 		}
-		for j := 0; j < len(users[i].History); j++ {
-			var video models.Video
-			db.First(&video, users[i].History[j].VideoID)
+		for j := 0; j < len(*users[i].CourseHistory); j++ {
 			var course models.Course
-			db.Preload("Subject").First(&course, video.CourseID)
+			db.Preload("Subject").First(&course, (*users[i].CourseHistory)[j].CourseID)
 			courses[i] = append(courses[i], course)
 		}
 	}
-	// fmt.Println(len(courses[0]))
-	// fmt.Println(users[0].User_id)
 	for i := 0; i < len(courses); i++ {
 		for j := 0; j < len(courses[i]); j++ {
-			fmt.Println(courses[i][j].Subject)
+			fmt.Println(users[i].User_id, courses[i][j].Category)
 		}
 	}
 }
