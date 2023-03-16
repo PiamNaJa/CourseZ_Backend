@@ -574,6 +574,36 @@ func SeedDB() {
 			Item_cost:    250,
 			Item_picture: "https://tombowth.com/wp-content/uploads/2021/05/front-2.jpg",
 		},
+		{
+			Item_name:    "ปฏิทินตั้งโต๊ะ",
+			Item_title:   "ปฏิทินตั้งโต๊ะเก๋ๆ น่ารักๆ 2560 ลายการ์ตูน แพนด้า",
+			Item_cost:    99,
+			Item_picture: "https://www.ubkkikujung.com/shop/ubkkikujung/images/4yx3e5xyc1gifyb4xfd541220162259000260.jpg",
+		},
+		{
+			Item_name:    "เคสไอเเพด Uniq",
+			Item_title:   " เคสบาง เบา ด้านหลังเคสเป็นแบบใสโชว์ตัวเครื่อง ตัวเคสแนวพับรูป Y ที่รองรับการตั้งได้ 3 รูปแบบ แนวตั้ง แนวนอนสำหรับการดูหนัง แนวนอนสำหรับการพิมพ์",
+			Item_cost:    450,
+			Item_picture: "https://media.studio7thailand.com/65430/Uniq-Casing-for-iPad-Air-5-Air-4-10.9-2022-Camden-Northern-Blue-1-square_medium.jpg",
+		},
+		{
+			Item_name:    "หนังสือชีวะเต่าทอง (Biology)",
+			Item_title:   " หนังสือสรุปชีววิทยายอด HIT ที่หลายคนบอกต่อว่าเก็งข้อสอบตรงจุดมากๆ มีเนื้อหาอ่านง่ายรวม 23 บท มีแบบฝึกหัดที่ใช้ได้จริง 1,000 ข้อ",
+			Item_cost:    750,
+			Item_picture: "https://inwfile.com/s-c/rc270s.jpg",
+		},
+		{
+			Item_name:    "ฟิสิกส์ ขนมหวาน เล่มที่ 1",
+			Item_title:   "เนื้อหาเรียบเรียงให้เข้าใจง่าย แบบฝึกหัดเรียงจากพื้นฐานไปสู่ขั้นสูง พร้อมเฉลยวิธีคิดแบบละเอียดท้ายเล่ม",
+			Item_cost:    255,
+			Item_picture: "https://images-se-ed.com/ws/Storage/Originals/978616/321/9786163211514L.jpg?h=fe473fe85ae302d506b6c77853efee11",
+		},
+		{
+			Item_name:    "ฟิสิกส์ ขนมหวาน เล่มที่ 2",
+			Item_title:   "เนื้อหาเรียบเรียงให้เข้าใจง่าย แบบฝึกหัดเรียงจากพื้นฐานไปสู่ขั้นสูง พร้อมเฉลยวิธีคิดแบบละเอียดท้ายเล่ม",
+			Item_cost:    250,
+			Item_picture: "https://images-se-ed.com/ws/Storage/Originals/978999/007/9789990073546L.jpg?h=1cd09dd595cda68636d881367ee37073",
+		},
 	}
 	if err := DB.Create(&rewardItem).Error; err != nil {
 		panic(err)
@@ -4877,7 +4907,7 @@ func SeedDB() {
 	}
 	course = nil
 	var c []models.Course
-	if err:= DB.Preload("Subject").Find(&c).Error; err != nil {
+	if err := DB.Preload("Subject").Find(&c).Error; err != nil {
 		panic(err)
 	}
 	for i := 0; i < len(c); i++ {
