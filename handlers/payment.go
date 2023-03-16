@@ -20,10 +20,11 @@ func VideosPayment(db *gorm.DB) fiber.Handler {
 		}
 
 		var user models.User
-		if err = db.Select("user_id", "role").Where("user_id = ?", claims["user_id"]).First(&user).Error; err != nil {
+		if err = db.Where("user_id = ?", claims["user_id"]).First(&user).Error; err != nil {
 			return utils.HandleFindError(err)
 		}
 
+		var totalPrice int32 = 0
 		var videos []*models.Video
 		for _, video_id := range request["video_id"].([]interface{}) {
 			var video *models.Video
@@ -31,6 +32,7 @@ func VideosPayment(db *gorm.DB) fiber.Handler {
 				return utils.HandleFindError(err)
 			}
 			videos = append(videos, video)
+			totalPrice += video.Price
 		}
 		user.PaidVideos = append(user.PaidVideos, videos...)
 		err = db.Save(&user).Error
@@ -38,23 +40,11 @@ func VideosPayment(db *gorm.DB) fiber.Handler {
 			return utils.Unexpected(err.Error())
 		}
 
-		var courses []models.Course
-		if err := db.Preload("Videos", "video_id IN ?", request["video_id"]).Find(&courses).Error; err != nil {
+		var course models.Course
+		if err := db.Preload("Videos", "video_id IN ?", request["video_id"]).First(&course).Error; err != nil {
 			return utils.Unexpected(err.Error())
 		}
 
-		var course models.Course
-		var totalPrice int32
-
-		for _, cour := range courses {
-			if len(*cour.Videos) != 0 {
-				course = cour
-				for _, video := range *cour.Videos {
-					totalPrice += video.Price
-				}
-				break
-			}
-		}
 		var teacher models.UserTeacher
 		if err := db.First(&teacher, &course.TeacherID).Error; err != nil {
 			return utils.HandleFindError(err)
@@ -64,23 +54,22 @@ func VideosPayment(db *gorm.DB) fiber.Handler {
 		if err := db.Save(&teacher).Error; err != nil {
 			return utils.Unexpected(err.Error())
 		}
-
-		var userInPayment models.User
-		if err := db.Preload("PaidVideos").Where("user_id = ?", &user.User_id).First(&userInPayment).Error; err != nil {
-			return utils.HandleFindError(err)
+		var payments []models.Payment
+		for _, video := range videos {
+			payment := models.Payment{
+				Payee:     &user,
+				Recipient: &teacher,
+				Money:     video.Price,
+				Text:      "pay for videos",
+				VideoID:   video.Video_id,
+			}
+			payments = append(payments, payment)
 		}
-
-		payment := models.Payment{
-			Payee:     &userInPayment,
-			Recipient: &teacher,
-			Money:     totalPrice,
-			Text:      "pay for videos",
-		}
-		if err := db.Create(&payment).Error; err != nil {
+		if err := db.Create(&payments).Error; err != nil {
 			return utils.Unexpected(err.Error())
 		}
 
-		return c.Status(fiber.StatusOK).JSON(payment)
+		return c.Status(fiber.StatusOK).JSON("Success")
 	}
 }
 
@@ -102,5 +91,22 @@ func GetPaidVideos(db *gorm.DB) fiber.Handler {
 		}
 
 		return c.Status(fiber.StatusOK).JSON(&videosId)
+	}
+}
+
+func GetPaymentTransaction(db *gorm.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		token := c.Get("authorization")
+		claims, err := utils.GetClaims(token)
+		if err != nil {
+			return utils.Unauthorized(err.Error())
+		}
+		var payment []models.Payment
+		if err := db.Where("teacher_id = ?", claims["teacher_id"]).Preload("Video", func (tx *gorm.DB) *gorm.DB {
+			return tx.Select("video_id", "video_name", "picture")
+		}).Find(&payment).Error; err != nil {
+			return utils.Unexpected(err.Error())
+		}
+		return c.Status(fiber.StatusOK).JSON(payment)
 	}
 }
