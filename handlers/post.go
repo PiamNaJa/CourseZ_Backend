@@ -191,7 +191,7 @@ func CreatePostComment(db *gorm.DB) fiber.Handler {
 	}
 }
 
-func GetPostByUserId(db *gorm.DB) fiber.Handler{
+func GetPostByUserId(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		token := c.Get("authorization")
 		claims, err := utils.GetClaims(token)
@@ -209,7 +209,7 @@ func GetPostByUserId(db *gorm.DB) fiber.Handler{
 	}
 }
 
-func CountUserPost(db *gorm.DB) fiber.Handler{
+func CountUserPost(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		token := c.Get("authorization")
 		claims, err := utils.GetClaims(token)
