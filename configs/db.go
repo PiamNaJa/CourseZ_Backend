@@ -22,6 +22,7 @@ func TestChat() {
 		Role:     "Student",
 		Password: "$2a$10$cm2Krm4dyA2Xu.qY705/EO96ZudVKv.YLpZDQMBAW2wWNEWOWQ6Ou",
 		Picture:  "https://paradepets.com/.image/t_share/MTkxMzY1Nzg4NjczMzIwNTQ2/cutest-dog-breeds-jpg.jpg",
+		Point:    999,
 	}
 	var user2 = &models.User{
 		User_id:  12,
@@ -5482,9 +5483,9 @@ func WipeData() {
 	dbMigrator.DropTable("user_likevideos")
 	dbMigrator.DropTable("user_likecourses")
 	dbMigrator.DropTable("user_doneexercise")
-	dbMigrator.DropTable(&models.User{}, &models.UserTeacher{}, &models.Experience{}, &models.Comment{}, &models.Course{}, &models.VideoHistory{}, &models.CourseHistory{}, &models.Post{}, &models.Review_Video{}, &models.Review_Tutor{}, &models.Reward_Info{}, &models.Reward_Item{}, &models.Subject{}, &models.Video{}, &models.Exercise{}, &models.Choice{}, &models.Payment{}, &models.Withdraw{}, &models.Inbox{}, &models.ChatRoom{}, &models.Conversation{})
+	dbMigrator.DropTable(&models.User{}, &models.UserTeacher{}, &models.Experience{}, &models.Comment{}, &models.Course{}, &models.VideoHistory{}, &models.CourseHistory{}, &models.Post{}, &models.Review_Video{}, &models.Review_Tutor{}, &models.Reward_Info{}, &models.Reward_Item{}, &models.Subject{}, &models.Video{}, &models.Exercise{}, &models.Choice{}, &models.Payment{}, &models.Withdraw{}, &models.Inbox{}, &models.ChatRoom{}, &models.Conversation{}, &models.Address{})
 }
 
 func MigrateData() {
-	DB.AutoMigrate(&models.User{}, &models.UserTeacher{}, &models.Experience{}, &models.Comment{}, &models.Course{}, &models.VideoHistory{}, &models.CourseHistory{}, &models.Post{}, &models.Review_Video{}, &models.Review_Tutor{}, &models.Reward_Info{}, &models.Reward_Item{}, &models.Subject{}, &models.Video{}, &models.Exercise{}, &models.Choice{}, &models.Payment{}, &models.Withdraw{}, &models.Inbox{}, &models.ChatRoom{}, &models.Conversation{})
+	DB.AutoMigrate(&models.User{}, &models.UserTeacher{}, &models.Experience{}, &models.Comment{}, &models.Course{}, &models.VideoHistory{}, &models.CourseHistory{}, &models.Post{}, &models.Review_Video{}, &models.Review_Tutor{}, &models.Reward_Info{}, &models.Reward_Item{}, &models.Subject{}, &models.Video{}, &models.Exercise{}, &models.Choice{}, &models.Payment{}, &models.Withdraw{}, &models.Inbox{}, &models.ChatRoom{}, &models.Conversation{}, &models.Address{})
 }

@@ -86,17 +86,63 @@ func UpdateRewardItem(db *gorm.DB) fiber.Handler {
 
 func CreateRewardInfo(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
+		token := c.Get("authorization")
+		claims, err := utils.GetClaims(token)
+		if err != nil {
+			return utils.Unauthorized(err.Error())
+		}
+		var user models.User
+		if err := db.Select("user_id", "point").First(&user, claims["user_id"]).Error; err != nil {
+			return utils.HandleFindError(err)
+		}
+		
 		var rewardInfo models.Reward_Info
 		if err := c.BodyParser(&rewardInfo); err != nil {
 			return utils.BadRequest(err.Error())
 		}
-		if err := utils.Validate.Struct(rewardInfo); err != nil {
+		
+		var rewardItem models.Reward_Item
+		if err := db.First(&rewardItem, rewardInfo.ItemID).Error; err != nil {
+			return utils.HandleFindError(err)
+		}
+
+		if rewardItem.Item_cost > user.Point {
+			return utils.BadRequest("Not enough point")
+		}
+		user.Point -= rewardItem.Item_cost
+		var address models.Address
+		if err := c.BodyParser(&address); err != nil {
 			return utils.BadRequest(err.Error())
 		}
-		if err := db.Create(&rewardInfo).Error; err != nil {
+		address.UserID = user.User_id
+		if err := utils.Validate.Struct(address); err != nil {
+			return utils.BadRequest(err.Error())
+		}
+
+		tx := db.Begin()
+		if err := tx.Model(&user).Update("point", user.Point).Error; err != nil {
 			return utils.Unexpected(err.Error())
 		}
 
+		if err := tx.Create(&address).Error; err != nil {
+			return utils.Unexpected(err.Error())
+		}
+		
+
+		rewardInfo.AddressID = address.Address_id
+		rewardInfo.Address = &address
+
+		rewardInfo.UserID = user.User_id
+
+		if err := utils.Validate.Struct(rewardInfo); err != nil {
+			return utils.BadRequest(err.Error())
+		}
+
+		if err := tx.Create(&rewardInfo).Error; err != nil {
+			tx.Rollback()
+			return utils.Unexpected(err.Error())
+		}
+		tx.Commit()
 		return c.Status(fiber.StatusCreated).JSON(&rewardInfo)
 	}
 }
