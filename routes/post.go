@@ -11,6 +11,7 @@ func PostRoutes(app fiber.Router, db *gorm.DB) {
 	app.Post("/", m.IsLogin, handlers.CreatePost(db))
 	app.Get("/", handlers.GetAllPost(db))
 	app.Get("/user", handlers.GetPostByUserId(db))
+	app.Get("/user/count", handlers.CountUserPost(db))
 	app.Get("/:post_id", handlers.GetPostById(db))
 	app.Post("/:post_id/comment", m.IsLogin, handlers.CreatePostComment(db))
 	app.Get("/subject/:subject_title", handlers.GetPostBySubject(db))
