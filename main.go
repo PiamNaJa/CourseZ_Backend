@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/PiamNaJa/CourseZ_Backend/ai"
 	"github.com/PiamNaJa/CourseZ_Backend/configs"
 )
@@ -16,5 +18,6 @@ func main() {
 	// if err := server.Listen(app); err != nil {
 	// 	fmt.Print(err)
 	// }
-	ai.K_cluster(configs.DB, 3)
+	ai.TrainData(configs.DB)
+	fmt.Println(ai.Predict())
 }
