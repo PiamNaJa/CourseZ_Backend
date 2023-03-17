@@ -298,3 +298,13 @@ func GetTeacherById(db *gorm.DB) fiber.Handler {
 		return c.Status(fiber.StatusOK).JSON(&user)
 	}
 }
+
+func GetUserAddress(db *gorm.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		var address []models.Address
+		if err := db.Where("user_id = ?", c.Params("user_id")).Find(&address).Error; err != nil {
+			return utils.HandleFindError(err)
+		}
+		return c.Status(fiber.StatusOK).JSON(&address)
+	}
+}
