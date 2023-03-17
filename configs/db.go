@@ -2,8 +2,9 @@ package configs
 
 import (
 	"fmt"
+	"math"
+	"math/rand"
 	"os"
-	"strconv"
 	"time"
 
 	"github.com/PiamNaJa/CourseZ_Backend/models"
@@ -63,6 +64,7 @@ func ConnectDB() {
 		panic(err)
 	}
 	DB = db
+	fmt.Println("Connected to DB")
 }
 
 func SeedDB() {
@@ -5474,6 +5476,32 @@ func SeedDB() {
 	}
 	if err := DB.Create(&post).Error; err != nil {
 		panic(err)
+	}
+	var video_history []models.VideoHistory
+	rand.NewSource(time.Now().UnixNano())
+	for i := 0; i < 100; i++ {
+		video_history = append(video_history, models.VideoHistory{
+			UserID:   int32(rand.Intn(10) + 1),                              // 1 - 10
+			VideoID:  int32(rand.Intn(63) + 1),                              // 1 - 63
+			Duration: int32(rand.Intn(500) + 1),                             // 1 - 500
+			Rating:   math.Round((0.01+rand.Float64()*(10-0.01))*100) / 100, // 0.01 - 10
+		})
+	}
+	if err := DB.Create(&video_history).Error; err != nil {
+		panic(err)
+	}
+	for _, vh := range video_history {
+		var course_history models.CourseHistory
+		var video models.Video
+		if err := DB.Where("video_id = ?", vh.VideoID).First(&video).Error; err != nil {
+			panic(err)
+		}
+		course_history.UserID = vh.UserID
+		course_history.CourseID = video.CourseID
+		result := DB.FirstOrCreate(&course_history, models.CourseHistory{UserID: vh.UserID, CourseID: video.CourseID})
+		if result.Error != nil {
+			panic(result.Error)
+		}
 	}
 }
 
