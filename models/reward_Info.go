@@ -6,6 +6,4 @@ type Reward_Info struct {
 	User      *User        `json:"user" gorm:"not null;foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`       // User is the user that made the reward
 	ItemID    int32        `json:"item_id" gorm:"index;type:int;not null" validate:"required,number"`                          // ItemID is the id of the item
 	Item      *Reward_Item `json:"item" gorm:"not null;foreignKey:ItemID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`       // Item is the item that made the reward
-	AddressID int32        `json:"address_id" gorm:"index;type:int;not null" validate:"required,number"`                       // AddressID is the id of the address
-	Address   *Address     `json:"address" gorm:"not null;foreignKey:AddressID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"` // Address is the address that made the reward
 }

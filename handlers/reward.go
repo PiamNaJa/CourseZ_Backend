@@ -95,12 +95,12 @@ func CreateRewardInfo(db *gorm.DB) fiber.Handler {
 		if err := db.Select("user_id", "point").First(&user, claims["user_id"]).Error; err != nil {
 			return utils.HandleFindError(err)
 		}
-		
+
 		var rewardInfo models.Reward_Info
 		if err := c.BodyParser(&rewardInfo); err != nil {
 			return utils.BadRequest(err.Error())
 		}
-		
+
 		var rewardItem models.Reward_Item
 		if err := db.First(&rewardItem, rewardInfo.ItemID).Error; err != nil {
 			return utils.HandleFindError(err)
@@ -110,27 +110,13 @@ func CreateRewardInfo(db *gorm.DB) fiber.Handler {
 			return utils.BadRequest("Not enough point")
 		}
 		user.Point -= rewardItem.Item_cost
-		var address models.Address
-		if err := c.BodyParser(&address); err != nil {
-			return utils.BadRequest(err.Error())
-		}
-		address.UserID = user.User_id
-		if err := utils.Validate.Struct(address); err != nil {
-			return utils.BadRequest(err.Error())
-		}
 
 		tx := db.Begin()
+
 		if err := tx.Model(&user).Update("point", user.Point).Error; err != nil {
+			tx.Rollback()
 			return utils.Unexpected(err.Error())
 		}
-
-		if err := tx.Create(&address).Error; err != nil {
-			return utils.Unexpected(err.Error())
-		}
-		
-
-		rewardInfo.AddressID = address.Address_id
-		rewardInfo.Address = &address
 
 		rewardInfo.UserID = user.User_id
 
