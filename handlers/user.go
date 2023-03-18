@@ -340,7 +340,7 @@ func CreateOrUpdateUserAddress(db *gorm.DB) fiber.Handler {
 			return utils.Unexpected(err.Error())
 		}
 
-		return c.Status(fiber.StatusCreated).JSON(&address)
+		return c.Status(fiber.StatusOK).JSON(&address)
 	}
 }
 
