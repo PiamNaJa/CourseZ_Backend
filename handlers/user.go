@@ -313,26 +313,33 @@ func GetTeacherById(db *gorm.DB) fiber.Handler {
 	}
 }
 
-func CreateUserAddress(db *gorm.DB) fiber.Handler {
+func CreateOrUpdateUserAddress(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var address models.Address
-		if err := c.BodyParser(&address); err != nil {
-			return utils.BadRequest(err.Error())
-		}
 
 		user_id, err := c.ParamsInt("user_id")
 		if err != nil {
 			return utils.BadRequest(err.Error())
 		}
+
+		if err := db.FirstOrCreate(&address, &models.Address{UserID: int32(user_id)}).Error; err != nil {
+			return utils.Unexpected(err.Error())
+		}
+
+		if err := c.BodyParser(&address); err != nil {
+			return utils.BadRequest(err.Error())
+		}
+
 		address.UserID = int32(user_id)
 
 		if err := utils.Validate.Struct(address); err != nil {
 			return utils.BadRequest(err.Error())
 		}
 
-		if err := db.Create(&address).Error; err != nil {
+		if err := db.Model(&address).Updates(&address).Error; err != nil {
 			return utils.Unexpected(err.Error())
 		}
+
 		return c.Status(fiber.StatusCreated).JSON(&address)
 	}
 }
@@ -342,25 +349,6 @@ func GetUserAddress(db *gorm.DB) fiber.Handler {
 		var address models.Address
 		if err := db.Where("user_id = ?", c.Params("user_id")).First(&address).Error; err != nil {
 			return utils.HandleFindError(err)
-		}
-		return c.Status(fiber.StatusOK).JSON(&address)
-	}
-}
-
-func UpdateUserAddress(db *gorm.DB) fiber.Handler {
-	return func(c *fiber.Ctx) error {
-		var address models.Address
-		if err := db.Where("user_id = ?", c.Params("user_id")).First(&address).Error; err != nil {
-			return utils.HandleFindError(err)
-		}
-		if err := c.BodyParser(&address); err != nil {
-			return utils.BadRequest(err.Error())
-		}
-		if err := utils.Validate.Struct(address); err != nil {
-			return utils.BadRequest(err.Error())
-		}
-		if err := db.Save(&address).Error; err != nil {
-			return utils.Unexpected(err.Error())
 		}
 		return c.Status(fiber.StatusOK).JSON(&address)
 	}
