@@ -2,7 +2,6 @@ package configs
 
 import (
 	"fmt"
-	"math"
 	"math/rand"
 	"os"
 	"time"
@@ -5477,32 +5476,60 @@ func SeedDB() {
 	if err := DB.Create(&post).Error; err != nil {
 		panic(err)
 	}
-	var video_history []models.VideoHistory
 	rand.NewSource(time.Now().UnixNano())
-	for i := 0; i < 100; i++ {
-		video_history = append(video_history, models.VideoHistory{
-			UserID:   int32(rand.Intn(10) + 1),                              // 1 - 10
-			VideoID:  int32(rand.Intn(63) + 1),                              // 1 - 63
-			Duration: int32(rand.Intn(500) + 1),                             // 1 - 500
-			Rating:   math.Round((0.01+rand.Float64()*(10-0.01))*100) / 100, // 0.01 - 10
+	var coursehistory []models.CourseHistory
+	for i := 0; i < 30; i++ {
+		coursehistory = append(coursehistory, models.CourseHistory{
+			UserID:    int32(rand.Intn(10) + 1), // 1 - 10
+			CourseID:  int32(rand.Intn(21) + 1), // 1 - 10
+			Frequency: int32(rand.Intn(10) + 1), // 1 - 10
 		})
 	}
-	if err := DB.Create(&video_history).Error; err != nil {
+	if err := DB.Create(&coursehistory).Error; err != nil {
 		panic(err)
 	}
-	for _, vh := range video_history {
-		var course_history models.CourseHistory
-		var video models.Video
-		if err := DB.Where("video_id = ?", vh.VideoID).First(&video).Error; err != nil {
-			panic(err)
+}
+
+func RandomData() {
+	var users []models.User
+	DB.Preload("LikeCourses", "PaidVideos").Find(&users)
+	rand.NewSource(time.Now().UnixNano())
+	for i := 0; i < len(users); i++ {
+		ranInt := make([]int, 4)
+		for k := range ranInt {
+			ranInt[k] = rand.Intn(21) + 1
 		}
-		course_history.UserID = vh.UserID
-		course_history.CourseID = video.CourseID
-		result := DB.FirstOrCreate(&course_history, models.CourseHistory{UserID: vh.UserID, CourseID: video.CourseID})
-		if result.Error != nil {
-			panic(result.Error)
+		var ranCourse []*models.Course
+		DB.Select("DISTINCT course_id").Find(&ranCourse, ranInt)
+		users[i].LikeCourses = append(users[i].LikeCourses, ranCourse...)
+
+		ranInt = make([]int, 10)
+		for k := range ranInt {
+			ranInt[k] = rand.Intn(63) + 1
 		}
+		var ranVideos []*models.Video
+		DB.Select("DISTINCT video_id, course_id, price").Find(&ranVideos, ranInt)
+		for j := 0; j < len(ranVideos); j++ {
+			if ranVideos[j].Price >= 0 {
+				users[i].PaidVideos = append(users[i].PaidVideos, ranVideos[j])
+			} else {
+				var userVideosHistory models.VideoHistory
+				rowAffect := DB.FirstOrCreate(&userVideosHistory, models.VideoHistory{UserID: users[i].User_id, VideoID: ranVideos[j].Video_id}).RowsAffected
+				if rowAffect == 1 {
+					userVideosHistory.Duration = int32(rand.Intn(500) + 1)
+				}
+				var course models.Course
+				DB.First(&course, ranVideos[j].CourseID)
+				var userCourseHistory models.CourseHistory
+				DB.FirstOrCreate(&userCourseHistory, models.CourseHistory{UserID: users[i].User_id, CourseID: course.Course_id})
+				userCourseHistory.Frequency++
+				DB.Save(&userCourseHistory)
+			}
+
+		}
+
 	}
+	DB.Save(&users)
 }
 
 func WipeData() {

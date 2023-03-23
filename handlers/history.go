@@ -49,7 +49,7 @@ func AddVideoHistory(db *gorm.DB) fiber.Handler {
 		}
 		var CourseHistory models.CourseHistory
 		var video models.Video
-		if err:= db.Where("video_id = ?", history.VideoID).First(&video).Error; err != nil {
+		if err := db.Where("video_id = ?", history.VideoID).First(&video).Error; err != nil {
 			return utils.BadRequest(err.Error())
 		}
 		CourseHistory.UserID = history.UserID
@@ -57,6 +57,10 @@ func AddVideoHistory(db *gorm.DB) fiber.Handler {
 		result = db.FirstOrCreate(&CourseHistory, models.CourseHistory{UserID: CourseHistory.UserID, CourseID: CourseHistory.CourseID})
 		if result.Error != nil {
 			return utils.BadRequest(result.Error.Error())
+		}
+		CourseHistory.Frequency += 1
+		if err := db.Model(&CourseHistory).Updates(&CourseHistory).Error; err != nil {
+			return utils.BadRequest(err.Error())
 		}
 		return c.Status(fiber.StatusCreated).JSON(history)
 	}
