@@ -214,6 +214,25 @@ func GetProfile(db *gorm.DB) fiber.Handler {
 		if err := db.Omit("password").Preload(clause.Associations).Preload("Teacher.Courses").Preload("Teacher.Tracsaction").Preload("CourseHistory.Course").Preload("VideoHistory.Video").Where("user_id = ?", c.Params("user_id")).First(&user).Error; err != nil {
 			return utils.HandleFindError(err)
 		}
+		for i := 0; i < len(*user.CourseHistory); i++ {
+			for j := i; j < len(*user.CourseHistory); j++ {
+				temp := (*user.CourseHistory)[i]
+				if int32((*user.CourseHistory)[i].UpdateAt) > int32((*user.CourseHistory)[j].UpdateAt) {
+					(*user.CourseHistory)[i] = (*user.CourseHistory)[j]
+					(*user.CourseHistory)[j] = temp
+				}
+			}
+		}
+		for i := 0; i < len(*user.VideoHistory); i++ {
+			for j := i; j < len(*user.VideoHistory); j++ {
+				temp := (*user.VideoHistory)[i]
+				if int32((*user.VideoHistory)[i].UpdateAt) > int32((*user.VideoHistory)[j].UpdateAt) {
+					(*user.VideoHistory)[i] = (*user.VideoHistory)[j]
+					(*user.VideoHistory)[j] = temp
+				}
+			}
+		}
+		user.Address = nil
 		return c.Status(fiber.StatusOK).JSON(&user)
 	}
 }
