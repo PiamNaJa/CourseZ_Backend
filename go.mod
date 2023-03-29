@@ -21,6 +21,7 @@ require (
 	github.com/go-pdf/fpdf v0.6.0 // indirect
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
 	github.com/lib/pq v1.10.7 // indirect
+	github.com/robfig/cron/v3 v3.0.0 // indirect
 	golang.org/x/exp v0.0.0-20230315142452-642cacee5cc0 // indirect
 	golang.org/x/image v0.6.0 // indirect
 	gonum.org/v1/gonum v0.12.0 // indirect
