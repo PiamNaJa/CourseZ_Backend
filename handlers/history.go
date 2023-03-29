@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"time"
+
 	"github.com/PiamNaJa/CourseZ_Backend/models"
 	"github.com/PiamNaJa/CourseZ_Backend/utils"
 	"github.com/gofiber/fiber/v2"
@@ -41,6 +43,7 @@ func AddVideoHistory(db *gorm.DB) fiber.Handler {
 		if result.Error != nil {
 			return utils.BadRequest(result.Error.Error())
 		}
+		db.Model(&history).Update("update_at", time.Now().Unix())
 		if result.RowsAffected == 0 {
 			history.Duration = videoDuration
 			if err := db.Save(&history).Error; err != nil {
@@ -58,6 +61,7 @@ func AddVideoHistory(db *gorm.DB) fiber.Handler {
 		if result.Error != nil {
 			return utils.BadRequest(result.Error.Error())
 		}
+		db.Model(&CourseHistory).Update("update_at", time.Now().Unix())
 		CourseHistory.Frequency += 1
 		if err := db.Model(&CourseHistory).Updates(&CourseHistory).Error; err != nil {
 			return utils.BadRequest(err.Error())
