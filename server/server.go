@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/PiamNaJa/CourseZ_Backend/ai"
 	"github.com/PiamNaJa/CourseZ_Backend/configs"
 	"github.com/PiamNaJa/CourseZ_Backend/routes"
 	"github.com/PiamNaJa/CourseZ_Backend/socket"
@@ -13,6 +14,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/monitor"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/websocket/v2"
+	"github.com/robfig/cron/v3"
 )
 
 func Create() *fiber.App {
@@ -33,6 +35,19 @@ func Create() *fiber.App {
 	return app
 }
 
+func CreateCron() *cron.Cron {
+	c := cron.New()
+	c.AddFunc("@midnight", func() { ai.TrainData(configs.DB) })
+	return c
+}
+
+func StartCron(c *cron.Cron) {
+	c.Start()
+}
+
+func ShutdownCron(c *cron.Cron) {
+	c.Stop()
+}
 func Listen(app *fiber.App) error {
 
 	port := os.Getenv("PORT")

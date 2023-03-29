@@ -1,7 +1,7 @@
 package ai
 
 import (
-	//"bytes"
+	"bytes"
 	"fmt"
 	"io"
 	"net/http"
@@ -41,31 +41,12 @@ func TrainData(db *gorm.DB) {
 	for i := 0; i < len(users_courses_data); i++ {
 		usersCoursesData[i].UserID = users_courses_data[i]["user_id"].(int32)
 		usersCoursesData[i].CourseID = users_courses_data[i]["course_id"].(int32)
-		usersCoursesData[i].Frequency = int32(users_courses_data[i]["frequency"].(int64)) 
+		usersCoursesData[i].Frequency = int32(users_courses_data[i]["frequency"].(int64))
 		usersCoursesData[i].IsLike = users_courses_data[i]["islike"].(int32)
 		usersCoursesData[i].IsLike = users_courses_data[i]["isbuy"].(int32)
 	}
-	fmt.Println(usersCoursesData)
-	// jsonBytes, _ := json.Marshal(usersCoursesData)
-	// request, err := http.NewRequest("POST", "http://localhost:8080/train", bytes.NewBuffer([]byte(jsonBytes)))
-	// request.Header.Set("Content-Type", "application/json; charset=UTF-8")
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// client := &http.Client{}
-	// response, err := client.Do(request)
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// defer response.Body.Close()
-
-	// fmt.Println("response Status:", response.Status)
-	// body, _ := io.ReadAll(response.Body)
-	// fmt.Println("response Body:", string(body))
-}
-
-func Predict() (recommendVideoId []int) {
-	request, err := http.NewRequest("GET", "http://localhost:8080/predict/1", nil)
+	jsonBytes, _ := json.Marshal(usersCoursesData)
+	request, err := http.NewRequest("POST", "http://localhost:8080/train", bytes.NewBuffer([]byte(jsonBytes)))
 	request.Header.Set("Content-Type", "application/json; charset=UTF-8")
 	if err != nil {
 		panic(err)
@@ -77,11 +58,33 @@ func Predict() (recommendVideoId []int) {
 	}
 	defer response.Body.Close()
 
-	fmt.Println("response Status:", response.Status)
+	fmt.Println("Python Server Status:", response.Status)
 	body, _ := io.ReadAll(response.Body)
-	fmt.Println("response Body:", string(body))
-	json.Unmarshal(body, &recommendVideoId)
-	return recommendVideoId
+	fmt.Println("Python Server Body:", string(body))
+}
+
+func GetRecommendCourse(userid string) ([]int, error) {
+	request, err := http.NewRequest("GET", "http://localhost:8080/recommend/"+userid, nil)
+	request.Header.Set("Content-Type", "application/json; charset=UTF-8")
+	if err != nil {
+		return nil, err
+	}
+	client := &http.Client{}
+	response, err := client.Do(request)
+	if err != nil {
+		return nil, err
+	}
+	defer response.Body.Close()
+
+	fmt.Println("Python Server Status:", response.Status)
+	body, err := io.ReadAll(response.Body)
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println("Python Server Body:", string(body))
+	var recommendCourseId []int
+	json.Unmarshal(body, &recommendCourseId)
+	return recommendCourseId, nil
 }
 
 // func RandomLikeCourse(db *gorm.DB) {
