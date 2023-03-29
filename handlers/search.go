@@ -34,7 +34,7 @@ func SearchALL(db *gorm.DB) fiber.Handler {
 		var teachers []map[string]interface{}
 
 		if err := db.Table("users").
-			Select("MIN(users.user_id) as user_id, MIN(user_teachers.teacher_id) as teacher_id, MIN(nickname) as nickname, MIN(fullname) as fullname, MIN(class_level) as class_level, MIN(users.picture) as picture, COALESCE(AVG(rating), 0.0) as rating").
+			Select("MIN(users.user_id) as user_id, MIN(user_teachers.teacher_id) as teacher_id, MIN(nickname) as nickname, MIN(fullname) as fullname, MIN(class_level) as class_level, MIN(users.picture) as picture, COALESCE(AVG(review_tutors.rating), 0.0) as rating").
 			Joins("JOIN user_teachers ON users.user_id = user_teachers.user_id").
 			Joins("JOIN courses ON user_teachers.teacher_id = courses.teacher_id").
 			Joins("JOIN subjects ON courses.subject_id = subjects.subject_id").
@@ -75,7 +75,7 @@ func SearchTutor(db *gorm.DB) fiber.Handler {
 		var result []map[string]interface{}
 		var name = "%" + c.Query("name") + "%"
 		if err := db.Table("users").
-			Select("MIN(users.user_id) as user_id, MIN(user_teachers.teacher_id) as teacher_id, MIN(nickname) as nickname, MIN(fullname) as fullname, MIN(class_level) as class_level, MIN(users.picture) as picture, COALESCE(AVG(rating), 0.0) as rating").
+			Select("MIN(users.user_id) as user_id, MIN(user_teachers.teacher_id) as teacher_id, MIN(nickname) as nickname, MIN(fullname) as fullname, MIN(class_level) as class_level, MIN(users.picture) as picture, COALESCE(AVG(review_tutors.rating), 0.0) as rating").
 			Joins("JOIN user_teachers ON users.user_id = user_teachers.user_id").
 			Joins("JOIN courses ON user_teachers.teacher_id = courses.teacher_id").
 			Joins("JOIN subjects ON courses.subject_id = subjects.subject_id").

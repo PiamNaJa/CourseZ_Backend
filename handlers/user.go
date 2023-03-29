@@ -240,7 +240,7 @@ func GetProfile(db *gorm.DB) fiber.Handler {
 func GetTeacher(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var result []map[string]interface{}
-		db.Raw(`SELECT MIN(users.user_id) as user_id, MIN(user_teachers.teacher_id) as teacher_id, MIN(nickname) as nickname, MIN(fullname) as fullname, MIN(class_level) as class_level, MIN(users.picture) as picture, COALESCE(AVG(rating), 0.0) AS rating
+		db.Raw(`SELECT MIN(users.user_id) as user_id, MIN(user_teachers.teacher_id) as teacher_id, MIN(nickname) as nickname, MIN(fullname) as fullname, MIN(class_level) as class_level, MIN(users.picture) as picture, COALESCE(AVG(review_tutors.rating), 0.0) AS rating
 		FROM users JOIN user_teachers on users.user_id = user_teachers.user_id 
 		JOIN courses ON user_teachers.teacher_id = courses.teacher_id
 		JOIN subjects ON courses.subject_id = subjects.subject_id
@@ -255,7 +255,7 @@ func GetTeacherByClassLevel(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var result []map[string]interface{}
 		if err := db.Table("users").
-			Select("users.user_id, user_teachers.teacher_id, nickname, fullname, subjects.class_level, users.picture, COALESCE(AVG(rating), 0.0) AS rating").
+			Select("users.user_id, user_teachers.teacher_id, nickname, fullname, subjects.class_level, users.picture, COALESCE(AVG(review_tutors.rating), 0.0) AS rating").
 			Joins("JOIN user_teachers on users.user_id = user_teachers.user_id").
 			Joins("JOIN courses ON user_teachers.teacher_id = courses.teacher_id").
 			Joins("JOIN subjects ON courses.subject_id = subjects.subject_id").
