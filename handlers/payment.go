@@ -94,6 +94,27 @@ func GetPaidVideos(db *gorm.DB) fiber.Handler {
 	}
 }
 
+func GetPaidVideosObject(db *gorm.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		token := c.Get("authorization")
+		claims, err := utils.GetClaims(token)
+		if err != nil {
+			return utils.Unauthorized(err.Error())
+		}
+		var user models.User
+		if err = db.Preload("PaidVideos").Select("user_id", "role").Where("user_id = ?", claims["user_id"]).First(&user).Error; err != nil {
+			return utils.HandleFindError(err)
+		}
+
+		var videos []models.Video = []models.Video{}
+		for _, video := range user.PaidVideos {
+			videos = append(videos, *video)
+		}
+
+		return c.Status(fiber.StatusOK).JSON(&videos)
+	}
+}
+
 func GetPaymentTransaction(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		token := c.Get("authorization")
