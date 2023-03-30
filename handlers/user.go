@@ -16,16 +16,9 @@ import (
 func RegisterStudent(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var user models.User
-		var result map[string]interface{}
-		if err := c.BodyParser(&result); err != nil {
+		if err := c.BodyParser(&user); err != nil {
 			return utils.BadRequest(err.Error())
 		}
-
-		user.Fullname = result["Fullname"].(string)
-		user.Nickname = result["Nickname"].(string)
-		user.Email = result["Email"].(string)
-		user.Password = result["Password"].(string)
-		user.Role = result["Role"].(string)
 
 		if err := utils.Validate.Struct(user); err != nil {
 			return utils.BadRequest(err.Error())
@@ -68,16 +61,9 @@ func RegisterTeacher(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var user models.User
 		var userTeacher models.UserTeacher
-		var result map[string]interface{}
-		if err := c.BodyParser(&result); err != nil {
+		if err := c.BodyParser(&user); err != nil {
 			return utils.BadRequest(err.Error())
 		}
-
-		user.Fullname = result["Fullname"].(string)
-		user.Nickname = result["Nickname"].(string)
-		user.Email = result["Email"].(string)
-		user.Password = result["Password"].(string)
-		user.Role = result["Role"].(string)
 
 		if err := utils.Validate.Struct(user); err != nil {
 			return utils.BadRequest(err.Error())
