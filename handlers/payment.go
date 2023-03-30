@@ -1,8 +1,6 @@
 package handlers
 
 import (
-	"fmt"
-
 	"github.com/PiamNaJa/CourseZ_Backend/models"
 	"github.com/PiamNaJa/CourseZ_Backend/utils"
 	"github.com/gofiber/fiber/v2"
@@ -46,7 +44,6 @@ func VideosPayment(db *gorm.DB) fiber.Handler {
 		if err := db.Joins("JOIN videos on courses.course_id = videos.course_id").Where("video_id IN ?", request["video_id"]).First(&course).Error; err != nil {
 			return utils.Unexpected(err.Error())
 		}
-		fmt.Println(course.Course_id)
 		var teacher models.UserTeacher
 		if err := db.First(&teacher, &course.TeacherID).Error; err != nil {
 			return utils.HandleFindError(err)
