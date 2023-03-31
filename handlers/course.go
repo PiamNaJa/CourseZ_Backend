@@ -2,8 +2,7 @@ package handlers
 
 //CompileDaemon -command="./CourseZ_Backend"
 import (
-	"strconv"
-
+	"github.com/PiamNaJa/CourseZ_Backend/ai"
 	"github.com/PiamNaJa/CourseZ_Backend/models"
 	"github.com/PiamNaJa/CourseZ_Backend/utils"
 	"github.com/gofiber/fiber/v2"
@@ -27,8 +26,7 @@ func CreateCourse(db *gorm.DB) fiber.Handler {
 		}
 		course.SubjectID = subject.Subject_id
 		course.Subject = &subject
-		course.Category = strconv.Itoa(int(subject.Class_level)) + subject.Subject_title
-		
+
 		if err := utils.Validate.Struct(course); err != nil {
 			return utils.BadRequest(err.Error())
 		}
@@ -164,6 +162,38 @@ func IsLikeCourse(db *gorm.DB) fiber.Handler {
 		isLike := checkIsLikeCourse(course, userLike)
 
 		return c.Status(fiber.StatusOK).JSON(isLike)
+	}
+}
+
+func GetRecommendCourse(db *gorm.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		recCourseIds, err := ai.GetRecommendCourse(c.Params("user_id"))
+		if err != nil {
+			return utils.Unexpected(err.Error())
+		}
+		var recCourses []models.Course
+		if err := db.Where("course_id IN ?", recCourseIds).Preload("Subject").Preload("Videos").Preload("Videos.Reviews").Find(&recCourses).Error; err != nil {
+			return utils.HandleFindError(err)
+		}
+		for i := 0; i < len(recCourses); i++ {
+			rating := 0.0
+			count := 0.0
+			for j := 0; j < len(*recCourses[i].Videos); j++ {
+				videos := *recCourses[i].Videos
+				for k := 0; k < len(*videos[j].Reviews); k++ {
+					reviews := *videos[j].Reviews
+					rating += float64(reviews[k].Rating)
+					count++
+				}
+			}
+			recCourses[i].Rating = 0
+			if count != 0 {
+				recCourses[i].Rating = rating / count
+			}
+			recCourses[i].Videos = nil
+			recCourses[i].Subject = nil
+		}
+		return c.Status(fiber.StatusOK).JSON(recCourses)
 	}
 }
 

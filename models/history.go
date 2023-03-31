@@ -15,4 +15,5 @@ type CourseHistory struct {
 	CourseID   int32   `json:"course_id" gorm:"index;type:int;not null" validate:"required,number"`
 	Course     *Course `json:"course" gorm:"not null;foreignKey:CourseID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 	UpdateAt   int64   `json:"update_at" gorm:"autoUpdateTime"`
+	Frequency  int32   `json:"frequency" gorm:"not null;type:int"`
 }

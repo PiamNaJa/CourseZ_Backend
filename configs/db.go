@@ -2,8 +2,8 @@ package configs
 
 import (
 	"fmt"
+	"math/rand"
 	"os"
-	"strconv"
 	"time"
 
 	"github.com/PiamNaJa/CourseZ_Backend/models"
@@ -63,6 +63,7 @@ func ConnectDB() {
 		panic(err)
 	}
 	DB = db
+	fmt.Println("Connected to DB")
 }
 
 func SeedDB() {
@@ -4899,22 +4900,11 @@ func SeedDB() {
 			},
 			TeacherID:   9,
 			Course_name: "สนุกกับชีวะพื้นฐาน",
-			Picture:     "https://scontent.fbkk29-1.fna.fbcdn.net/v/t1.6435-9/78382520_2856500057728351_2706662134804119552_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=8631f5&_nc_eui2=AeGzQ38hcWMKBDCD_VG8KD20OTtbRaWp0uE5O1tFpanS4Xh4bhpYkrPSHOIqbGGg2_6X29bKZKBY1jHj4BC3j3yz&_nc_ohc=NoBE8ZrfglkAX_4_RPZ&tn=AEAjCUeqGuWrocKm&_nc_ht=scontent.fbkk29-1.fna&oh=00_AfDFI4s-5v17bALoeLmn-l5lmfpYxF1YzO_E0Fzf4dv1_w&oe=64218770",
+			Picture:     "https://scontent.fbkk13-3.fna.fbcdn.net/v/t39.30808-6/327189279_511767807512268_1499913387549108745_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeHndIyIZ4MSAvGUuXhy-qNDII9m9ojS-gYgj2b2iNL6BuSxegnyw3AJ2T1b-e-05gUPvew0fiGzTa4mTMNofBpI&_nc_ohc=InC-6R7WaEYAX-XyCEV&_nc_ht=scontent.fbkk13-3.fna&oh=00_AfCAbdYmfpBweLozCdw6mulLZHtG1ZSzEs3L31Ot76cZ4g&oe=6428D64C",
 			Description: "คอร์สนี้จะพาน้อง ๆ ได้รู้จักกับเนื้อหาของวิชาชีวะในเรื่องต่าง ๆ เเละได้สนุกกับการเรียนรู้เเละเเบบฝึกหัดในคอร์ส มาเริ่มกันเลย!!",
 		},
 	}
 	if err := DB.Create(&course).Error; err != nil {
-		panic(err)
-	}
-	course = nil
-	var c []models.Course
-	if err := DB.Preload("Subject").Find(&c).Error; err != nil {
-		panic(err)
-	}
-	for i := 0; i < len(c); i++ {
-		c[i].Category = strconv.Itoa(int(c[i].Subject.Class_level)) + c[i].Subject.Subject_title
-	}
-	if err := DB.Save(&c).Error; err != nil {
 		panic(err)
 	}
 	fmt.Println("Course created")
@@ -5475,6 +5465,60 @@ func SeedDB() {
 	if err := DB.Create(&post).Error; err != nil {
 		panic(err)
 	}
+	rand.NewSource(time.Now().UnixNano())
+	var coursehistory []models.CourseHistory
+	for i := 0; i < 30; i++ {
+		coursehistory = append(coursehistory, models.CourseHistory{
+			UserID:    int32(rand.Intn(10) + 1), // 1 - 10
+			CourseID:  int32(rand.Intn(21) + 1), // 1 - 10
+			Frequency: int32(rand.Intn(10) + 1), // 1 - 10
+		})
+	}
+	if err := DB.Create(&coursehistory).Error; err != nil {
+		panic(err)
+	}
+}
+
+func RandomData() {
+	var users []models.User
+	DB.Preload("LikeCourses", "PaidVideos").Find(&users)
+	rand.NewSource(time.Now().UnixNano())
+	for i := 0; i < len(users); i++ {
+		ranInt := make([]int, 4)
+		for k := range ranInt {
+			ranInt[k] = rand.Intn(21) + 1
+		}
+		var ranCourse []*models.Course
+		DB.Select("DISTINCT course_id").Find(&ranCourse, ranInt)
+		users[i].LikeCourses = append(users[i].LikeCourses, ranCourse...)
+
+		ranInt = make([]int, 10)
+		for k := range ranInt {
+			ranInt[k] = rand.Intn(63) + 1
+		}
+		var ranVideos []*models.Video
+		DB.Select("DISTINCT video_id, course_id, price").Find(&ranVideos, ranInt)
+		for j := 0; j < len(ranVideos); j++ {
+			if ranVideos[j].Price >= 0 {
+				users[i].PaidVideos = append(users[i].PaidVideos, ranVideos[j])
+			} else {
+				var userVideosHistory models.VideoHistory
+				rowAffect := DB.FirstOrCreate(&userVideosHistory, models.VideoHistory{UserID: users[i].User_id, VideoID: ranVideos[j].Video_id}).RowsAffected
+				if rowAffect == 1 {
+					userVideosHistory.Duration = int32(rand.Intn(500) + 1)
+				}
+				var course models.Course
+				DB.First(&course, ranVideos[j].CourseID)
+				var userCourseHistory models.CourseHistory
+				DB.FirstOrCreate(&userCourseHistory, models.CourseHistory{UserID: users[i].User_id, CourseID: course.Course_id})
+				userCourseHistory.Frequency++
+				DB.Save(&userCourseHistory)
+			}
+
+		}
+
+	}
+	DB.Save(&users)
 }
 
 func WipeData() {

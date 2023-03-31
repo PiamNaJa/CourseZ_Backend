@@ -15,4 +15,5 @@ func CourseRoutes(app fiber.Router, db *gorm.DB) {
 	app.Patch("/:course_id/like", m.IsLogin, handlers.LikeCourse(db))
 	app.Delete("/:course_id", m.IsLogin, m.IsTeacher, m.IsCourseOwner, handlers.DeleteCourseByID(db))
 	app.Put("/:course_id", m.IsLogin, m.IsCourseOwner, handlers.UpdateCourse(db))
+	app.Get("/recommend/user/:user_id", m.IsLogin, m.IsUser,handlers.GetRecommendCourse(db))
 }
