@@ -41,10 +41,9 @@ func VideosPayment(db *gorm.DB) fiber.Handler {
 		}
 
 		var course models.Course
-		if err := db.Preload("Videos", "video_id IN ?", request["video_id"]).First(&course).Error; err != nil {
+		if err := db.Joins("JOIN videos on courses.course_id = videos.course_id").Where("video_id IN ?", request["video_id"]).First(&course).Error; err != nil {
 			return utils.Unexpected(err.Error())
 		}
-
 		var teacher models.UserTeacher
 		if err := db.First(&teacher, &course.TeacherID).Error; err != nil {
 			return utils.HandleFindError(err)
