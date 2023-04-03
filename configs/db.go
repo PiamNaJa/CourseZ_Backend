@@ -606,6 +606,12 @@ func SeedDB() {
 			Item_cost:    250,
 			Item_picture: "https://images-se-ed.com/ws/Storage/Originals/978999/007/9789990073546L.jpg?h=1cd09dd595cda68636d881367ee37073",
 		},
+		{
+			Item_name:    "แฮร์รี่ พอตเตอร์ กับ ศิลาอาถรรพ์ (เล่ม 1)",
+			Item_title:   "Harry Potter and The Philosopher's Stone",
+			Item_cost:    375,
+			Item_picture: "https://readery.co/media/catalog/product/cache/1/small_image/360x/17f82f742ffe127f42dca9de82fb58b1/s/c/screen_shot_2563-06-11_at_11.03.43_am.png",
+		},
 	}
 	if err := DB.Create(&rewardItem).Error; err != nil {
 		panic(err)
@@ -5463,6 +5469,27 @@ func SeedDB() {
 		},
 	}
 	if err := DB.Create(&post).Error; err != nil {
+		panic(err)
+	}
+
+	var rewardInfo = &[]models.Reward_Info{
+		{
+			UserID:    11,
+			ItemID:    1,
+			CreatedAt: time.Now().Unix(),
+		},
+		{
+			UserID:    11,
+			ItemID:    2,
+			CreatedAt: 2021 - 05 - 01,
+		},
+		{
+			UserID:    11,
+			ItemID:    3,
+			CreatedAt: 2021 - 05 - 01,
+		},
+	}
+	if err := DB.Create(&rewardInfo).Error; err != nil {
 		panic(err)
 	}
 	rand.NewSource(time.Now().UnixNano())
