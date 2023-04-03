@@ -4900,7 +4900,7 @@ func SeedDB() {
 			},
 			TeacherID:   9,
 			Course_name: "สนุกกับชีวะพื้นฐาน",
-			Picture:     "https://scontent.fbkk13-3.fna.fbcdn.net/v/t39.30808-6/327189279_511767807512268_1499913387549108745_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeHndIyIZ4MSAvGUuXhy-qNDII9m9ojS-gYgj2b2iNL6BuSxegnyw3AJ2T1b-e-05gUPvew0fiGzTa4mTMNofBpI&_nc_ohc=InC-6R7WaEYAX-XyCEV&_nc_ht=scontent.fbkk13-3.fna&oh=00_AfCAbdYmfpBweLozCdw6mulLZHtG1ZSzEs3L31Ot76cZ4g&oe=6428D64C",
+			Picture:     "https://scontent.fbkk23-1.fna.fbcdn.net/v/t39.30808-6/327189279_511767807512268_1499913387549108745_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeHndIyIZ4MSAvGUuXhy-qNDII9m9ojS-gYgj2b2iNL6BuSxegnyw3AJ2T1b-e-05gUPvew0fiGzTa4mTMNofBpI&_nc_ohc=InC-6R7WaEYAX_lx33Z&_nc_ht=scontent.fbkk23-1.fna&oh=00_AfB-QvuYSQrfdvDjzbaBxIUIjzAxj-DWMfG2y8PFnr7reA&oe=642AD08C",
 			Description: "คอร์สนี้จะพาน้อง ๆ ได้รู้จักกับเนื้อหาของวิชาชีวะในเรื่องต่าง ๆ เเละได้สนุกกับการเรียนรู้เเละเเบบฝึกหัดในคอร์ส มาเริ่มกันเลย!!",
 		},
 	}
