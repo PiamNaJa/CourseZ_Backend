@@ -149,14 +149,13 @@ func GetAllRewardInfo(db *gorm.DB) fiber.Handler {
 func GetRewardInfoByUser(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var rewardInfo []models.Reward_Info
-		var rewardItem []models.Reward_Item
 		if err := db.Where("user_id = ?", c.Params("user_id")).Preload("Item").Find(&rewardInfo).Error; err != nil {
 			return utils.HandleFindError(err)
 		}
-		for _, rI := range rewardInfo {
-			rewardItem = append(rewardItem, *rI.Item)
+		if len(rewardInfo) == 0 {
+			return utils.NotFound("Reward Item Not Found")
 		}
-		return c.Status(fiber.StatusOK).JSON(&rewardItem)
+		return c.Status(fiber.StatusOK).JSON(&rewardInfo)
 	}
 }
 

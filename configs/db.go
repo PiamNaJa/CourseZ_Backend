@@ -606,6 +606,12 @@ func SeedDB() {
 			Item_cost:    250,
 			Item_picture: "https://images-se-ed.com/ws/Storage/Originals/978999/007/9789990073546L.jpg?h=1cd09dd595cda68636d881367ee37073",
 		},
+		{
+			Item_name:    "แฮร์รี่ พอตเตอร์ กับ ศิลาอาถรรพ์ (เล่ม 1)",
+			Item_title:   "Harry Potter and The Philosopher's Stone",
+			Item_cost:    375,
+			Item_picture: "https://readery.co/media/catalog/product/cache/1/small_image/360x/17f82f742ffe127f42dca9de82fb58b1/s/c/screen_shot_2563-06-11_at_11.03.43_am.png",
+		},
 	}
 	if err := DB.Create(&rewardItem).Error; err != nil {
 		panic(err)
@@ -4900,7 +4906,7 @@ func SeedDB() {
 			},
 			TeacherID:   9,
 			Course_name: "สนุกกับชีวะพื้นฐาน",
-			Picture:     "https://scontent.fbkk23-1.fna.fbcdn.net/v/t39.30808-6/327189279_511767807512268_1499913387549108745_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeHndIyIZ4MSAvGUuXhy-qNDII9m9ojS-gYgj2b2iNL6BuSxegnyw3AJ2T1b-e-05gUPvew0fiGzTa4mTMNofBpI&_nc_ohc=InC-6R7WaEYAX_lx33Z&_nc_ht=scontent.fbkk23-1.fna&oh=00_AfB-QvuYSQrfdvDjzbaBxIUIjzAxj-DWMfG2y8PFnr7reA&oe=642AD08C",
+			Picture:     "https://firebasestorage.googleapis.com/v0/b/coursez-50fb3.appspot.com/o/Images%2Fbiologyimage.jpg?alt=media&token=3e9197f7-6f2e-4cac-b37c-bff0cc5895b8",
 			Description: "คอร์สนี้จะพาน้อง ๆ ได้รู้จักกับเนื้อหาของวิชาชีวะในเรื่องต่าง ๆ เเละได้สนุกกับการเรียนรู้เเละเเบบฝึกหัดในคอร์ส มาเริ่มกันเลย!!",
 		},
 	}
@@ -5463,6 +5469,27 @@ func SeedDB() {
 		},
 	}
 	if err := DB.Create(&post).Error; err != nil {
+		panic(err)
+	}
+
+	var rewardInfo = &[]models.Reward_Info{
+		{
+			UserID:    11,
+			ItemID:    1,
+			CreatedAt: time.Now().Unix(),
+		},
+		{
+			UserID:    11,
+			ItemID:    2,
+			CreatedAt: 2021 - 05 - 01,
+		},
+		{
+			UserID:    11,
+			ItemID:    3,
+			CreatedAt: 2021 - 05 - 01,
+		},
+	}
+	if err := DB.Create(&rewardInfo).Error; err != nil {
 		panic(err)
 	}
 	rand.NewSource(time.Now().UnixNano())
