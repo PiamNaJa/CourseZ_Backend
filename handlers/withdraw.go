@@ -41,6 +41,6 @@ func WithdrawMoney(db *gorm.DB) fiber.Handler {
 			return utils.Unexpected(err.Error())
 		}
 		tx.Commit()
-		return c.Status(fiber.StatusOK).JSON(&withdraw)
+		return c.Status(fiber.StatusCreated).JSON(&withdraw)
 	}
 }
