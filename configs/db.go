@@ -365,6 +365,7 @@ func SeedDB() {
 						Evidence: "https://img-prod.api-onscene.com/cdn-cgi/image/format=auto,width=1600,height=900/https://sls-prod.api-onscene.com/partner_files/trueidintrend/124879/179988_0.jpg",
 					},
 				},
+				Money: 1000,
 			},
 		},
 		{
@@ -383,6 +384,7 @@ func SeedDB() {
 						Evidence: "https://img-prod.api-onscene.com/cdn-cgi/image/format=auto,width=1600,height=900/https://sls-prod.api-onscene.com/partner_files/trueidintrend/124879/179988_0.jpg",
 					},
 				},
+				Money: 1000,
 			},
 		},
 		{
@@ -402,6 +404,7 @@ func SeedDB() {
 						Evidence: "https://img-prod.api-onscene.com/cdn-cgi/image/format=auto,width=1600,height=900/https://sls-prod.api-onscene.com/partner_files/trueidintrend/124879/179988_0.jpg",
 					},
 				},
+				Money: 1000,
 			},
 		},
 		{
