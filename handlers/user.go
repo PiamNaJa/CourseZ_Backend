@@ -341,7 +341,7 @@ func CreateOrUpdateUserAddress(db *gorm.DB) fiber.Handler {
 			return utils.BadRequest(err.Error())
 		}
 
-		if err := db.Model(&address).Updates(&address).Error; err != nil {
+		if err := db.Save(&address).Error; err != nil {
 			return utils.Unexpected(err.Error())
 		}
 

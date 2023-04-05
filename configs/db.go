@@ -5238,27 +5238,15 @@ func SeedDB() {
 
 	var inbox = &[]models.Inbox{
 		{
-			User1ID:           1,
-			User2ID:           11,
-			Last_message:      "สวัสดีค่ะ สงสัยตรงไหน สามารถสอบถามครูได้เลยนะคะ",
-			LastMessageUserID: 1,
-		},
-		{
-			User1ID:           2,
-			User2ID:           12,
-			Last_message:      "สวัสดีค่ะ หากสงสัยเนื้อหาที่คุณครูสอน ถามได้เลยค่ะ",
-			LastMessageUserID: 2,
-		},
-		{
 			User1ID:           11,
 			User2ID:           5,
-			Last_message:      "สวัสดรค่ะคุณครู หนูมีเรื่องอยากสอบถามค่ะ",
+			Last_message:      "สวัสดีค่ะคุณครู หนูมีเรื่องอยากสอบถามค่ะ",
 			LastMessageUserID: 11,
 		},
 		{
 			User1ID:           12,
 			User2ID:           10,
-			Last_message:      "สวัสดรค่ะคุณครู เนื้อหาที่คุณครูสอน มีบางช่วงที่หนูยังไม่ค่อยเข้าใจ อยากจะถามเพิ่มเติมค่ะ",
+			Last_message:      "สวัสดีค่ะคุณครู เนื้อหาที่คุณครูสอน มีบางช่วงที่หนูยังไม่ค่อยเข้าใจ อยากจะถามเพิ่มเติมค่ะ",
 			LastMessageUserID: 12,
 		},
 	}
