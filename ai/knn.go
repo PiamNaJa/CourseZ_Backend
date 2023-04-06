@@ -46,7 +46,7 @@ func TrainData(db *gorm.DB) {
 		usersCoursesData[i].IsLike = users_courses_data[i]["isbuy"].(int32)
 	}
 	jsonBytes, _ := json.Marshal(usersCoursesData)
-	request, err := http.NewRequest("POST", "http://localhost:8080/train", bytes.NewBuffer([]byte(jsonBytes)))
+	request, err := http.NewRequest("POST", "https://coursez-knn.onrender.com/train", bytes.NewBuffer([]byte(jsonBytes)))
 	request.Header.Set("Content-Type", "application/json; charset=UTF-8")
 	if err != nil {
 		fmt.Println(err)
