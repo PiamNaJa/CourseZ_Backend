@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/PiamNaJa/CourseZ_Backend/ai"
 	"github.com/PiamNaJa/CourseZ_Backend/configs"
 	"github.com/PiamNaJa/CourseZ_Backend/server"
 )
@@ -15,6 +16,7 @@ func main() {
 	server.WipeAndSeedDatabaseData()
 	configs.RandomData()
 	server.PrintRoutes(app)
+	ai.TrainData(configs.DB)
 	cron := server.CreateCron()
 	server.StartCron(cron)
 	defer server.ShutdownCron(cron)

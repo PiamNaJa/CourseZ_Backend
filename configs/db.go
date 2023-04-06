@@ -5517,7 +5517,7 @@ func RandomData() {
 		var ranVideos []*models.Video
 		DB.Select("DISTINCT video_id, course_id, price").Find(&ranVideos, ranInt)
 		for j := 0; j < len(ranVideos); j++ {
-			if ranVideos[j].Price >= 0 {
+			if ranVideos[j].Price > 0 {
 				users[i].PaidVideos = append(users[i].PaidVideos, ranVideos[j])
 			} else {
 				var userVideosHistory models.VideoHistory
