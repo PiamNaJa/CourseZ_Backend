@@ -49,12 +49,14 @@ func TrainData(db *gorm.DB) {
 	request, err := http.NewRequest("POST", "http://localhost:8080/train", bytes.NewBuffer([]byte(jsonBytes)))
 	request.Header.Set("Content-Type", "application/json; charset=UTF-8")
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
+		return
 	}
 	client := &http.Client{}
 	response, err := client.Do(request)
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
+		return
 	}
 	defer response.Body.Close()
 
