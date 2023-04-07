@@ -3,7 +3,6 @@ package configs
 import (
 	"errors"
 	"log"
-	"os"
 
 	"github.com/PiamNaJa/CourseZ_Backend/utils"
 	"github.com/gofiber/fiber/v2"
@@ -11,16 +10,8 @@ import (
 	"github.com/joho/godotenv"
 )
 
-var File *os.File
-
 func Init() {
-	file, err := os.OpenFile(".log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
-	if err != nil {
-		log.Fatalf("error opening file: %v", err)
-	}
-	File = file
-
-	err = godotenv.Load()
+	err := godotenv.Load()
 	if err != nil {
 		log.Fatalf("Error loading .env file")
 	}

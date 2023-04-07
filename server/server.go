@@ -23,10 +23,9 @@ func Create() *fiber.App {
 	app.Use(recover.New())
 	app.Use(configs.CustomCors())
 	app.Use(logger.New(logger.Config{
-		Format:     "${pid} ${status} - ${method} ${path}\n",
+		Format:     "${pid} [${ip}]:${port} ${status} - ${method} ${path}\n",
 		TimeFormat: "02-Jan-2006",
 		TimeZone:   "Asia/Bangkok",
-		Output:     configs.File,
 	}))
 
 	app.Get("/", func(c *fiber.Ctx) error {
@@ -81,7 +80,6 @@ func SetupRoute(app *fiber.App) {
 func Shutdown(app *fiber.App) {
 	sql, _ := configs.DB.DB()
 	sql.Close()
-	configs.File.Close()
 	app.Shutdown()
 }
 
