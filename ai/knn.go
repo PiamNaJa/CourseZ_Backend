@@ -66,7 +66,7 @@ func TrainData(db *gorm.DB) {
 }
 
 func GetRecommendCourse(userid string) ([]int, error) {
-	request, err := http.NewRequest("GET", "http://localhost:8080/recommend/"+userid, nil)
+	request, err := http.NewRequest("GET", "https://coursez-knn.onrender.com/recommend/"+userid, nil)
 	request.Header.Set("Content-Type", "application/json; charset=UTF-8")
 	if err != nil {
 		return nil, err
