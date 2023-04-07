@@ -22,11 +22,7 @@ func Create() *fiber.App {
 
 	app.Use(recover.New())
 	app.Use(configs.CustomCors())
-	app.Use(logger.New(logger.Config{
-		Format:     "${pid} [${ip}]:${port} ${status} - ${method} ${path}\n",
-		TimeFormat: "02-Jan-2006",
-		TimeZone:   "Asia/Bangkok",
-	}))
+	app.Use(logger.New())
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusOK)
