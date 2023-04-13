@@ -1,25 +1,27 @@
 package main
 
 import (
+	"fmt"
+
+	"github.com/PiamNaJa/CourseZ_Backend/ai"
 	"github.com/PiamNaJa/CourseZ_Backend/configs"
-	_ "github.com/PiamNaJa/CourseZ_Backend/docs"
-	"github.com/PiamNaJa/CourseZ_Backend/routes"
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/swagger"
-	"github.com/goccy/go-json"
+	"github.com/PiamNaJa/CourseZ_Backend/server"
 )
 
 func main() {
-	app := fiber.New(fiber.Config{JSONEncoder: json.Marshal, JSONDecoder: json.Unmarshal})
 	configs.Init()
 	configs.ConnectDB()
-	sql, _ := configs.DB.DB()
-	defer sql.Close()
-
-	router := app.Group("/api")
-
-	router.Get("/swagger/*", swagger.HandlerDefault)
-	routes.UserRoutes(router.Group("/user"))
-
-	app.Listen(":5000")
+	app := server.Create()
+	server.SetupRoute(app)
+	server.WipeAndSeedDatabaseData()
+	configs.RandomData()
+	server.PrintRoutes(app)
+	ai.TrainData(configs.DB)
+	cron := server.CreateCron()
+	server.StartCron(cron)
+	defer server.ShutdownCron(cron)
+	defer server.Shutdown(app)
+	if err := server.Listen(app); err != nil {
+		fmt.Println(err)
+	}
 }
