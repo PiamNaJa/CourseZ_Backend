@@ -9,4 +9,5 @@ import (
 
 func WithdrawRoutes(app fiber.Router, db *gorm.DB) {
 	app.Post("/", m.IsLogin, handlers.WithdrawMoney(db))
+	app.Get("/teacher/:teacher_id", m.IsLogin, handlers.GetWithdrawTeacher(db))
 }
