@@ -54,7 +54,7 @@ func GetWithdrawTeacher(db *gorm.DB) fiber.Handler {
 		if err != nil {
 			return utils.Unauthorized(err.Error())
 		}
-		f,err := strconv.ParseFloat(c.Params("teacher_id"), 64)
+		f, err := strconv.ParseFloat(c.Params("teacher_id"), 64)
 		if err != nil {
 			return utils.BadRequest(err.Error())
 		}
