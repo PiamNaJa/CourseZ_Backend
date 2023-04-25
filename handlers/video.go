@@ -81,6 +81,15 @@ func DeleteVideoByID(db *gorm.DB) fiber.Handler {
 		if r.RowsAffected == 0 {
 			return utils.NotFound("record not found")
 		}
+		var course models.Course
+		if err := db.Preload("Videos").Where("course_id = ?", c.Params("course_id")).First(&course).Error; err != nil {
+			return utils.HandleFindError(err)
+		}
+		if len(*course.Videos) == 0 {
+			if err := db.Delete(&course).Error; err != nil {
+				return utils.Unexpected(err.Error())
+			}
+		}
 		return c.Status(fiber.StatusNoContent).JSON("Deleted")
 	}
 }
