@@ -77,16 +77,22 @@ func UpdateCourse(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var course models.Course
 		var updateCourseData models.Course
+		var subject models.Subject
 		id := c.Params("course_id")
 
 		if err := c.BodyParser(&updateCourseData); err != nil {
 			return utils.BadRequest(err.Error())
 		}
 
+		if err := db.First(&subject, updateCourseData.SubjectID).Error; err != nil {
+			return utils.HandleFindError(err)
+		}
+
 		if err := db.Preload("Subject").First(&course, &id).Error; err != nil {
 			return utils.HandleFindError(err)
 		}
-		course.SubjectID = updateCourseData.SubjectID
+
+		course.Subject = &subject
 		course.Course_name = updateCourseData.Course_name
 		course.Picture = updateCourseData.Picture
 		course.Description = updateCourseData.Description
@@ -95,7 +101,7 @@ func UpdateCourse(db *gorm.DB) fiber.Handler {
 			return utils.Unexpected(err.Error())
 		}
 
-		return c.Status(fiber.StatusOK).JSON("Update Success")
+		return c.Status(fiber.StatusOK).JSON(course)
 	}
 }
 
