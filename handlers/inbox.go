@@ -1,7 +1,6 @@
 package handlers
 
 import (
-
 	"github.com/PiamNaJa/CourseZ_Backend/models"
 	"github.com/PiamNaJa/CourseZ_Backend/utils"
 	"github.com/gofiber/fiber/v2"
@@ -103,8 +102,8 @@ func CreateInbox(db *gorm.DB) fiber.Handler {
 			tx.Rollback()
 			return utils.Unexpected(r.Error.Error())
 		}
-		if(r.RowsAffected == 0){
-		return c.Status(fiber.StatusCreated).JSON(inbox.Inbox_id)
+		if r.RowsAffected == 0 {
+			return c.Status(fiber.StatusCreated).JSON(inbox.Inbox_id)
 		}
 		var chat models.ChatRoom
 		chat.Inbox_id = inbox.Inbox_id
