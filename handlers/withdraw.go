@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"strconv"
-
 	"github.com/PiamNaJa/CourseZ_Backend/models"
 	"github.com/PiamNaJa/CourseZ_Backend/utils"
 	"github.com/gofiber/fiber/v2"

@@ -100,7 +100,6 @@ func UpdateCourse(db *gorm.DB) fiber.Handler {
 		if err := db.Save(&course).Error; err != nil {
 			return utils.Unexpected(err.Error())
 		}
-
 		return c.Status(fiber.StatusOK).JSON(course)
 	}
 }
