@@ -1,7 +1,6 @@
 package handlers
 
 import (
-
 	"github.com/PiamNaJa/CourseZ_Backend/models"
 	"github.com/PiamNaJa/CourseZ_Backend/utils"
 	"github.com/gofiber/fiber/v2"
@@ -98,9 +97,13 @@ func CreateInbox(db *gorm.DB) fiber.Handler {
 		}
 		inbox.User1ID = int32(claims["user_id"].(float64))
 		tx := db.Begin()
-		if err := tx.Create(&inbox).Error; err != nil {
+		r := tx.FirstOrCreate(&inbox, models.Inbox{User1ID: inbox.User1ID, User2ID: inbox.User2ID})
+		if r.Error != nil {
 			tx.Rollback()
-			return utils.Unexpected(err.Error())
+			return utils.Unexpected(r.Error.Error())
+		}
+		if r.RowsAffected == 0 {
+			return c.Status(fiber.StatusCreated).JSON(inbox.Inbox_id)
 		}
 		var chat models.ChatRoom
 		chat.Inbox_id = inbox.Inbox_id
@@ -110,6 +113,6 @@ func CreateInbox(db *gorm.DB) fiber.Handler {
 			return utils.Unexpected(err.Error())
 		}
 		tx.Commit()
-		return c.Status(fiber.StatusCreated).JSON(&inbox)
+		return c.Status(fiber.StatusCreated).JSON(chat.Inbox_id)
 	}
 }
